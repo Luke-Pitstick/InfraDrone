@@ -1,0 +1,261 @@
+- main [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - img [ref=e7]
+      - generic [ref=e9]:
+        - heading "RoadEye" [level=1] [ref=e10]
+        - paragraph [ref=e11]: Autonomous Road Inspection
+    - navigation "Primary" [ref=e12]:
+      - button "Dashboard" [ref=e13] [cursor=pointer]:
+        - img [ref=e14]
+        - generic [ref=e16]: Dashboard
+      - button "Map" [ref=e17] [cursor=pointer]:
+        - img [ref=e18]
+        - generic [ref=e20]: Map
+      - button "Missions" [ref=e21] [cursor=pointer]:
+        - img [ref=e22]
+        - generic [ref=e25]: Missions
+      - button "Detections" [ref=e26] [cursor=pointer]:
+        - img [ref=e27]
+        - generic [ref=e29]: Detections
+      - button "Reports" [ref=e30] [cursor=pointer]:
+        - img [ref=e31]
+        - generic [ref=e34]: Reports
+      - button "History" [ref=e35] [cursor=pointer]:
+        - img [ref=e36]
+        - generic [ref=e40]: History
+      - button "Settings" [ref=e41] [cursor=pointer]:
+        - img [ref=e42]
+        - generic [ref=e45]: Settings
+    - generic [ref=e46]:
+      - heading "Vehicle Status" [level=2] [ref=e48]
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - img [ref=e52]
+          - strong [ref=e53]: Armed
+          - generic [ref=e54]: GUIDED
+        - generic [ref=e55]:
+          - img [ref=e57]
+          - strong [ref=e60]: GPS
+          - generic [ref=e61]: 3D Fix (12)
+        - generic [ref=e62]:
+          - img [ref=e64]
+          - strong [ref=e67]: Altitude
+          - generic [ref=e68]: 24.6 m AGL
+        - generic [ref=e69]:
+          - img [ref=e71]
+          - strong [ref=e74]: Speed
+          - generic [ref=e75]: 8.7 m/s
+        - generic [ref=e76]:
+          - img [ref=e78]
+          - strong [ref=e81]: Heading
+          - generic [ref=e82]: 178°
+        - generic [ref=e83]:
+          - img [ref=e85]
+          - strong [ref=e87]: Home Distance
+          - generic [ref=e88]: 412 m
+    - generic [ref=e89]:
+      - heading "Weather" [level=2] [ref=e91]
+      - generic [ref=e92]:
+        - generic [ref=e93]:
+          - img [ref=e94]
+          - strong [ref=e100]: 22 °C
+          - generic [ref=e101]: Sunny
+        - generic [ref=e102]:
+          - img [ref=e103]
+          - generic [ref=e107]: Wind
+          - strong [ref=e108]: 6 m/s NE
+        - generic [ref=e109]:
+          - img [ref=e110]
+          - generic [ref=e113]: Humidity
+          - strong [ref=e114]: 42%
+  - generic [ref=e115]:
+    - generic [ref=e116]:
+      - generic [ref=e117]:
+        - strong [ref=e118]: "Mission:"
+        - generic [ref=e119]: Maple Street Scan
+        - generic [ref=e120]: Active
+      - generic [ref=e121]:
+        - generic [ref=e122]:
+          - generic [ref=e123]: Flight Time
+          - strong [ref=e124]: 18:42
+        - generic [ref=e125]:
+          - generic [ref=e126]: Distance
+          - strong [ref=e127]: 2.45 km
+        - generic [ref=e128]:
+          - generic [ref=e129]: Coverage
+          - strong [ref=e130]: 68 %
+        - generic [ref=e131]:
+          - generic [ref=e132]: Battery
+          - strong [ref=e133]:
+            - img [ref=e134]
+            - text: 72 %
+        - generic [ref=e136]:
+          - generic [ref=e137]: Link (Telemetry)
+          - strong [ref=e138]:
+            - img [ref=e139]
+            - text: "-67 dBm"
+        - generic [ref=e146]:
+          - generic [ref=e147]: Link (Video)
+          - strong [ref=e148]:
+            - img [ref=e149]
+            - text: "-52 dBm"
+      - generic [ref=e156]:
+        - generic [ref=e157]: 10:24:15 AM
+        - img [ref=e158]
+    - generic [ref=e161]:
+      - generic [ref=e162]:
+        - generic [ref=e163]:
+          - generic [ref=e164]:
+            - button "Live Map" [ref=e165] [cursor=pointer]
+            - button "Orthomosaic" [ref=e166] [cursor=pointer]
+            - button "3D View" [ref=e167] [cursor=pointer]
+          - generic [ref=e168]:
+            - generic [ref=e169]:
+              - generic:
+                - generic:
+                  - img
+                - generic:
+                  - button [ref=e173] [cursor=pointer]:
+                    - img [ref=e175]
+                  - button "High detection" [ref=e178] [cursor=pointer]:
+                    - generic "High detection" [ref=e179]:
+                      - img [ref=e180]
+                  - button "Low detection" [ref=e182] [cursor=pointer]:
+                    - generic "Low detection" [ref=e183]:
+                      - img [ref=e184]
+                  - button "High detection" [ref=e186] [cursor=pointer]:
+                    - generic "High detection" [ref=e187]:
+                      - img [ref=e188]
+                  - button "Medium detection" [ref=e190] [cursor=pointer]:
+                    - generic "Medium detection" [ref=e191]:
+                      - img [ref=e192]
+              - generic [ref=e194]:
+                - button "Zoom in" [ref=e195] [cursor=pointer]:
+                  - img
+                - button "Zoom out" [ref=e196] [cursor=pointer]:
+                  - img
+                - button "Center map" [ref=e197] [cursor=pointer]:
+                  - img
+                - button "Layers" [ref=e198] [cursor=pointer]:
+                  - img
+            - button "Orthomosaic (Latest)" [ref=e199] [cursor=pointer]
+            - generic [ref=e200]: 10 m
+            - generic [ref=e201]:
+              - strong [ref=e202]: Damage Severity
+              - generic [ref=e203]: High
+              - generic [ref=e205]: Medium
+              - generic [ref=e207]: Low
+              - generic [ref=e209]: Low / Monitor
+        - generic [ref=e211]:
+          - generic [ref=e212]:
+            - heading "Mission Progress" [level=2] [ref=e214]
+            - generic [ref=e215]:
+              - strong [ref=e219]: 68%
+              - generic [ref=e220]:
+                - generic [ref=e221]: Area Scanned
+                - strong [ref=e222]: 2.45 km / 3.60 km
+              - generic [ref=e223]:
+                - generic [ref=e224]: Est. Time Remaining
+                - strong [ref=e225]: 14:32
+              - generic [ref=e226]:
+                - generic [ref=e227]: Next Waypoint
+                - strong [ref=e228]: WP-17
+              - generic [ref=e229]:
+                - button "Pause Mission" [ref=e230] [cursor=pointer]
+                - button "End Mission" [ref=e231] [cursor=pointer]
+          - generic [ref=e232]:
+            - heading "Damage Summary (Today)" [level=2] [ref=e234]
+            - generic [ref=e235]:
+              - generic [ref=e236]:
+                - generic [ref=e237]:
+                  - generic [ref=e238]: High Severity
+                  - strong [ref=e239]: "4"
+                  - emphasis [ref=e240]: 33%
+                - generic [ref=e241]:
+                  - generic [ref=e242]: Medium Severity
+                  - strong [ref=e243]: "5"
+                  - emphasis [ref=e244]: 42%
+                - generic [ref=e245]:
+                  - generic [ref=e246]: Low Severity
+                  - strong [ref=e247]: "3"
+                  - emphasis [ref=e248]: 25%
+                - generic [ref=e249]:
+                  - generic [ref=e250]: Total Detections
+                  - strong [ref=e251]: "12"
+                  - emphasis [ref=e252]: 100%
+              - generic "Detection trend chart" [ref=e253]
+              - generic [ref=e277]:
+                - generic [ref=e278]: 09:00
+                - generic [ref=e279]: 09:30
+                - generic [ref=e280]: 10:00
+                - generic [ref=e281]: 10:30
+                - generic [ref=e282]: 11:00
+      - complementary [ref=e283]:
+        - generic [ref=e284]:
+          - generic [ref=e285]:
+            - heading "Live Video" [level=2] [ref=e286]
+            - generic [ref=e287]: Live
+            - img [ref=e289]
+          - button "›" [ref=e306] [cursor=pointer]
+        - generic [ref=e307]:
+          - generic [ref=e308]:
+            - heading "Detections (Today)" [level=2] [ref=e309]
+            - generic [ref=e310]: "12"
+          - generic [ref=e311]:
+            - generic [ref=e312]:
+              - img [ref=e313]
+              - generic [ref=e315]:
+                - strong [ref=e316]: High
+                - generic [ref=e317]: Alligator Cracking
+              - emphasis [ref=e318]: Maple St - Seg 42
+              - generic [ref=e319]: "92"
+            - generic [ref=e320]:
+              - img [ref=e321]
+              - generic [ref=e323]:
+                - strong [ref=e324]: High
+                - generic [ref=e325]: Pothole
+              - emphasis [ref=e326]: Maple St - Seg 37
+              - generic [ref=e327]: "88"
+            - generic [ref=e328]:
+              - img [ref=e329]
+              - generic [ref=e331]:
+                - strong [ref=e332]: Medium
+                - generic [ref=e333]: Longitudinal Crack
+              - emphasis [ref=e334]: Maple St - Seg 33
+              - generic [ref=e335]: "63"
+            - generic [ref=e336]:
+              - img [ref=e337]
+              - generic [ref=e339]:
+                - strong [ref=e340]: Low
+                - generic [ref=e341]: Transverse Crack
+              - emphasis [ref=e342]: Maple St - Seg 28
+              - generic [ref=e343]: "35"
+            - button "View All Detections →" [ref=e344] [cursor=pointer]:
+              - text: View All Detections
+              - generic [ref=e345]: →
+        - generic [ref=e346]:
+          - generic [ref=e347]:
+            - heading "Recent Inspections" [level=2] [ref=e348]
+            - generic [ref=e349]: View All
+          - generic [ref=e350]:
+            - generic [ref=e351]:
+              - generic [ref=e352]:
+                - strong [ref=e353]: Maple Street Scan
+                - generic [ref=e354]: May 26, 2025 9:12 AM
+              - generic [ref=e355]: 12 Issues
+            - generic [ref=e356]:
+              - generic [ref=e357]:
+                - strong [ref=e358]: Oak Avenue Scan
+                - generic [ref=e359]: May 24, 2025 2:45 PM
+              - generic [ref=e360]: 7 Issues
+            - generic [ref=e361]:
+              - generic [ref=e362]:
+                - strong [ref=e363]: Pine Road Scan
+                - generic [ref=e364]: May 22, 2025 11:08 AM
+              - generic [ref=e365]: 3 Issues
+            - generic [ref=e366]:
+              - generic [ref=e367]:
+                - strong [ref=e368]: Cedar Lane Scan
+                - generic [ref=e369]: May 20, 2025 10:30 AM
+              - generic [ref=e370]: 1 Issue

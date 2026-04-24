@@ -1,0 +1,234 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  font-family: "Aptos", "Segoe UI", sans-serif;
+  --background: 210 33% 98%;
+  --foreground: 218 28% 13%;
+  --card: 0 0% 100%;
+  --card-foreground: 218 28% 13%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 218 28% 13%;
+  --primary: 213 72% 48%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 218 28% 13%;
+  --muted: 213 32% 93%;
+  --muted-foreground: 217 12% 46%;
+  --accent: 213 82% 96%;
+  --accent-foreground: 213 72% 32%;
+  --destructive: 0 70% 50%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 214 32% 89%;
+  --input: 214 32% 89%;
+  --ring: 213 72% 48%;
+  --radius: 0.5rem;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: hsl(var(--background));
+}
+
+body {
+  margin: 0;
+}
+
+.leaflet-map {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #101820;
+}
+
+.leaflet-container {
+  font-family: inherit;
+}
+
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 1;
+}
+
+.leaflet-drone-icon,
+.leaflet-detection-icon {
+  background: transparent;
+  border: 0;
+}
+
+.leaflet-drone-pulse {
+  width: 108px;
+  height: 108px;
+  border: 1px solid rgba(31, 140, 255, 0.78);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #e5f0ff;
+  background: rgba(31, 140, 255, 0.1);
+}
+
+.leaflet-drone-pulse svg {
+  width: 35px;
+  height: 35px;
+  fill: rgba(15, 32, 49, 0.84);
+  stroke: #e5f0ff;
+  stroke-width: 2;
+  transform: rotate(9deg);
+}
+
+.leaflet-drone-pulse span {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #0f73df;
+  box-shadow: 0 0 0 7px rgba(31, 140, 255, 0.14);
+}
+
+.leaflet-detection-icon div {
+  width: 28px;
+  height: 34px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: grid;
+  place-items: center;
+  color: white;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.45);
+}
+
+.leaflet-detection-icon svg {
+  width: 15px;
+  height: 15px;
+  transform: rotate(45deg);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.leaflet-detection-icon.red div {
+  background: #dc3d3d;
+}
+
+.leaflet-detection-icon.orange div {
+  background: #d97706;
+}
+
+.leaflet-detection-icon.green div {
+  background: #20a646;
+}
+
+.scale {
+  position: absolute;
+  left: 22px;
+  bottom: 22px;
+  z-index: 480;
+  color: #17202c;
+  font-size: 12px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.scale::after {
+  content: "";
+  display: block;
+  width: 61px;
+  height: 8px;
+  border-left: 2px solid #17202c;
+  border-right: 2px solid #17202c;
+  border-bottom: 2px solid #17202c;
+  opacity: 0.75;
+}
+
+.chart {
+  height: 76px;
+  position: relative;
+  border-left: 1px solid hsl(var(--border));
+  border-bottom: 1px solid hsl(var(--border));
+  background:
+    repeating-linear-gradient(0deg, transparent 0 27px, rgba(37, 55, 82, 0.08) 28px),
+    repeating-linear-gradient(90deg, transparent 0 92px, rgba(37, 55, 82, 0.06) 93px);
+  display: flex;
+  align-items: end;
+  gap: 8px;
+  padding-left: 39px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.chart span {
+  width: 17px;
+  background: #2c85ff;
+  clip-path: polygon(0 78%, 100% 60%, 100% 100%, 0 100%);
+  opacity: 0.98;
+  z-index: 2;
+}
+
+.chart-fill {
+  position: absolute;
+  left: 39px;
+  right: 8px;
+  bottom: 0;
+  height: 68px;
+  background: linear-gradient(180deg, rgba(35, 111, 209, 0.32), rgba(35, 111, 209, 0.05));
+  clip-path: polygon(0 90%, 10% 78%, 19% 82%, 27% 64%, 36% 69%, 45% 58%, 54% 66%, 63% 47%, 71% 57%, 79% 38%, 87% 46%, 94% 23%, 100% 14%, 100% 100%, 0 100%);
+}
+
+.axis {
+  display: flex;
+  justify-content: space-between;
+  color: hsl(var(--muted-foreground));
+  font-size: 12px;
+  padding: 7px 0 0 35px;
+}
+
+.video-road {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, #6fa9df 0 27%, transparent 27%),
+    linear-gradient(105deg, #315d24 0 18%, #8f938c 18% 34%, #696e68 34% 61%, #444943 61% 66%, #537231 66% 100%);
+}
+
+.video-road::before {
+  content: "";
+  position: absolute;
+  left: 47%;
+  top: 26%;
+  bottom: 0;
+  width: 4px;
+  background: repeating-linear-gradient(180deg, white 0 34px, transparent 34px 60px);
+  transform: perspective(120px) rotateX(12deg);
+}
+
+.video-road::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 25%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.thumb {
+  background:
+    linear-gradient(180deg, #5499da 0 27%, transparent 27%),
+    linear-gradient(105deg, #415c2b 0 18%, #787d78 18% 68%, #52682f 68% 100%);
+  opacity: 0.78;
+}
+
+.thumb span {
+  display: block;
+  width: 3px;
+  height: 100%;
+  margin-left: 50%;
+  background: repeating-linear-gradient(180deg, white 0 13px, transparent 13px 24px);
+}
