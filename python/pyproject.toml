@@ -5,7 +5,18 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "coco-to-yolo>=1.2.1",
+    "fastapi>=0.136.1",
     "matplotlib>=3.10.8",
+    "modal>=1.4.2",
+    "opencv-python>=4.13.0.92",
     "pillow>=12.2.0",
     "pycocotools>=2.0.11",
+    "ultralytics>=8.4.41",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.2.0",
+    "marimo>=0.23.2",
 ]
