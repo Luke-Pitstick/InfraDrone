@@ -6,14 +6,14 @@ import cv2 as cv
 
 ROOT_DIR = Path("workspace")
 
-DATASET_PATH = ROOT_DIR / "RDD2022"
+DATASET_PATH = ROOT_DIR / "InfraDrone/python/datasets/RDD2022"
 YOLO_PATH = DATASET_PATH / "yolo"
 
 # Hyperparameters
 IMG_SIZE = 736
 MIN_VISIBILITY = .25
 EPOCHS = 100
-
+MODEL_NAME = "yolo26m.pt"
 
 CLASS_MAP = {
     "longitudinal crack": 0,
@@ -23,7 +23,7 @@ CLASS_MAP = {
     "pothole": 4,
 }
 
-drone_like_transforms = A.Compose(
+transforms = A.Compose(
     [
         # Crop out sky/horizon/hood if present; focus on road surface
         A.RandomResizedCrop(
@@ -68,12 +68,12 @@ drone_like_transforms = A.Compose(
     ),
 )
 
-model = YOLO("yolo26s.pt")
+model = YOLO(MODEL_NAME)
 
-model.train(data= DATASET_PATH / "converted.yaml", 
+model.train(data= DATASET_PATH / "yolo.yaml", 
             epochs=EPOCHS, 
             imgsz=IMG_SIZE, 
             batch=16, workers=8, 
             device=0,
-            augmentations=drone_like_transforms
+            augmentations=transforms
             )
