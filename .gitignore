@@ -365,3 +365,5 @@ vite.config.ts.timestamp-*
 
 datasets/
 .python-version
+
+.idea/
