@@ -6,7 +6,7 @@ import cv2 as cv
 
 ROOT_DIR = Path("workspace")
 
-DATASET_PATH = ROOT_DIR / "InfraDrone/python/datasets/RD2022"
+DATASET_PATH = ROOT_DIR / "RD2022"
 YOLO_PATH = DATASET_PATH / "yolo"
 
 # Hyperparameters
