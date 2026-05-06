@@ -3,6 +3,15 @@ from ultralytics import YOLO
 from PIL import Image
 import albumentations as A
 import cv2 as cv
+import wandb
+from wandb.integration.ultralytics import add_wandb_callback
+
+# Initialize Weights and Biases
+wandb.init(
+    project="road-damage",
+    name="yolo26s-rd2022-img736-b16-native-aug",
+    job_type="train",
+)
 
 ROOT_DIR = Path("workspace")
 
