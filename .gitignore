@@ -367,3 +367,5 @@ datasets/
 .python-version
 
 .idea/
+
+trained_models/
