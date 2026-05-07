@@ -77,7 +77,7 @@ albumentations_transforms = A.Compose(
 model = YOLO(MODEL_NAME)
 
 model.train(
-    data=DATASET_PATH / "converted.yaml",
+    data=DATASET_PATH / "yolo.yaml",
     imgsz=IMG_SIZE,
     epochs=EPOCHS,
     batch=16,
