@@ -17,12 +17,15 @@ ROOT_DIR = Path("workspace")
 
 DATASET_PATH = ROOT_DIR / "RD2022"
 YOLO_PATH = DATASET_PATH / "yolo"
+MODELS_DIR = ROOT_DIR / "InfraDrone/src/ml/models/custom_yolo/"
 
 # Hyperparameters
 IMG_SIZE = 736
 MIN_VISIBILITY = .25
 EPOCHS = 100
-MODEL_NAME = "yolo26s.pt"
+MODEL_NAME = "custom_yolo26s.yaml"
+MODEL_PATH = MODELS_DIR / MODEL_NAME
+
 
 CLASS_MAP = {
     "crack": 0,
@@ -74,10 +77,10 @@ albumentations_transforms = A.Compose(
     ),
 )
 
-model = YOLO(MODEL_NAME)
+model = YOLO(MODEL_PATH)
 
 model.train(
-    data=DATASET_PATH / "yolo.yaml",
+    data=DATASET_PATH / "converted.yaml",
     imgsz=IMG_SIZE,
     epochs=EPOCHS,
     batch=16,
