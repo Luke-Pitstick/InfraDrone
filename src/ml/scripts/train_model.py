@@ -15,7 +15,7 @@ ROOT_DIR = Path("/workspace")
 
 DATASET_PATH = ROOT_DIR / "RD2022"
 YOLO_PATH = DATASET_PATH / "yolo"
-MODELS_DIR = ROOT_DIR / "InfraDrone/src/ml/models/custom_yolo/"
+MODELS_DIR = ROOT_DIR / "InfraDrone/src/ml/models/custom_yolo"
 
 # Hyperparameters
 IMG_SIZE = 736
