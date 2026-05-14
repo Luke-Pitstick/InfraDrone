@@ -7,7 +7,7 @@ import wandb
 # Initialize Weights and Biases
 wandb.init(
     project="road-damage",
-    name="yolo26s-rd2022-img736-b16-native-aug",
+    name="yolo26s-rd2022-with-preprocessing",
     job_type="train",
 )
 
