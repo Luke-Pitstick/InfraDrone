@@ -21,7 +21,7 @@ MODELS_DIR = ROOT_DIR / "InfraDrone/src/ml/models/custom_yolo"
 IMG_SIZE = 960
 MIN_VISIBILITY = .25
 EPOCHS = 100
-MODEL_NAME = "yolo26s.yaml"
+MODEL_NAME = "yolo26s.pt"
 MODEL_PATH = MODELS_DIR / MODEL_NAME
 
 
