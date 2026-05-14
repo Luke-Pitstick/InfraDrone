@@ -5,11 +5,11 @@ import cv2 as cv
 import wandb
 
 # Initialize Weights and Biases
-wandb.init(
-    project="road-damage",
-    name="yolo26s-rd2022-with-preprocessing",
-    job_type="train",
-)
+# wandb.init(
+#     project="road-damage",
+#     name="yolo26s-rd2022-with-preprocessing",
+#     job_type="train",
+# )
 
 ROOT_DIR = Path("/workspace")
 
