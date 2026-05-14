@@ -37,7 +37,6 @@ model.train(
     imgsz=IMG_SIZE,
     epochs=EPOCHS,
     batch=16,
-    wandb=True,
 
     # Geometry
     degrees=10.0,       # rotation
