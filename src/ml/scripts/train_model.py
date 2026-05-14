@@ -18,10 +18,10 @@ YOLO_PATH = DATASET_PATH / "yolo"
 MODELS_DIR = ROOT_DIR / "InfraDrone/src/ml/models/custom_yolo"
 
 # Hyperparameters
-IMG_SIZE = 736
+IMG_SIZE = 960
 MIN_VISIBILITY = .25
 EPOCHS = 100
-MODEL_NAME = "custom_yolo26s.yaml"
+MODEL_NAME = "yolo26s.yaml"
 MODEL_PATH = MODELS_DIR / MODEL_NAME
 
 
@@ -30,16 +30,7 @@ CLASS_MAP = {
     "pothole": 1,
 }
 
-
-# Preprocessing Functions
-
-
-
-
-
-
-
-model = YOLO(MODEL_PATH)
+model = YOLO(MODEL_NAME)
 
 model.train(
     data=DATASET_PATH / "converted.yaml",
