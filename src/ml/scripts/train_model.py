@@ -1,7 +1,7 @@
 from pathlib import Path
-from ultralytics import YOLO
+from ultralytics.models import YOLO
 from PIL import Image
-import cv2 as cv
+import cv2
 import wandb
 
 # Initialize Weights and Biases
