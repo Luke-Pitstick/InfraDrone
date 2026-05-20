@@ -1,42 +1,96 @@
+import uuid
+
 import numpy as np
+from dataclasses import dataclass
+from .constants import StressRange, DamageType, CrackSubtype, PotholeSubtype, UnitTypes
 
-
-class DetectionResult():
-    def __init__(self, boxes: np.ndarray, masks: np.ndarray, keypoints: np.ndarray, probs: np.ndarray, obb: np.ndarray) -> None:
-        self.boxes = boxes
-        self.masks = masks
-        self.keypoints = keypoints
-        self.probs = probs
-        self.obb = obb
+class DetectionResult:
+    """
+    DetectionResult is a single detection for a single image.
+    Images can have multiple DetectionResults.
+    
+    DetectionResults can have multiple SegmentationResults (pieces of damage).
+    """
+    
+    def __init__(self, box: np.ndarray, conf: float, type: DamageType) -> None:
+        # box format: x1, y1, x2, y2
+        self.box: np.ndarray = box
+        self.conf: float = conf
+        self.type: DamageType = type
     
     def __str__(self) -> str:
-        return f"DetectionResult(boxes: {self.boxes}, masks: {self.masks}, keypoints: {self.keypoints}, probs: {self.probs}, obb: {self.obb})"
+        return f"DetectionResult(box: {self.box}, confidence: {self.conf}, type: {self.type})"
     
     def __repr__(self) -> str:
         return self.__str__()
     
     def to_dict(self) -> dict:
         return {
-            "boxes": self.boxes.tolist(),
-            "masks": self.masks.tolist(),
-            "keypoints": self.keypoints.tolist(),
-            "probs": self.probs.tolist(),
-            "obb": self.obb.tolist()
+            "box": self.box.tolist(),
+            "confidence": self.conf,
+            "type": self.type
         }
 
-
-class SegmentationResult():
-    def __init__(self, masks: np.ndarray) -> None:
-        self.masks = masks
+class SegmentationResult:
+    """
+    SegmentationResult is a single mask for a single detection.
+    
+    Images can have multiple SegmentationResults.
+    """
+    def __init__(self, mask: np.ndarray, conf: float, type: DamageType) -> None:
+        # Looks like 0 0.997768 0.535714 0.959821 0.535714 0.957589 0.537946...
+        self.mask: np.ndarray = mask
+        self.conf: float = conf
+        self.type: DamageType = type
+    
+    def __str__(self) -> str:
+        return f"SegmentationResult(mask: {self.mask}, confidence: {self.conf}, type: {self.type})"
+    
+    def __repr__(self) -> str:
+        return self.__str__()
+    
+    def to_dict(self) -> dict:
+        return {
+            "mask": self.mask.tolist(),
+            "confidence": self.conf,
+            "type": self.type
+        }
         
+@dataclass
+class Measurement:
+    def __init__(self, value: float, unit: UnitTypes):
+        self.value: float
+        self.unit: UnitTypes
+        
+    def to_centimeters(self, value: float) -> float:
+        if self.unit == UnitTypes.cm:
+            return value
+        elif self.unit == UnitTypes.inch:
+            return value * 2.54
+        else:
+            raise ValueError(f"Invalid measurement unit: {self}")
+        
+    def to_inches(self, value: float) -> float:
+        if self.unit == UnitTypes.cm:
+            return value / 2.54
+        elif self.unit == UnitTypes.inch:
+            return value
+        else:
+            raise ValueError(f"Invalid measurement unit: {self}")
+   
+@dataclass  
+class Dimensions:
+    thickness: Measurement
+    length: Measurement
     
-    def __str__(self) -> str:
-        return f"SegmentationResult(masks: {self.masks})"
     
-    def __repr__(self) -> str:
-        return self.__str__()
-    
-    def to_dict(self) -> dict:
-        return {
-            "masks": self.masks.tolist()
-        }
+@dataclass
+class Damage:
+    id: uuid.UUID
+    type: DamageType
+    severity: int
+    confidence: float
+    dimensions: Dimensions
+    subtype: CrackSubtype | PotholeSubtype
+    stress_range: StressRange
+    num_connections: int
