@@ -1,0 +1,39 @@
+project:
+  name: road-damage
+  weights_dir: src/ml/models/weights
+
+detection:
+  dataset: datasets/detection/RD2022/converted.yaml
+  runs_dir: src/ml/runs/detection
+  experiment_name: yolo26s-rd2022-with-preprocessing
+  model: yolo26s.pt
+  imgsz: 960
+  epochs: 100
+  batch: 16
+  workers: 8
+  augment:
+    degrees: 10.0
+    translate: 0.05
+    scale: 0.25
+    shear: 2.0
+    perspective: 0.0005
+    flipud: 0.0
+    fliplr: 0.5
+    hsv_h: 0.01
+    hsv_s: 0.35
+    hsv_v: 0.25
+    mosaic: 0.6
+    mixup: 0.0
+    copy_paste: 0.0
+    close_mosaic: 10
+
+segmentation:
+  dataset: datasets/segmentation/crack_segmentation_dataset/yolo.yaml
+  runs_dir: src/ml/runs/segmentation
+  experiment_name: yolo26s-crack-segmentation
+  model: yolo26s-seg.pt
+  imgsz: 448
+  epochs: 100
+  batch: 16
+  workers: 8
+  save_period: 10

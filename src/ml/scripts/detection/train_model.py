@@ -1,66 +1,55 @@
-from pathlib import Path
 from ultralytics.models import YOLO
-from PIL import Image
-import cv2
 import wandb
+
+from ml.utils.utils import get_device, get_project_root, load_train_config, require_path_exists
+
+# Project Settings
+PROJECT_ROOT = get_project_root()
+
+# Load config
+CONFIG = load_train_config()
+PROJECT_CONFIG = CONFIG["project"]
+TRAIN_CONFIG = CONFIG["detection"]
+
+PROJECT_NAME = PROJECT_CONFIG["name"]
+WEIGHTS_DIR = PROJECT_ROOT / PROJECT_CONFIG["weights_dir"]
+
+# Train Settings
+DATASET_PATH = require_path_exists(PROJECT_ROOT / TRAIN_CONFIG["dataset"])
+RUNS_PATH = PROJECT_ROOT / TRAIN_CONFIG["runs_dir"]
+EXPERIMENT_NAME = TRAIN_CONFIG["experiment_name"]
+
+DEVICE = get_device()
+
+IMG_SIZE = TRAIN_CONFIG["imgsz"]
+EPOCHS = TRAIN_CONFIG["epochs"]
+BATCH = TRAIN_CONFIG["batch"]
+MODEL_NAME = TRAIN_CONFIG["model"]
+MODEL_PATH = WEIGHTS_DIR / MODEL_NAME
+WORKERS = TRAIN_CONFIG["workers"]
+DETECTION_AUGMENT = TRAIN_CONFIG["augment"]
 
 # Initialize Weights and Biases
 wandb.init(
-    project="road-damage",
-    name="yolo26s-rd2022-with-preprocessing",
+    project=PROJECT_NAME,
+    name=EXPERIMENT_NAME,
     job_type="train",
 )
 
-ROOT_DIR = Path("/workspace")
+# Initialize Model
+WEIGHTS_DIR.mkdir(parents=True, exist_ok=True)
+model = YOLO(MODEL_PATH)
 
-DATASET_PATH = ROOT_DIR / "RD2022"
-YOLO_PATH = DATASET_PATH / "yolo"
-MODELS_DIR = ROOT_DIR / "InfraDrone/src/ml/models/custom_yolo"
-
-# Hyperparameters
-IMG_SIZE = 960
-MIN_VISIBILITY = .25
-EPOCHS = 100
-MODEL_NAME = "yolo26s.pt"
-MODEL_PATH = MODELS_DIR / MODEL_NAME
-
-
-CLASS_MAP = {
-    "crack": 0,
-    "pothole": 1,
-}
-
-model = YOLO(MODEL_NAME)
+# Train Model
 
 model.train(
-    data=DATASET_PATH / "converted.yaml",
+    project=RUNS_PATH,
+    name=EXPERIMENT_NAME,
+    data=DATASET_PATH,
     imgsz=IMG_SIZE,
     epochs=EPOCHS,
-    batch=16,
-
-    # Geometry
-    degrees=10.0,       # rotation
-    translate=0.05,     # shift image up/down/left/right
-    scale=0.25,         # zoom in/out
-    shear=2.0,          # mild perspective-ish slant
-    perspective=0.0005, # very mild perspective warp
-    flipud=0.0,         # road damage usually shouldn't be upside down
-    fliplr=0.5,         # horizontal flip is usually fine
-
-    # Color / lighting
-    hsv_h=0.01,         # tiny hue shift
-    hsv_s=0.35,         # saturation variation
-    hsv_v=0.25,         # brightness variation
-
-    # YOLO mixing augmentations
-    mosaic=0.6,
-    mixup=0.0,
-    copy_paste=0.0,
-
-    # Turn mosaic off near the end
-    close_mosaic=10,
-
-    # Regular training stuff
-    workers=8,
-    device=0,
+    batch=BATCH,
+    workers=WORKERS,
+    device=DEVICE,
+    **DETECTION_AUGMENT,
 )
