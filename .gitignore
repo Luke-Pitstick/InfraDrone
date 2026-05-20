@@ -368,3 +368,9 @@ datasets/
 .idea/
 
 trained_models/
+
+# Wandb
+wandb/
+
+# Weights
+weights/
