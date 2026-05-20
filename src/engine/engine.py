@@ -3,16 +3,8 @@ This module contains the engine for the machine learning model.
 """
 
 from dataclasses import dataclass
-from enum import Enum
-
-import cv2 as cv
-import numpy as np
-import matplotlib.pyplot as plt
-
-from ultralytics import YOLO
-from PIL import Image
-
 from constants import StressRange, DamageType, CrackSubtype, PotholeSubtype, UnitTypes
+from .detection import DetectionEngine, SegmentationEngine
 
 
 @dataclass
@@ -56,7 +48,8 @@ class Damage:
     
 class Engine:
     def __init__(self):
-        pass
+        self.detection_engine = DetectionEngine(model_path="models/detection.pt")
+        self.segmentation_engine = SegmentationEngine(model_path="models/segmentation.pt")
 
     def train(self):
         pass
