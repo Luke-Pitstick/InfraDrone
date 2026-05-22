@@ -4,6 +4,8 @@ import skimage as ski
 import uuid
 from pathlib import Path
 
+from skimage.morphology import skeletonize, dilation, disk, remove_small_objects
+from skimage.measure import label, regionprops
 from scipy.ndimage import convolve, distance_transform_edt
 
 from .preprocessing import enhance_for_road_damage
@@ -25,13 +27,23 @@ class SegmentationEngine(BaseEngine):
     def __init__(self, model_path: str, img_size: tuple = (640, 640)) -> None:
         super().__init__(unit_type=UnitTypes.px, width_ratio=0, height_ratio=0)
         
+        # Engine Settings
         self.stress_range = StressRange.RESIDENTIAL
+        self.unit_ratio = 1.0
         
+
         self.model = YOLO(model_path)
         self.img_size = img_size
 
         # Combination Settings
-        self.combine_threshold = 10
+        self.combine_threshold = 25
+        
+        # Crack Subtype Settings
+        self.crack_subtype_threshold = np.pi / 6
+        
+        # Branch Pruning Settings
+        self.branch_pruning_min_length = 20
+        self.junction_radius = 5
 
     def detect(self, image: np.ndarray) -> list[SegmentationResult]:
         # Prediction result for one image
@@ -46,6 +58,7 @@ class SegmentationEngine(BaseEngine):
             # 2D mask array, usually shape: (mask_height, mask_width)
             # Convert the mask to a binary mask
             mask = (mask_array > 0.5).astype(np.uint8)
+            skeleton = skeletonize(mask > 0).astype(np.uint8)
 
             # Detection confidence for this mask
             conf = float(result.boxes.conf[i])
@@ -54,11 +67,11 @@ class SegmentationEngine(BaseEngine):
             cls = int(result.boxes.cls[i])
             class_type = CLASS_MAP[cls]
 
-            segmentation_results.append(SegmentationResult(mask, conf, class_type))
+            segmentation_results.append(SegmentationResult(mask, skeleton, conf, class_type))
 
         return segmentation_results
 
-    def _connect_endpoints(
+    def _combine_endpoints(
         self,
         mask1: np.ndarray,
         mask2: np.ndarray,
@@ -66,6 +79,8 @@ class SegmentationEngine(BaseEngine):
         endpoint2: np.ndarray,
     ) -> np.ndarray:
         combined_mask = np.logical_or(mask1, mask2).astype(np.uint8)
+
+        # Update line to use binary dialation to have a realistic radius.
 
         rr, cc = ski.draw.line(
             int(endpoint1[0]),
@@ -80,20 +95,24 @@ class SegmentationEngine(BaseEngine):
 
     def _get_endpoints(self, mask: np.ndarray) -> np.ndarray:
         # Thin the mask to get pixels
-        skeleton_mask = ski.morphology.skeletonize(mask)
+        skeleton_mask = skeletonize(mask)
 
         # Use scipy to convolve the mask with a 3x3 kernel. To count neighbors of a pixel.
-        kernel_8 = np.array([
-            [1, 1, 1],
-            [1, 0, 1],
-            [1, 1, 1],
-        ])
+        kernel_8 = np.array(
+            [
+                [1, 1, 1],
+                [1, 0, 1],
+                [1, 1, 1],
+            ]
+        )
 
-        kernel_4 = np.array([
-            [0, 1, 0],
-            [1, 0, 1],
-            [0, 1, 0],
-        ])
+        kernel_4 = np.array(
+            [
+                [0, 1, 0],
+                [1, 0, 1],
+                [0, 1, 0],
+            ]
+        )
 
         # Convolve the mask with the kernel to count neighbors of a pixel.
         convolved_8 = convolve(
@@ -126,8 +145,21 @@ class SegmentationEngine(BaseEngine):
         i, j = np.unravel_index(np.argmin(distances), distances.shape)
 
         return endpoints1[i], endpoints2[j], distances[i, j]
+    
+    def _farthest_endpoint_pair(self, endpoints: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        if len(endpoints) < 2:
+            raise ValueError("Need at least 2 endpoints")
+        if len(endpoints) == 2:
+            return endpoints[0], endpoints[1]
 
-    def combine_like_detections(self, detections: list[SegmentationResult]) -> list[SegmentationResult]:
+        diffs = endpoints[:, None, :] - endpoints[None, :, :]
+        distances = np.linalg.norm(diffs, axis=2)
+        i, j = np.unravel_index(np.argmax(distances), distances.shape)
+        return endpoints[i], endpoints[j]
+
+    def combine_like_detections(
+        self, detections: list[SegmentationResult]
+    ) -> list[SegmentationResult]:
         if not detections:
             return []
 
@@ -135,8 +167,7 @@ class SegmentationEngine(BaseEngine):
         combined_results = []
 
         endpoints_by_index = [
-            self._get_endpoints(detection.mask)
-            for detection in detections
+            self._get_endpoints(detection.mask) for detection in detections
         ]
 
         for i, detection in enumerate(detections):
@@ -161,7 +192,7 @@ class SegmentationEngine(BaseEngine):
                 )
 
                 if distance < self.combine_threshold:
-                    current_mask = self._connect_endpoints(
+                    current_mask = self._combine_endpoints(
                         current_mask,
                         next_detection.mask,
                         endpoint1,
@@ -175,82 +206,312 @@ class SegmentationEngine(BaseEngine):
                     current_endpoints = self._get_endpoints(current_mask)
 
             used.add(i)
+            current_skeleton = skeletonize(current_mask > 0).astype(np.uint8)
             combined_results.append(
-                SegmentationResult(current_mask.astype(np.uint8), current_conf, current_type)
+                SegmentationResult(
+                    current_mask.astype(np.uint8),
+                    current_skeleton,
+                    current_conf,
+                    current_type,
+                )
             )
 
         return combined_results
+    
+    
+    def _angle_difference_180(self, a: float, b: float) -> float:
+        # Lines are undirected, so 10° and 190° are equivalent.
+        return abs((a - b + 90) % 180 - 90)
+
+
+    def _branch_axis_angle(self, mask: np.ndarray) -> float:
+        endpoints = self._get_endpoints(mask)
+
+        if len(endpoints) < 2:
+            pixels = np.argwhere(mask > 0)
+            if len(pixels) < 2:
+                return 0.0
+            ep0, ep1 = self._farthest_endpoint_pair(pixels)
+        else:
+            ep0, ep1 = self._farthest_endpoint_pair(endpoints)
+
+        row0, col0 = ep0
+        row1, col1 = ep1
+
+        angle = np.degrees(np.arctan2(row1 - row0, col1 - col0)) % 180
+        return angle
+
+
+    def _local_endpoint_angle(self, mask: np.ndarray, endpoint: np.ndarray, radius: int = 25) -> float:
+        skeleton = skeletonize(mask > 0)
+        points = np.argwhere(skeleton)
+
+        if len(points) < 2:
+            return 0.0
+
+        distances = np.linalg.norm(points - endpoint, axis=1)
+        local_points = points[distances <= radius]
+
+        if len(local_points) < 2:
+            local_points = points[np.argsort(distances)[: min(10, len(points))]]
+
+        # Use PCA to estimate local direction.
+        centered = local_points - local_points.mean(axis=0)
+        _, _, vh = np.linalg.svd(centered, full_matrices=False)
+
+        d_row, d_col = vh[0]
+        angle = np.degrees(np.arctan2(d_row, d_col)) % 180
+
+        return angle
+
+    def _make_branch_object(self, mask: np.ndarray) -> dict:
+        return {
+            "branch": mask,
+            "endpoints": self._get_endpoints(mask),
+            "angle": self._branch_axis_angle(mask),
+        }
+        
+    def _angle_between_points(self, p1: np.ndarray, p2: np.ndarray) -> float:
+        row1, col1 = p1
+        row2, col2 = p2
+        return np.degrees(np.arctan2(row2 - row1, col2 - col1)) % 180
+
+    def _get_closest_endpoint_pair(self, endpoints1: np.ndarray, endpoints2: np.ndarray) -> tuple[np.ndarray, np.ndarray, float]:
+        if len(endpoints1) == 0 or len(endpoints2) == 0:
+            return np.array([]), np.array([]), np.inf
+
+        diffs = endpoints1[:, None, :] - endpoints2[None, :, :]
+        distances = np.linalg.norm(diffs, axis=2)
+
+        i, j = np.unravel_index(np.argmin(distances), distances.shape)
+
+        return endpoints1[i], endpoints2[j], distances[i, j]
+
+    def can_combine(
+        self,
+        branch1: SegmentationResult,
+        branch2: SegmentationResult,
+        distance_threshold: int = 50,
+        angle_threshold: int = 45,
+    ):
+        ep1, ep2, distance = self._get_closest_endpoint_pair(
+            branch1.endpoints,
+            branch2.endpoints,
+        )
+
+        if distance >= distance_threshold:
+            return False, ep1, ep2, np.inf
+
+        angle1 = self._local_endpoint_angle(branch1.skeleton, ep1)
+        angle2 = self._local_endpoint_angle(branch2.skeleton, ep2)
+
+        angle_diff = self._angle_difference_180(angle1, angle2)
+
+        if angle_diff >= angle_threshold:
+            return False, ep1, ep2, np.inf
+
+        score = distance + angle_diff
+        return True, ep1, ep2, score
+
+    def combine_branches(
+        self,
+        branches: list[SegmentationResult],
+        distance_threshold: int = 60,
+        angle_threshold: int = 45,
+    ) -> list[SegmentationResult]:
+        while True:
+            best_pair = None
+            best_endpoints = (np.array([]), np.array([]))
+            best_score = np.inf
+
+            for idx, branch in enumerate(branches):
+                for next_idx, next_branch in enumerate(branches[idx + 1:], start=idx + 1):
+                    ok, ep_i, ep_j, score = self.can_combine(
+                        branch,
+                        next_branch,
+                        distance_threshold=distance_threshold,
+                        angle_threshold=angle_threshold,
+                    )
+
+                    if ok and score < best_score:
+                        best_pair = (idx, next_idx)
+                        best_endpoints = (ep_i, ep_j)
+                        best_score = score
+
+            if best_pair is None:
+                break
+
+            idx, next_idx = best_pair
+            ep_i, ep_j = best_endpoints
+
+            merged_mask = self._combine_endpoints(
+                branches[idx].mask,
+                branches[next_idx].mask,
+                ep_i,
+                ep_j,
+            )
+
+            merged_skeleton = self._combine_endpoints(
+                branches[idx].skeleton,
+                branches[next_idx].skeleton,
+                ep_i,
+                ep_j,
+            )
+
+            merged_skeleton = skeletonize(merged_skeleton > 0)
+
+            merged_branch = SegmentationResult(
+                merged_mask.astype(np.uint8),
+                merged_skeleton.astype(np.uint8),
+                max(branches[idx].conf, branches[next_idx].conf),
+                branches[idx].type,
+            )
+
+            merged_branch.endpoints = self._get_endpoints(merged_skeleton)
+
+            for remove_idx in sorted([idx, next_idx], reverse=True):
+                branches.pop(remove_idx)
+
+            branches.append(merged_branch)
+
+        return branches
+    
+    def find_branches(self, detections: list[SegmentationResult]) -> tuple[list[SegmentationResult], int]:
+        # Skel then find first branches with branch points.
+        branches = []
+        for detection in detections:
+            mask = detection.mask
+            skeleton = skeletonize(mask)
+
+            kernel = np.array([
+                [1, 1, 1],
+                [1, 0, 1],
+                [1, 1, 1],
+            ])
+
+            neighbors_8 = convolve(skeleton.astype(np.uint8), kernel, mode="constant", cval=0)
+
+            # Branch points are skeleton pixels with 3+ neighbors
+            branch_points_8 = skeleton & (neighbors_8 >= 3)
+
+            branch_points = branch_points_8
+            # Junction zone is the area around the branch points to remove them from the skeleton
+            junction_zone = dilation(branch_points, disk(5))
+
+            skel_no_branches = skeleton.copy()
+            # Remove the junction zone from the skeleton
+            skel_no_branches[junction_zone] = False
+
+            # Label each skeleton segment after junctions have been removed.
+            labels = label(skel_no_branches, connectivity=2)
+
+            for region in regionprops(labels):
+                if region.area <= self.branch_pruning_min_length:
+                    continue
+
+                component_skeleton = (labels == region.label)
+                component_mask = (
+                    dilation(component_skeleton, disk(self.junction_radius))
+                    & (mask > 0)
+                )
+
+                branches.append(
+                    SegmentationResult(
+                        component_mask.astype(np.uint8),
+                        component_skeleton.astype(np.uint8),
+                        detection.conf,
+                        detection.type,
+                    )
+                )
+                
+        # Calculate the endpoints 
+        for branch in branches:
+            endpoints = self._get_endpoints(branch.skeleton)
+            branch.endpoints = endpoints
+            
+        # Merge branches that are close to each other.
+        branches = self.combine_branches(branches)
+        return branches, len(branches)
 
     def determine_orientation(self, segment: np.ndarray) -> CrackSubtype:
-        # Finds angle of the segment. 
-        # If the angle is less than 45 degrees, it is a longitudinal crack
-        # If the angle is greater than 45 degrees, it is a transverse crack
+        # Finds angle of the segment.
+        # If the angle is less than 45 degrees, it is a transverse crack
+        # If the angle is greater than 45 degrees, it is a longitudinal crack
         # Returns the crack subtype
-        
+
         endpoints = self._get_endpoints(segment)
-        
-        angle = np.arctan2(endpoints[1][1] - endpoints[0][1], endpoints[1][0] - endpoints[0][0])
-        if angle < np.pi / 4:
-            return CrackSubtype.LONGITUDINAL
-        elif angle > np.pi / 4:
+
+        if len(endpoints) < 2:
+            return CrackSubtype.ALLIGATOR
+
+        endpoint1, endpoint2 = self._farthest_endpoint_pair(endpoints)
+
+        angle = np.arctan2(
+            endpoint2[1] - endpoint1[1], endpoint2[0] - endpoint1[0]
+        )
+        if angle < self.crack_subtype_threshold:
             return CrackSubtype.TRANSVERSE
+        elif angle > self.crack_subtype_threshold:
+            return CrackSubtype.LONGITUDINAL
         else:
             return CrackSubtype.ALLIGATOR
 
-        
-        
     def preprocess(self, image: np.ndarray) -> np.ndarray:
         """Return a BGR uint8 image ready for YOLO inference."""
         return enhance_for_road_damage(image, size=self.img_size)
 
-    def post_process(
-        self, detections: list[SegmentationResult]
-    ) -> list[SegmentationResult]:
-        # post-process the detections to get the final result to filter out low confidence detections
-
-        return detections
-
     def calculate_thickness(self, mask: np.ndarray) -> Measurement:
-        skel = ski.morphology.skeletonize(mask)
-        
+        skel = skeletonize(mask)
+
         dist = distance_transform_edt(mask) if skel is not None else None
         
+
         if dist is None:
             return Measurement(value=0, unit=self.unit_type)
         
+        # Mean width of the crack in pixels
         mean_width_px = np.mean(2 * dist[skel])
-        
-        return Measurement(value=mean_width_px, unit=self.unit_type)
-        
-    def calculate_length(self, mask: np.ndarray) -> Measurement:
-        endpoints = self._get_endpoints(mask)
-        
-        distance = float(np.linalg.norm(endpoints[1] - endpoints[0]))
-        
-        if distance is None:
+        true_mean_width = mean_width_px * self.unit_ratio
+
+        return Measurement(value=true_mean_width, unit=self.unit_type)
+
+    def calculate_length(self, skeleton: np.ndarray) -> Measurement:
+        endpoints = self._get_endpoints(skeleton)
+
+        if len(endpoints) < 2:
             return Measurement(value=0, unit=self.unit_type)
+
+        endpoint1, endpoint2 = self._farthest_endpoint_pair(endpoints)
+        distance = float(np.linalg.norm(endpoint2 - endpoint1))
         
-        return Measurement(value=distance, unit=self.unit_type)
-        
-        
+        true_distance = distance * self.unit_ratio
+
+        if true_distance is None:
+            return Measurement(value=0, unit=self.unit_type)
+
+        return Measurement(value=true_distance, unit=self.unit_type)
+
     def calculate_dimensions(self, detection: SegmentationResult) -> Dimensions:
         mask = detection.mask
         thickness = self.calculate_thickness(mask)
-        length = self.calculate_length(mask)
+        length = self.calculate_length(detection.skeleton)
         return Dimensions(thickness=thickness, length=length)
-        
 
     def run(self, image: np.ndarray) -> list[Damage]:
         damages = []
         preprocessed = self.preprocess(image)
         detections = self.detect(preprocessed)
-        
-        # Combine like detections to get a single detection for each crack
+
+        # Combine like detections to fix errors in the mask making
         combined_detections = self.combine_like_detections(detections)
         
-        for detection in combined_detections:
+        # Find branches (individual cracks) for final measurement
+        branches, branch_count = self.find_branches(combined_detections)
+
+
+        for detection in branches:
             dimensions = self.calculate_dimensions(detection)
-            subtype = self.determine_orientation(detection.mask)
+            subtype = self.determine_orientation(detection.skeleton)
             damages.append(
                 Damage(
                     id=uuid.uuid4(),
@@ -260,7 +521,35 @@ class SegmentationEngine(BaseEngine):
                     dimensions=dimensions,
                     subtype=subtype,
                     stress_range=self.stress_range,
-                    num_connections=0,
+                    num_connections=branch_count,
+                )
+            )
+
+        return damages
+    
+    def run_test(self, segmentation_results: list[SegmentationResult]) -> list[Damage]:
+        damages = []
+        
+        # Combine like detections to fix errors in the mask making
+        combined_detections = self.combine_like_detections(segmentation_results)
+        
+        # Find branches (individual cracks) for final measurement
+        branches, branch_count = self.find_branches(combined_detections)
+        
+        # Calculate the dimensions and subtype of each branch
+        for branch in branches:
+            dimensions = self.calculate_dimensions(branch)
+            subtype = self.determine_orientation(branch.skeleton)
+            damages.append(
+                Damage(
+                    id=uuid.uuid4(),
+                    type=branch.type,
+                    severity=0,
+                    confidence=branch.conf,
+                    dimensions=dimensions,
+                    subtype=subtype,
+                    stress_range=self.stress_range,
+                    num_connections=branch_count,
                 )
             )
         
@@ -269,25 +558,19 @@ class SegmentationEngine(BaseEngine):
 
 if __name__ == "__main__":
     mask_path = Path(
-        "/Users/lukepitstick/Projects/Data-Science/InfraDrone/datasets/segmentation/crack_segmentation_dataset/train/masks/CFD_044.jpg"
+        "/Users/lukepitstick/Projects/Data-Science/InfraDrone/datasets/segmentation/crack_segmentation_dataset/train/masks/CFD_031.jpg"
     )
     masks = mask_image_to_segment_arrays(mask_path)
+    
+    model_path = Path("/Users/lukepitstick/Projects/Data-Science/InfraDrone/src/ml/models/weights/yolo26s-seg.pt")
+    
+    segmentation_results = [SegmentationResult(mask, skeletonize(mask > 0), 1, DamageType.CRACK) for mask in masks]
+    damages = SegmentationEngine(model_path=str(model_path)).run_test(segmentation_results)
 
-    thined_masks = []
+    print(f"Number of damages: {len(damages)}")
+    
+    for damage in damages:
+        print('--------------------------------')
+        print(damage)
 
-    for mask in masks:
-        thin_mask = ski.morphology.thin(mask)
-        thined_masks.append(thin_mask)
-
-        # Use scipy to convolve the mask with a 3x3 kernel. To count neighbors of a pixel.
-        kernel = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]])
-
-        # Convolve the mask with the kernel to count neighbors of a pixel.
-        convolved = convolve(
-            thin_mask.astype(np.uint8), kernel, mode="constant", cval=0
-        )
-
-        # Get the endpoints of the mask.
-        endpoints = np.argwhere(thin_mask & (convolved == 1))
-
-        print(endpoints)
+    

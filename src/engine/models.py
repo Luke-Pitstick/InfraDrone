@@ -37,11 +37,14 @@ class SegmentationResult:
     
     Images can have multiple SegmentationResults.
     """
-    def __init__(self, mask: np.ndarray, conf: float, type: DamageType) -> None:
-        # Looks like 0 0.997768 0.535714 0.959821 0.535714 0.957589 0.537946...
+    def __init__(self, mask: np.ndarray, skeleton: np.ndarray, conf: float, type: DamageType, endpoints: np.ndarray = np.array([]), angle: float = 0.0) -> None:
         self.mask: np.ndarray = mask
+        self.skeleton: np.ndarray = skeleton
         self.conf: float = conf
         self.type: DamageType = type
+        self.endpoints: np.ndarray = endpoints
+        self.angle: float = angle
+        
     
     def __str__(self) -> str:
         return f"SegmentationResult(mask: {self.mask}, confidence: {self.conf}, type: {self.type})"
@@ -58,9 +61,8 @@ class SegmentationResult:
         
 @dataclass
 class Measurement:
-    def __init__(self, value: float, unit: UnitTypes):
-        self.value: float
-        self.unit: UnitTypes
+    value: float
+    unit: UnitTypes
         
     def to_centimeters(self, value: float) -> float:
         if self.unit == UnitTypes.cm:
@@ -77,12 +79,36 @@ class Measurement:
             return value
         else:
             raise ValueError(f"Invalid measurement unit: {self}")
+        
+    def __str__(self) -> str:
+        return f"Measurement(value: {self.value}, unit: {self.unit})"
+    
+    def __repr__(self) -> str:
+        return self.__str__()
+        
+    def to_dict(self) -> dict:
+        return {
+            "value": self.value,
+            "unit": self.unit
+        }
+    
    
 @dataclass  
 class Dimensions:
     thickness: Measurement
     length: Measurement
     
+    def __str__(self) -> str:
+        return f"Dimensions(thickness: {self.thickness}, length: {self.length})"
+    
+    def __repr__(self) -> str:
+        return self.__str__()
+    
+    def to_dict(self) -> dict:
+        return {
+            "thickness": self.thickness.to_dict(),
+            "length": self.length.to_dict()
+        }
     
 @dataclass
 class Damage:
@@ -94,3 +120,21 @@ class Damage:
     subtype: CrackSubtype | PotholeSubtype
     stress_range: StressRange
     num_connections: int
+    
+    def __str__(self) -> str:
+        return f"Damage(id: {self.id}, type: {self.type}, severity: {self.severity}, confidence: {self.confidence}, dimensions: {self.dimensions}, subtype: {self.subtype}, stress_range: {self.stress_range}, num_connections: {self.num_connections})"
+    
+    def __repr__(self) -> str:
+        return self.__str__()
+    
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "type": self.type,
+            "severity": self.severity,
+            "confidence": self.confidence,
+            "dimensions": self.dimensions.to_dict(),
+            "subtype": self.subtype,
+            "stress_range": self.stress_range,
+            "num_connections": self.num_connections
+        }
