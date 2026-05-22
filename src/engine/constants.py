@@ -19,6 +19,7 @@ class CrackSubtype(str, Enum):
     LONGITUDINAL = "longitudinal"
     TRANSVERSE = "transverse"
     ALLIGATOR = "alligator"
+    UNKNOWN = "unknown"
 
 
 class PotholeSubtype(str, Enum):

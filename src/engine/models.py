@@ -37,13 +37,15 @@ class SegmentationResult:
     
     Images can have multiple SegmentationResults.
     """
-    def __init__(self, mask: np.ndarray, skeleton: np.ndarray, conf: float, type: DamageType, endpoints: np.ndarray = np.array([]), angle: float = 0.0) -> None:
+    def __init__(self, mask: np.ndarray, skeleton: np.ndarray, conf: float, type: DamageType, num_connections: int = 0, endpoints: np.ndarray = np.array([]), angle: float = 0.0) -> None:
         self.mask: np.ndarray = mask
         self.skeleton: np.ndarray = skeleton
         self.conf: float = conf
         self.type: DamageType = type
+        self.num_connections: int = num_connections
         self.endpoints: np.ndarray = endpoints
         self.angle: float = angle
+        
         
     
     def __str__(self) -> str:
@@ -97,9 +99,10 @@ class Measurement:
 class Dimensions:
     thickness: Measurement
     length: Measurement
+    area: Measurement
     
     def __str__(self) -> str:
-        return f"Dimensions(thickness: {self.thickness}, length: {self.length})"
+        return f"Dimensions(thickness: {self.thickness}, length: {self.length}, area: {self.area})"
     
     def __repr__(self) -> str:
         return self.__str__()
@@ -107,12 +110,15 @@ class Dimensions:
     def to_dict(self) -> dict:
         return {
             "thickness": self.thickness.to_dict(),
-            "length": self.length.to_dict()
+            "length": self.length.to_dict(),
+            "area": self.area.to_dict()
         }
     
 @dataclass
 class Damage:
     id: uuid.UUID
+    mask: np.ndarray
+    skeleton: np.ndarray
     type: DamageType
     severity: int
     confidence: float

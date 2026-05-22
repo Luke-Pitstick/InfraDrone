@@ -39,11 +39,15 @@ class SegmentationEngine(BaseEngine):
         self.combine_threshold = 25
         
         # Crack Subtype Settings
-        self.crack_subtype_threshold = np.pi / 6
+        self.crack_subtype_threshold = 45
         
         # Branch Pruning Settings
         self.branch_pruning_min_length = 20
         self.junction_radius = 5
+        
+        # Branch Combine Settings
+        self.branch_combine_distance_threshold = 50
+        self.branch_combine_angle_threshold = 45
 
     def detect(self, image: np.ndarray) -> list[SegmentationResult]:
         # Prediction result for one image
@@ -291,15 +295,13 @@ class SegmentationEngine(BaseEngine):
         self,
         branch1: SegmentationResult,
         branch2: SegmentationResult,
-        distance_threshold: int = 50,
-        angle_threshold: int = 45,
     ):
         ep1, ep2, distance = self._get_closest_endpoint_pair(
             branch1.endpoints,
             branch2.endpoints,
         )
 
-        if distance >= distance_threshold:
+        if distance >= self.branch_combine_distance_threshold:
             return False, ep1, ep2, np.inf
 
         angle1 = self._local_endpoint_angle(branch1.skeleton, ep1)
@@ -307,7 +309,7 @@ class SegmentationEngine(BaseEngine):
 
         angle_diff = self._angle_difference_180(angle1, angle2)
 
-        if angle_diff >= angle_threshold:
+        if angle_diff >= self.branch_combine_angle_threshold:
             return False, ep1, ep2, np.inf
 
         score = distance + angle_diff
@@ -316,8 +318,6 @@ class SegmentationEngine(BaseEngine):
     def combine_branches(
         self,
         branches: list[SegmentationResult],
-        distance_threshold: int = 60,
-        angle_threshold: int = 45,
     ) -> list[SegmentationResult]:
         while True:
             best_pair = None
@@ -328,9 +328,7 @@ class SegmentationEngine(BaseEngine):
                 for next_idx, next_branch in enumerate(branches[idx + 1:], start=idx + 1):
                     ok, ep_i, ep_j, score = self.can_combine(
                         branch,
-                        next_branch,
-                        distance_threshold=distance_threshold,
-                        angle_threshold=angle_threshold,
+                        next_branch
                     )
 
                     if ok and score < best_score:
@@ -365,6 +363,7 @@ class SegmentationEngine(BaseEngine):
                 merged_skeleton.astype(np.uint8),
                 max(branches[idx].conf, branches[next_idx].conf),
                 branches[idx].type,
+                branches[idx].num_connections + branches[next_idx].num_connections,
             )
 
             merged_branch.endpoints = self._get_endpoints(merged_skeleton)
@@ -376,25 +375,29 @@ class SegmentationEngine(BaseEngine):
 
         return branches
     
+    def _calculate_branch_points(self, skeleton: np.ndarray) -> np.ndarray:
+        kernel = np.array([
+            [1, 1, 1],
+            [1, 0, 1],
+            [1, 1, 1],
+        ])
+
+        neighbors = convolve(skeleton.astype(np.uint8), kernel, mode="constant", cval=0)
+
+        # Branch points are skeleton pixels with 3+ neighbors
+        branch_points = skeleton & (neighbors >= 3)
+
+        return branch_points
+        
+    
     def find_branches(self, detections: list[SegmentationResult]) -> tuple[list[SegmentationResult], int]:
         # Skel then find first branches with branch points.
         branches = []
         for detection in detections:
             mask = detection.mask
-            skeleton = skeletonize(mask)
-
-            kernel = np.array([
-                [1, 1, 1],
-                [1, 0, 1],
-                [1, 1, 1],
-            ])
-
-            neighbors_8 = convolve(skeleton.astype(np.uint8), kernel, mode="constant", cval=0)
-
-            # Branch points are skeleton pixels with 3+ neighbors
-            branch_points_8 = skeleton & (neighbors_8 >= 3)
-
-            branch_points = branch_points_8
+            skeleton = skeletonize(detection.mask)
+            branch_points = self._calculate_branch_points(skeleton)
+            
             # Junction zone is the area around the branch points to remove them from the skeleton
             junction_zone = dilation(branch_points, disk(5))
 
@@ -414,6 +417,8 @@ class SegmentationEngine(BaseEngine):
                     dilation(component_skeleton, disk(self.junction_radius))
                     & (mask > 0)
                 )
+                
+                num_connections = len(self._calculate_branch_points(component_skeleton))
 
                 branches.append(
                     SegmentationResult(
@@ -421,6 +426,7 @@ class SegmentationEngine(BaseEngine):
                         component_skeleton.astype(np.uint8),
                         detection.conf,
                         detection.type,
+                        num_connections=num_connections,
                     )
                 )
                 
@@ -433,28 +439,24 @@ class SegmentationEngine(BaseEngine):
         branches = self.combine_branches(branches)
         return branches, len(branches)
 
-    def determine_orientation(self, segment: np.ndarray) -> CrackSubtype:
-        # Finds angle of the segment.
-        # If the angle is less than 45 degrees, it is a transverse crack
-        # If the angle is greater than 45 degrees, it is a longitudinal crack
-        # Returns the crack subtype
+    def _acute_axis_angle(self, angle: float) -> float:
+        """Map an undirected axis angle (0-180) to its acute angle vs horizontal (0-90)."""
+        angle = angle % 180
+        return min(angle, 180 - angle)
 
-        endpoints = self._get_endpoints(segment)
-
-        if len(endpoints) < 2:
+    def determine_type(self, segment: np.ndarray, num_connections: int) -> CrackSubtype:
+        # Classify by acute angle to horizontal in image coordinates (row↓, col→).
+        # Assumes road axis is roughly horizontal in the frame.
+        # Near 0° → longitudinal (along road); near 90° → transverse (across road).
+        if num_connections > 10:
             return CrackSubtype.ALLIGATOR
 
-        endpoint1, endpoint2 = self._farthest_endpoint_pair(endpoints)
+        axis_angle = self._branch_axis_angle(segment)
+        acute_angle = self._acute_axis_angle(axis_angle)
 
-        angle = np.arctan2(
-            endpoint2[1] - endpoint1[1], endpoint2[0] - endpoint1[0]
-        )
-        if angle < self.crack_subtype_threshold:
-            return CrackSubtype.TRANSVERSE
-        elif angle > self.crack_subtype_threshold:
+        if acute_angle >= self.crack_subtype_threshold:
             return CrackSubtype.LONGITUDINAL
-        else:
-            return CrackSubtype.ALLIGATOR
+        return CrackSubtype.TRANSVERSE
 
     def preprocess(self, image: np.ndarray) -> np.ndarray:
         """Return a BGR uint8 image ready for YOLO inference."""
@@ -490,12 +492,18 @@ class SegmentationEngine(BaseEngine):
             return Measurement(value=0, unit=self.unit_type)
 
         return Measurement(value=true_distance, unit=self.unit_type)
+    
+    def calculate_area(self, mask: np.ndarray) -> Measurement:
+        area = np.sum(mask)
+        true_area = area * self.unit_ratio * self.unit_ratio
+        return Measurement(value=true_area, unit=self.unit_type)
 
     def calculate_dimensions(self, detection: SegmentationResult) -> Dimensions:
         mask = detection.mask
         thickness = self.calculate_thickness(mask)
         length = self.calculate_length(detection.skeleton)
-        return Dimensions(thickness=thickness, length=length)
+        area = self.calculate_area(detection.mask)
+        return Dimensions(thickness=thickness, length=length, area=area)
 
     def run(self, image: np.ndarray) -> list[Damage]:
         damages = []
@@ -509,15 +517,17 @@ class SegmentationEngine(BaseEngine):
         branches, branch_count = self.find_branches(combined_detections)
 
 
-        for detection in branches:
-            dimensions = self.calculate_dimensions(detection)
-            subtype = self.determine_orientation(detection.skeleton)
+        for branch in branches:
+            dimensions = self.calculate_dimensions(branch)
+            subtype = self.determine_type(branch.skeleton, branch_count)
             damages.append(
                 Damage(
                     id=uuid.uuid4(),
-                    type=detection.type,
+                    mask=branch.mask,
+                    skeleton=branch.skeleton,
+                    type=branch.type,
                     severity=0,
-                    confidence=detection.conf,
+                    confidence=branch.conf,
                     dimensions=dimensions,
                     subtype=subtype,
                     stress_range=self.stress_range,
@@ -525,7 +535,35 @@ class SegmentationEngine(BaseEngine):
                 )
             )
 
-        return damages
+        return damages    
+    
+    
+    def merge_alligator_cracks(self, branches: list[SegmentationResult]) -> Damage:
+        final_mask = np.zeros_like(branches[0].mask)
+        final_skeleton = np.zeros_like(branches[0].skeleton)
+        final_conf = 0
+        final_num_connections = 0
+        final_type = branches[0].type
+        final_stress_range = self.stress_range
+        
+        for branch in branches:
+            final_mask = np.logical_or(final_mask, branch.mask)
+            final_skeleton = np.logical_or(final_skeleton, branch.skeleton)
+            final_conf = max(final_conf, branch.conf)
+            
+        return Damage(
+            id=uuid.uuid4(),
+            mask=final_mask,
+            skeleton=final_skeleton,
+            type=final_type,
+            severity=0,
+            confidence=final_conf,
+            dimensions=self.calculate_dimensions(SegmentationResult(final_mask, final_skeleton, final_conf, final_type)),
+            subtype=CrackSubtype.ALLIGATOR,
+            stress_range=self.stress_range,
+            num_connections=0,
+        )
+            
     
     def run_test(self, segmentation_results: list[SegmentationResult]) -> list[Damage]:
         damages = []
@@ -536,13 +574,23 @@ class SegmentationEngine(BaseEngine):
         # Find branches (individual cracks) for final measurement
         branches, branch_count = self.find_branches(combined_detections)
         
+        
         # Calculate the dimensions and subtype of each branch
         for branch in branches:
             dimensions = self.calculate_dimensions(branch)
-            subtype = self.determine_orientation(branch.skeleton)
+            subtype = self.determine_type(branch.skeleton, branch_count)
+            
+            # Should change eventually, but if any of the cracks are alligator, merge them into one damage and break the loop.
+            if subtype == CrackSubtype.ALLIGATOR:
+                damages.append(self.merge_alligator_cracks(branches))
+                break
+            
+            
             damages.append(
                 Damage(
                     id=uuid.uuid4(),
+                    mask=branch.mask,
+                    skeleton=branch.skeleton,
                     type=branch.type,
                     severity=0,
                     confidence=branch.conf,
@@ -571,6 +619,7 @@ if __name__ == "__main__":
     
     for damage in damages:
         print('--------------------------------')
+        display_matrix(damage.mask, cmap="gray")
         print(damage)
 
     
