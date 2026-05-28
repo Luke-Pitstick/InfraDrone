@@ -1,6 +1,6 @@
 # InfraDrone Engine
 
-InfraDrone analyzes road imagery (typically from drones) to find pavement damage, measure it, and estimate how it may progress over time. The system combines two YOLO-based computer vision models with a physical fatigue model (Paris' Law) to turn raw images into structured damage reports.
+InfraDrone analyzes road imagery, typically from drones, to find pavement damage and measure it from model outputs. The current engine combines YOLO-based detection and segmentation with image post-processing to turn raw frames into structured damage records.
 
 ## How it works
 
@@ -21,8 +21,8 @@ Drone / camera image
          (class, subtype, dimensions, confidence)
                        │
                        ▼
-              Physical simulation (Paris' Law)
-         (stress + crack geometry → growth / severity)
+              Severity / simulation layer
+              (planned, not yet implemented)
                        │
                        ▼
                  Damage report
@@ -63,18 +63,18 @@ Dataset: `datasets/segmentation/crack_segmentation_dataset/`
 
 Mask annotations are generated from binary masks via `src/ml/scripts/segmentation/convert_images_masks.py`.
 
-The `SegmentationEngine` in `src/engine/detection.py` returns mask arrays for each detected region.
+The `SegmentationEngine` in `src/engine/segmentation.py` returns measured `Damage` records for each detected region.
 
 ### 4. Domain model
 
-Raw model outputs are mapped into structured `Damage` objects defined in `src/engine/engine.py`:
+Raw model outputs are mapped into structured `Damage` objects defined in `src/engine/models.py`:
 
 - **Type** — crack or pothole
 - **Subtype** — e.g. longitudinal / transverse / alligator crack, or pothole size
 - **Dimensions** — width and length with unit conversion (cm / inch)
 - **Confidence** — model score
 - **Stress range** — road class (residential → freeway), used by the fatigue model
-- **Severity** — composite rating derived from geometry and simulation
+- **Severity** — currently a placeholder value; severity scoring is still being built
 
 Constants and enums live in `src/engine/constants.py`.
 
@@ -86,19 +86,24 @@ Paris' Law models **fatigue crack growth** under repeated stress:
 da/dN = C · (ΔK)^m
 ```
 
-Where crack length grows per load cycle as a function of stress intensity. InfraDrone uses this to estimate how an observed defect may worsen over time given the road's traffic/stress category (`StressRange` in `constants.py`).
+Where crack length grows per load cycle as a function of stress intensity. InfraDrone is designed to use this to estimate how an observed defect may worsen over time given the road's traffic/stress category (`StressRange` in `constants.py`).
 
-> **Note:** The top-level `Engine` class wires detection and segmentation together; Paris' Law integration and full `predict()` output are still being built out.
+> **Note:** The top-level `Engine` class wires detection and segmentation together. Paris' Law integration, severity scoring, backend persistence, and full prediction output are still being built out.
 
 ## Project layout
 
 ```
 src/
 ├── engine/          # Inference pipeline, preprocessing, domain types
+│   ├── base.py
+│   ├── config.yaml
+│   ├── constants.py
 │   ├── detection.py
-│   ├── preprocessing.py
+│   ├── engine.py
 │   ├── models.py
-│   └── engine.py
+│   ├── preprocessing.py
+│   ├── segmentation.py
+│   └── utils.py
 └── ml/
     ├── configs/     # Shared train.yaml for both models
     ├── scripts/
@@ -208,4 +213,4 @@ line flags. Common edits are:
 | YOLO26s          | Detection     | `yolo26s.pt`     | crack, pothole     |
 | YOLO26s-seg      | Segmentation  | `yolo26s-seg.pt` | crack pixel masks  |
 
-Physical simulation: **Paris' Law** (fatigue crack propagation).
+Planned simulation: **Paris' Law** (fatigue crack propagation).

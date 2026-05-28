@@ -1,6 +1,10 @@
 config:
   detection_model_path: src/ml/models/weights/yolo26s.pt
   segmentation_model_path: src/ml/models/weights/yolo26s-seg.pt
+  frame_directory: data/frames
+  db_path: data/db.sqlite3
+  scalar_unit: cm
+  angle_unit: deg
   detection_img_size: 640
   segmentation_img_size: 448
   detection_confidence_threshold: 0.25

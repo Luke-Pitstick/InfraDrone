@@ -8,6 +8,7 @@ import numpy as np
 from dataclasses import dataclass
 from .constants import StressRange, DamageType, CrackSubtype, PotholeSubtype, UnitTypes
 
+@dataclass
 class DetectionResult:
     """Bounding-box detection produced for one image.
 
@@ -21,20 +22,10 @@ class DetectionResult:
         type: Detected road-damage type.
     """
     
-    def __init__(self, image: np.ndarray, box: np.ndarray, conf: float, type: DamageType) -> None:
-        """Store one bounding-box detection.
-
-        Args:
-            image: Source image (full frame or crop).
-            box: ``[x1, y1, x2, y2]`` in pixel coordinates.
-            conf: Detection confidence in ``[0, 1]``.
-            type: Damage class for this box.
-        """
-        # box format: x1, y1, x2, y2
-        self.image: np.ndarray = image
-        self.box: np.ndarray = box
-        self.conf: float = conf
-        self.type: DamageType = type
+    image: np.ndarray
+    box: np.ndarray
+    conf: float
+    type: DamageType
     
     def __str__(self) -> str:
         """Return a human-readable summary."""
@@ -52,6 +43,7 @@ class DetectionResult:
             "type": self.type
         }
 
+@dataclass
 class SegmentationResult:
     """Segmentation mask and skeleton for one damage instance.
 
@@ -64,27 +56,13 @@ class SegmentationResult:
         endpoints: Skeleton endpoint coordinates as ``[row, col]`` pairs.
         angle: Estimated branch orientation in degrees.
     """
-    def __init__(self, mask: np.ndarray, skeleton: np.ndarray, conf: float, type: DamageType, num_connections: int = 0, endpoints: np.ndarray = np.array([]), angle: float = 0.0) -> None:
-        """Store one segmented damage instance.
-
-        Args:
-            mask: Binary segmentation mask.
-            skeleton: 1-pixel-wide skeleton of the mask.
-            conf: Model confidence for this instance.
-            type: Damage class (crack or pothole).
-            num_connections: Junction count along the skeleton.
-            endpoints: ``(N, 2)`` array of ``[row, col]`` skeleton endpoints.
-            angle: Branch axis angle in degrees.
-        """
-        self.mask: np.ndarray = mask
-        self.skeleton: np.ndarray = skeleton
-        self.conf: float = conf
-        self.type: DamageType = type
-        self.num_connections: int = num_connections
-        self.endpoints: np.ndarray = endpoints
-        self.angle: float = angle
-        
-        
+    mask: np.ndarray
+    skeleton: np.ndarray
+    conf: float
+    type: DamageType
+    num_connections: int
+    endpoints: np.ndarray
+    angle: float
     
     def __str__(self) -> str:
         """Return a human-readable summary."""

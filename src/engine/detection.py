@@ -17,16 +17,18 @@ CLASS_MAP = {
 class DetectionEngine(BaseEngine):
     """Run YOLO object detection for road damage (cracks and potholes)."""
 
-    def __init__(self, model_path: str, img_size: tuple = (640, 640)) -> None:
-        """Load a YOLO detection model and configure output units.
+    def __init__(self, model_path: str, img_size: tuple = (640, 640), confidence_threshold: float = 0.25) -> None:
+        """Load a YOLO detection model and configure output units and confidence threshold.
 
         Args:
             model_path: Path to the YOLO weights file.
             img_size: Inference size passed to YOLO as ``imgsz``.
+            confidence_threshold: Confidence threshold for detections.
         """
         super().__init__(unit_type=UnitTypes.cm, width_ratio=1, height_ratio=1)
         self.model = YOLO(model_path)
         self.img_size = img_size
+        self.confidence_threshold = confidence_threshold
 
     def detect(self, image: np.ndarray) -> list[DetectionResult]:
         """Run YOLO on a single image and return bounding-box detections.
@@ -73,9 +75,9 @@ class DetectionEngine(BaseEngine):
             detections: Raw model outputs.
 
         Returns:
-            Detections with ``conf > 0.5``.
+            Detections with ``conf > self.confidence_threshold``.
         """
-        detections = [detection for detection in detections if detection.conf > 0.5]
+        detections = [detection for detection in detections if detection.conf > self.confidence_threshold]
         return detections
 
     def crop_images(self, detections: list[DetectionResult]) -> list[DetectionResult]:

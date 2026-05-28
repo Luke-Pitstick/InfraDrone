@@ -149,7 +149,8 @@ class Engine:
         
         # Initialize sub-engines
         self.detection_engine = DetectionEngine(
-            model_path=self.cfg["detection_model_path"]
+            model_path=self.cfg["detection_model_path"],
+            confidence_threshold=self.cfg["detection_confidence_threshold"]
         )
         self.segmentation_engine = SegmentationEngine(
             model_path=self.cfg["segmentation_model_path"]
