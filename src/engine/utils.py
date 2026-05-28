@@ -4,6 +4,7 @@ import cv2
 from pathlib import Path
 
 def _grid_shape(count: int, max_cols: int) -> tuple[int, int]:
+    """Return subplot grid rows and columns for ``count`` panels."""
     cols = min(max_cols, count)
     rows = (count + cols - 1) // cols
     return rows, cols

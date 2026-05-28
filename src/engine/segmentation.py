@@ -1,3 +1,10 @@
+"""Road-damage segmentation and crack-branch analysis.
+
+This module wraps a YOLO segmentation model, turns instance masks into
+skeletonized crack branches, merges likely split detections, and emits
+measurement-rich damage records.
+"""
+
 from ultralytics.models import YOLO
 import numpy as np
 import skimage as ski
@@ -24,7 +31,19 @@ CLASS_MAP = {0: DamageType.CRACK, 1: DamageType.POTHOLE}
 
 
 class SegmentationEngine(BaseEngine):
+    """YOLO-backed engine for segmenting and measuring road-surface damage.
+
+    The engine handles preprocessing, mask extraction, skeleton analysis, branch
+    merging, crack subtype classification, and final ``Damage`` construction.
+    """
+
     def __init__(self, model_path: str, img_size: tuple = (640, 640)) -> None:
+        """Load a YOLO segmentation model and branch-analysis settings.
+
+        Args:
+            model_path: Path to the YOLO segmentation weights file.
+            img_size: Inference size passed to YOLO as ``imgsz``.
+        """
         super().__init__(unit_type=UnitTypes.px, width_ratio=0, height_ratio=0)
         
         # Engine Settings
@@ -50,7 +69,14 @@ class SegmentationEngine(BaseEngine):
         self.branch_combine_angle_threshold = 45
 
     def detect(self, image: np.ndarray) -> list[SegmentationResult]:
-        # Prediction result for one image
+        """Run YOLO segmentation and return binary masks with skeletons.
+
+        Args:
+            image: BGR image array.
+
+        Returns:
+            One ``SegmentationResult`` per instance mask.
+        """
         result = self.model([image], imgsz=self.img_size)[0].cpu().numpy()
 
         segmentation_results = []
@@ -82,6 +108,17 @@ class SegmentationEngine(BaseEngine):
         endpoint1: np.ndarray,
         endpoint2: np.ndarray,
     ) -> np.ndarray:
+        """Merge two masks and draw a line between two skeleton endpoints.
+
+        Args:
+            mask1: First binary mask.
+            mask2: Second binary mask.
+            endpoint1: ``[row, col]`` on the first skeleton.
+            endpoint2: ``[row, col]`` on the second skeleton.
+
+        Returns:
+            Combined mask with a connecting line drawn between endpoints.
+        """
         combined_mask = np.logical_or(mask1, mask2).astype(np.uint8)
 
         # Update line to use binary dialation to have a realistic radius.
@@ -98,6 +135,14 @@ class SegmentationEngine(BaseEngine):
         return combined_mask
 
     def get_endpoints(self, mask: np.ndarray) -> np.ndarray:
+        """Find skeleton endpoints using 8- or 4-connected neighbor counts.
+
+        Args:
+            mask: Binary damage mask.
+
+        Returns:
+            Array of shape ``(N, 2)`` with ``[row, col]`` endpoint coordinates.
+        """
         # Thin the mask to get pixels
         skeleton_mask = skeletonize(mask)
 
@@ -140,6 +185,16 @@ class SegmentationEngine(BaseEngine):
     def closest_endpoint_pair(
         self, endpoints1: np.ndarray, endpoints2: np.ndarray
     ) -> tuple[np.ndarray, np.ndarray, float]:
+        """Return the closest endpoint pair across two endpoint sets.
+
+        Args:
+            endpoints1: Endpoints from the first branch, shape ``(N, 2)``.
+            endpoints2: Endpoints from the second branch, shape ``(M, 2)``.
+
+        Returns:
+            ``(endpoint1, endpoint2, distance)`` in pixels, or empty arrays and
+            ``inf`` if either set is empty.
+        """
         if len(endpoints1) == 0 or len(endpoints2) == 0:
             return np.array([]), np.array([]), np.inf
 
@@ -149,8 +204,19 @@ class SegmentationEngine(BaseEngine):
         i, j = np.unravel_index(np.argmin(distances), distances.shape)
 
         return endpoints1[i], endpoints2[j], distances[i, j]
-    
+
     def farthest_endpoint_pair(self, endpoints: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        """Return the two endpoints with maximum Euclidean separation.
+
+        Args:
+            endpoints: Array of shape ``(N, 2)`` with ``[row, col]`` coordinates.
+
+        Returns:
+            The two endpoints that span the longest chord of the set.
+
+        Raises:
+            ValueError: If fewer than two endpoints are provided.
+        """
         if len(endpoints) < 2:
             raise ValueError("Need at least 2 endpoints")
         if len(endpoints) == 2:
@@ -164,6 +230,14 @@ class SegmentationEngine(BaseEngine):
     def combine_like_detections(
         self, detections: list[SegmentationResult]
     ) -> list[SegmentationResult]:
+        """Merge nearby mask pairs by bridging closest skeleton endpoints.
+
+        Args:
+            detections: Segmentation masks from YOLO.
+
+        Returns:
+            Combined masks where endpoint distance is below ``combine_threshold``.
+        """
         if not detections:
             return []
 
@@ -224,11 +298,26 @@ class SegmentationEngine(BaseEngine):
     
     
     def angle_difference_180(self, a: float, b: float) -> float:
-        # Lines are undirected, so 10° and 190° are equivalent.
+        """Return the smallest angular difference between two undirected line angles.
+
+        Args:
+            a: First angle in degrees, in ``[0, 180)``.
+            b: Second angle in degrees, in ``[0, 180)``.
+
+        Returns:
+            Acute difference in degrees, in ``[0, 90]``.
+        """
         return abs((a - b + 90) % 180 - 90)
 
-
     def branch_axis_angle(self, mask: np.ndarray) -> float:
+        """Estimate overall branch orientation from farthest skeleton endpoints.
+
+        Args:
+            mask: Binary branch or skeleton mask.
+
+        Returns:
+            Axis angle in degrees in ``[0, 180)``, using ``arctan2(Δrow, Δcol)``.
+        """
         endpoints = self.get_endpoints(mask)
 
         if len(endpoints) < 2:
@@ -247,6 +336,16 @@ class SegmentationEngine(BaseEngine):
 
 
     def local_endpoint_angle(self, mask: np.ndarray, endpoint: np.ndarray, radius: int = 25) -> float:
+        """Estimate tangent direction near an endpoint using local PCA on the skeleton.
+
+        Args:
+            mask: Binary branch mask.
+            endpoint: ``[row, col]`` point on the skeleton.
+            radius: Pixel radius for collecting local skeleton points.
+
+        Returns:
+            Local direction angle in degrees, in ``[0, 180)``.
+        """
         skeleton = skeletonize(mask > 0)
         points = np.argwhere(skeleton)
 
@@ -269,6 +368,15 @@ class SegmentationEngine(BaseEngine):
         return angle
 
     def make_branch_object(self, mask: np.ndarray) -> dict:
+        """Build lightweight branch metadata for a binary branch mask.
+
+        Args:
+            mask: Binary mask for a single crack branch.
+
+        Returns:
+            Dictionary containing the original mask, endpoint coordinates, and
+            estimated branch axis angle.
+        """
         return {
             "branch": mask,
             "endpoints": self.get_endpoints(mask),
@@ -276,26 +384,49 @@ class SegmentationEngine(BaseEngine):
         }
         
     def angle_between_points(self, p1: np.ndarray, p2: np.ndarray) -> float:
+        """Return the undirected angle from ``p1`` to ``p2`` in image coordinates.
+
+        Args:
+            p1: Starting point as ``[row, col]``.
+            p2: Ending point as ``[row, col]``.
+
+        Returns:
+            Angle in degrees in ``[0, 180)``.
+        """
         row1, col1 = p1
         row2, col2 = p2
         return np.degrees(np.arctan2(row2 - row1, col2 - col1)) % 180
 
     def get_closest_endpoint_pair(self, endpoints1: np.ndarray, endpoints2: np.ndarray) -> tuple[np.ndarray, np.ndarray, float]:
-        if len(endpoints1) == 0 or len(endpoints2) == 0:
-            return np.array([]), np.array([]), np.inf
+        """Return the closest endpoint pair across two endpoint arrays.
 
-        diffs = endpoints1[:, None, :] - endpoints2[None, :, :]
-        distances = np.linalg.norm(diffs, axis=2)
+        This method preserves the older public helper name while delegating to
+        ``closest_endpoint_pair``.
 
-        i, j = np.unravel_index(np.argmin(distances), distances.shape)
+        Args:
+            endpoints1: Endpoints from the first branch, shape ``(N, 2)``.
+            endpoints2: Endpoints from the second branch, shape ``(M, 2)``.
 
-        return endpoints1[i], endpoints2[j], distances[i, j]
+        Returns:
+            ``(endpoint1, endpoint2, distance)`` in pixels.
+        """
+        return self.closest_endpoint_pair(endpoints1, endpoints2)
 
     def can_combine(
         self,
         branch1: SegmentationResult,
         branch2: SegmentationResult,
     ):
+        """Check whether two branches are close enough and aligned to merge.
+
+        Args:
+            branch1: First branch with precomputed ``endpoints``.
+            branch2: Second branch with precomputed ``endpoints``.
+
+        Returns:
+            ``(ok, endpoint1, endpoint2, score)`` where ``score`` is lower when
+            branches are a better merge candidate.
+        """
         ep1, ep2, distance = self.get_closest_endpoint_pair(
             branch1.endpoints,
             branch2.endpoints,
@@ -319,6 +450,14 @@ class SegmentationEngine(BaseEngine):
         self,
         branches: list[SegmentationResult],
     ) -> list[SegmentationResult]:
+        """Iteratively merge the best eligible branch pair until none remain.
+
+        Args:
+            branches: Individual crack branches with endpoints populated.
+
+        Returns:
+            Reduced branch list after greedy pairwise merging.
+        """
         while True:
             best_pair = None
             best_endpoints = (np.array([]), np.array([]))
@@ -376,6 +515,15 @@ class SegmentationEngine(BaseEngine):
         return branches
     
     def calculate_branch_points(self, skeleton: np.ndarray) -> np.ndarray:
+        """Find junction pixels in a skeletonized crack mask.
+
+        Args:
+            skeleton: Binary skeleton mask.
+
+        Returns:
+            Boolean mask where pixels with three or more 8-connected neighbors
+            are marked as branch points.
+        """
         kernel = np.array([
             [1, 1, 1],
             [1, 0, 1],
@@ -391,7 +539,14 @@ class SegmentationEngine(BaseEngine):
         
     
     def find_branches(self, detections: list[SegmentationResult]) -> tuple[list[SegmentationResult], int]:
-        # Skel then find first branches with branch points.
+        """Split masks into individual branches at skeleton junctions and merge nearby ones.
+
+        Args:
+            detections: Combined segmentation masks.
+
+        Returns:
+            ``(branches, branch_count)`` after pruning, endpoint extraction, and merging.
+        """
         branches = []
         for detection in detections:
             mask = detection.mask
@@ -440,14 +595,30 @@ class SegmentationEngine(BaseEngine):
         return branches, len(branches)
 
     def acute_axis_angle(self, angle: float) -> float:
-        """Map an undirected axis angle (0-180) to its acute angle vs horizontal (0-90)."""
+        """Map an undirected axis angle to its acute angle from horizontal.
+
+        Args:
+            angle: Axis angle in degrees.
+
+        Returns:
+            Acute angle in degrees in ``[0, 90]``.
+        """
         angle = angle % 180
         return min(angle, 180 - angle)
 
     def determine_type(self, segment: np.ndarray, num_connections: int) -> CrackSubtype:
-        # Classify by acute angle to horizontal in image coordinates (row↓, col→).
-        # Assumes road axis is roughly horizontal in the frame.
-        # Near 0° → longitudinal (along road); near 90° → transverse (across road).
+        """Classify a crack branch as longitudinal, transverse, or alligator.
+
+        Uses acute angle to horizontal, assuming the road axis is roughly horizontal
+        in the image. High junction counts are treated as alligator cracking.
+
+        Args:
+            segment: Branch skeleton or mask.
+            num_connections: Junction/branch count used for alligator detection.
+
+        Returns:
+            ``CrackSubtype`` for the branch.
+        """
         if num_connections > 10:
             return CrackSubtype.ALLIGATOR
 
@@ -459,10 +630,25 @@ class SegmentationEngine(BaseEngine):
         return CrackSubtype.TRANSVERSE
 
     def preprocess(self, image: np.ndarray) -> np.ndarray:
-        """Return a BGR uint8 image ready for YOLO inference."""
+        """Enhance an image before YOLO segmentation.
+
+        Args:
+            image: Input image array.
+
+        Returns:
+            Preprocessed image resized for ``self.img_size``.
+        """
         return enhance_for_road_damage(image, size=self.img_size)
 
     def calculate_thickness(self, mask: np.ndarray) -> Measurement:
+        """Estimate mean crack thickness from the distance transform.
+
+        Args:
+            mask: Binary crack mask.
+
+        Returns:
+            Mean crack thickness as a ``Measurement`` in the engine unit type.
+        """
         skel = skeletonize(mask)
 
         dist = distance_transform_edt(mask) if skel is not None else None
@@ -478,6 +664,14 @@ class SegmentationEngine(BaseEngine):
         return Measurement(value=true_mean_width, unit=self.unit_type)
 
     def calculate_length(self, skeleton: np.ndarray) -> Measurement:
+        """Estimate crack length from the farthest pair of skeleton endpoints.
+
+        Args:
+            skeleton: Binary crack skeleton.
+
+        Returns:
+            Endpoint-to-endpoint crack length as a ``Measurement``.
+        """
         endpoints = self.get_endpoints(skeleton)
 
         if len(endpoints) < 2:
@@ -494,11 +688,27 @@ class SegmentationEngine(BaseEngine):
         return Measurement(value=true_distance, unit=self.unit_type)
     
     def calculate_area(self, mask: np.ndarray) -> Measurement:
+        """Calculate crack area from foreground mask pixels.
+
+        Args:
+            mask: Binary crack mask.
+
+        Returns:
+            Area as a ``Measurement`` after applying the configured unit ratio.
+        """
         area = np.sum(mask)
         true_area = area * self.unit_ratio * self.unit_ratio
         return Measurement(value=true_area, unit=self.unit_type)
 
     def calculate_dimensions(self, detection: SegmentationResult) -> Dimensions:
+        """Compute all geometric dimensions for a segmentation result.
+
+        Args:
+            detection: Segmentation result with mask and skeleton arrays.
+
+        Returns:
+            ``Dimensions`` containing thickness, length, and area measurements.
+        """
         mask = detection.mask
         thickness = self.calculate_thickness(mask)
         length = self.calculate_length(detection.skeleton)
@@ -506,6 +716,14 @@ class SegmentationEngine(BaseEngine):
         return Dimensions(thickness=thickness, length=length, area=area)
 
     def run(self, image: np.ndarray) -> list[Damage]:
+        """Run the full segmentation pipeline on an image.
+
+        Args:
+            image: Raw image array to preprocess and segment.
+
+        Returns:
+            Damage records for the detected crack branches.
+        """
         damages = []
         preprocessed = self.preprocess(image)
         detections = self.detect(preprocessed)
@@ -539,6 +757,14 @@ class SegmentationEngine(BaseEngine):
     
     
     def merge_alligator_cracks(self, branches: list[SegmentationResult]) -> Damage:
+        """Merge all crack branches into one alligator-crack damage record.
+
+        Args:
+            branches: Branches that should be represented as one alligator crack.
+
+        Returns:
+            A single ``Damage`` object with unioned mask and skeleton arrays.
+        """
         final_mask = np.zeros_like(branches[0].mask)
         final_skeleton = np.zeros_like(branches[0].skeleton)
         final_conf = 0
@@ -564,6 +790,17 @@ class SegmentationEngine(BaseEngine):
             
     
     def run_test(self, segmentation_results: list[SegmentationResult]) -> list[Damage]:
+        """Run post-processing on precomputed segmentation masks.
+
+        This is useful for tests and offline mask inspection because it skips
+        preprocessing and YOLO inference.
+
+        Args:
+            segmentation_results: Precomputed masks and skeletons.
+
+        Returns:
+            Damage records produced from the supplied segmentation results.
+        """
         damages = []
         
         # Combine like detections to fix errors in the mask making
