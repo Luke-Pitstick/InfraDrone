@@ -75,7 +75,7 @@ class SegmentationEngine(BaseEngine):
 
         return segmentation_results
 
-    def _combine_endpoints(
+    def combine_endpoints(
         self,
         mask1: np.ndarray,
         mask2: np.ndarray,
@@ -97,7 +97,7 @@ class SegmentationEngine(BaseEngine):
 
         return combined_mask
 
-    def _get_endpoints(self, mask: np.ndarray) -> np.ndarray:
+    def get_endpoints(self, mask: np.ndarray) -> np.ndarray:
         # Thin the mask to get pixels
         skeleton_mask = skeletonize(mask)
 
@@ -137,7 +137,7 @@ class SegmentationEngine(BaseEngine):
 
         return endpoints
 
-    def _closest_endpoint_pair(
+    def closest_endpoint_pair(
         self, endpoints1: np.ndarray, endpoints2: np.ndarray
     ) -> tuple[np.ndarray, np.ndarray, float]:
         if len(endpoints1) == 0 or len(endpoints2) == 0:
@@ -150,7 +150,7 @@ class SegmentationEngine(BaseEngine):
 
         return endpoints1[i], endpoints2[j], distances[i, j]
     
-    def _farthest_endpoint_pair(self, endpoints: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    def farthest_endpoint_pair(self, endpoints: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
         if len(endpoints) < 2:
             raise ValueError("Need at least 2 endpoints")
         if len(endpoints) == 2:
@@ -171,7 +171,7 @@ class SegmentationEngine(BaseEngine):
         combined_results = []
 
         endpoints_by_index = [
-            self._get_endpoints(detection.mask) for detection in detections
+            self.get_endpoints(detection.mask) for detection in detections
         ]
 
         for i, detection in enumerate(detections):
@@ -190,13 +190,13 @@ class SegmentationEngine(BaseEngine):
                 next_detection = detections[j]
                 next_endpoints = endpoints_by_index[j]
 
-                endpoint1, endpoint2, distance = self._closest_endpoint_pair(
+                endpoint1, endpoint2, distance = self.closest_endpoint_pair(
                     current_endpoints,
                     next_endpoints,
                 )
 
                 if distance < self.combine_threshold:
-                    current_mask = self._combine_endpoints(
+                    current_mask = self.combine_endpoints(
                         current_mask,
                         next_detection.mask,
                         endpoint1,
@@ -207,7 +207,7 @@ class SegmentationEngine(BaseEngine):
                     used.add(j)
 
                     # Recompute endpoints because the mask changed.
-                    current_endpoints = self._get_endpoints(current_mask)
+                    current_endpoints = self.get_endpoints(current_mask)
 
             used.add(i)
             current_skeleton = skeletonize(current_mask > 0).astype(np.uint8)
@@ -223,21 +223,21 @@ class SegmentationEngine(BaseEngine):
         return combined_results
     
     
-    def _angle_difference_180(self, a: float, b: float) -> float:
+    def angle_difference_180(self, a: float, b: float) -> float:
         # Lines are undirected, so 10° and 190° are equivalent.
         return abs((a - b + 90) % 180 - 90)
 
 
-    def _branch_axis_angle(self, mask: np.ndarray) -> float:
-        endpoints = self._get_endpoints(mask)
+    def branch_axis_angle(self, mask: np.ndarray) -> float:
+        endpoints = self.get_endpoints(mask)
 
         if len(endpoints) < 2:
             pixels = np.argwhere(mask > 0)
             if len(pixels) < 2:
                 return 0.0
-            ep0, ep1 = self._farthest_endpoint_pair(pixels)
+            ep0, ep1 = self.farthest_endpoint_pair(pixels)
         else:
-            ep0, ep1 = self._farthest_endpoint_pair(endpoints)
+            ep0, ep1 = self.farthest_endpoint_pair(endpoints)
 
         row0, col0 = ep0
         row1, col1 = ep1
@@ -246,7 +246,7 @@ class SegmentationEngine(BaseEngine):
         return angle
 
 
-    def _local_endpoint_angle(self, mask: np.ndarray, endpoint: np.ndarray, radius: int = 25) -> float:
+    def local_endpoint_angle(self, mask: np.ndarray, endpoint: np.ndarray, radius: int = 25) -> float:
         skeleton = skeletonize(mask > 0)
         points = np.argwhere(skeleton)
 
@@ -268,19 +268,19 @@ class SegmentationEngine(BaseEngine):
 
         return angle
 
-    def _make_branch_object(self, mask: np.ndarray) -> dict:
+    def make_branch_object(self, mask: np.ndarray) -> dict:
         return {
             "branch": mask,
-            "endpoints": self._get_endpoints(mask),
-            "angle": self._branch_axis_angle(mask),
+            "endpoints": self.get_endpoints(mask),
+            "angle": self.branch_axis_angle(mask),
         }
         
-    def _angle_between_points(self, p1: np.ndarray, p2: np.ndarray) -> float:
+    def angle_between_points(self, p1: np.ndarray, p2: np.ndarray) -> float:
         row1, col1 = p1
         row2, col2 = p2
         return np.degrees(np.arctan2(row2 - row1, col2 - col1)) % 180
 
-    def _get_closest_endpoint_pair(self, endpoints1: np.ndarray, endpoints2: np.ndarray) -> tuple[np.ndarray, np.ndarray, float]:
+    def get_closest_endpoint_pair(self, endpoints1: np.ndarray, endpoints2: np.ndarray) -> tuple[np.ndarray, np.ndarray, float]:
         if len(endpoints1) == 0 or len(endpoints2) == 0:
             return np.array([]), np.array([]), np.inf
 
@@ -296,7 +296,7 @@ class SegmentationEngine(BaseEngine):
         branch1: SegmentationResult,
         branch2: SegmentationResult,
     ):
-        ep1, ep2, distance = self._get_closest_endpoint_pair(
+        ep1, ep2, distance = self.get_closest_endpoint_pair(
             branch1.endpoints,
             branch2.endpoints,
         )
@@ -304,10 +304,10 @@ class SegmentationEngine(BaseEngine):
         if distance >= self.branch_combine_distance_threshold:
             return False, ep1, ep2, np.inf
 
-        angle1 = self._local_endpoint_angle(branch1.skeleton, ep1)
-        angle2 = self._local_endpoint_angle(branch2.skeleton, ep2)
+        angle1 = self.local_endpoint_angle(branch1.skeleton, ep1)
+        angle2 = self.local_endpoint_angle(branch2.skeleton, ep2)
 
-        angle_diff = self._angle_difference_180(angle1, angle2)
+        angle_diff = self.angle_difference_180(angle1, angle2)
 
         if angle_diff >= self.branch_combine_angle_threshold:
             return False, ep1, ep2, np.inf
@@ -342,14 +342,14 @@ class SegmentationEngine(BaseEngine):
             idx, next_idx = best_pair
             ep_i, ep_j = best_endpoints
 
-            merged_mask = self._combine_endpoints(
+            merged_mask = self.combine_endpoints(
                 branches[idx].mask,
                 branches[next_idx].mask,
                 ep_i,
                 ep_j,
             )
 
-            merged_skeleton = self._combine_endpoints(
+            merged_skeleton = self.combine_endpoints(
                 branches[idx].skeleton,
                 branches[next_idx].skeleton,
                 ep_i,
@@ -366,7 +366,7 @@ class SegmentationEngine(BaseEngine):
                 branches[idx].num_connections + branches[next_idx].num_connections,
             )
 
-            merged_branch.endpoints = self._get_endpoints(merged_skeleton)
+            merged_branch.endpoints = self.get_endpoints(merged_skeleton)
 
             for remove_idx in sorted([idx, next_idx], reverse=True):
                 branches.pop(remove_idx)
@@ -375,7 +375,7 @@ class SegmentationEngine(BaseEngine):
 
         return branches
     
-    def _calculate_branch_points(self, skeleton: np.ndarray) -> np.ndarray:
+    def calculate_branch_points(self, skeleton: np.ndarray) -> np.ndarray:
         kernel = np.array([
             [1, 1, 1],
             [1, 0, 1],
@@ -396,7 +396,7 @@ class SegmentationEngine(BaseEngine):
         for detection in detections:
             mask = detection.mask
             skeleton = skeletonize(detection.mask)
-            branch_points = self._calculate_branch_points(skeleton)
+            branch_points = self.calculate_branch_points(skeleton)
             
             # Junction zone is the area around the branch points to remove them from the skeleton
             junction_zone = dilation(branch_points, disk(5))
@@ -418,7 +418,7 @@ class SegmentationEngine(BaseEngine):
                     & (mask > 0)
                 )
                 
-                num_connections = len(self._calculate_branch_points(component_skeleton))
+                num_connections = len(self.calculate_branch_points(component_skeleton))
 
                 branches.append(
                     SegmentationResult(
@@ -432,14 +432,14 @@ class SegmentationEngine(BaseEngine):
                 
         # Calculate the endpoints 
         for branch in branches:
-            endpoints = self._get_endpoints(branch.skeleton)
+            endpoints = self.get_endpoints(branch.skeleton)
             branch.endpoints = endpoints
             
         # Merge branches that are close to each other.
         branches = self.combine_branches(branches)
         return branches, len(branches)
 
-    def _acute_axis_angle(self, angle: float) -> float:
+    def acute_axis_angle(self, angle: float) -> float:
         """Map an undirected axis angle (0-180) to its acute angle vs horizontal (0-90)."""
         angle = angle % 180
         return min(angle, 180 - angle)
@@ -451,8 +451,8 @@ class SegmentationEngine(BaseEngine):
         if num_connections > 10:
             return CrackSubtype.ALLIGATOR
 
-        axis_angle = self._branch_axis_angle(segment)
-        acute_angle = self._acute_axis_angle(axis_angle)
+        axis_angle = self.branch_axis_angle(segment)
+        acute_angle = self.acute_axis_angle(axis_angle)
 
         if acute_angle >= self.crack_subtype_threshold:
             return CrackSubtype.LONGITUDINAL
@@ -478,12 +478,12 @@ class SegmentationEngine(BaseEngine):
         return Measurement(value=true_mean_width, unit=self.unit_type)
 
     def calculate_length(self, skeleton: np.ndarray) -> Measurement:
-        endpoints = self._get_endpoints(skeleton)
+        endpoints = self.get_endpoints(skeleton)
 
         if len(endpoints) < 2:
             return Measurement(value=0, unit=self.unit_type)
 
-        endpoint1, endpoint2 = self._farthest_endpoint_pair(endpoints)
+        endpoint1, endpoint2 = self.farthest_endpoint_pair(endpoints)
         distance = float(np.linalg.norm(endpoint2 - endpoint1))
         
         true_distance = distance * self.unit_ratio
@@ -542,9 +542,7 @@ class SegmentationEngine(BaseEngine):
         final_mask = np.zeros_like(branches[0].mask)
         final_skeleton = np.zeros_like(branches[0].skeleton)
         final_conf = 0
-        final_num_connections = 0
         final_type = branches[0].type
-        final_stress_range = self.stress_range
         
         for branch in branches:
             final_mask = np.logical_or(final_mask, branch.mask)

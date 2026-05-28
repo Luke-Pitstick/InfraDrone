@@ -1,5 +1,6 @@
 from ultralytics.models import YOLO
 import numpy as np
+import cv2
 
 from .preprocessing import enhance_for_road_damage
 from .models import DetectionResult
@@ -63,4 +64,16 @@ class DetectionEngine(BaseEngine):
         preprocessed = self.preprocess(image)
         return self.post_process(self.detect(preprocessed))
     
+    def run_test(self, image: np.ndarray) -> list[DetectionResult]:
+        preprocessed = self.preprocess(image)
+        return self.post_process(self.detect(preprocessed))
     
+
+if __name__ == "__main__":
+    MODEL_PATH = "/Users/lukepitstick/Projects/Data-Science/InfraDrone/src/ml/models/weights/yolo26s-seg.pt"
+    IMAGE_PATH = "/Users/lukepitstick/Projects/Data-Science/InfraDrone/datasets/detection/RD2022/test/images/China_Drone_000401.jpg"
+    
+    engine = DetectionEngine(MODEL_PATH)
+    image = cv2.imread(IMAGE_PATH)
+    detections = engine.run_test(image)
+    print(detections)

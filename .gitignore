@@ -377,3 +377,5 @@ weights/
 
 # Vendored third-party repos (use pip/uv ultralytics instead)
 lib/
+
+screenshots/
