@@ -10,22 +10,27 @@ Drone / camera image
         ▼
   Preprocessing (resize, CLAHE, denoise)
         │
-        ├──────────────────────────────┐
-        ▼                              ▼
-  Detection (YOLO26s)          Segmentation (YOLO26s-seg)
-  "Where are cracks/potholes?"  "What is the exact crack shape?"
-        │                              │
-        └──────────────┬───────────────┘
-                       ▼
-              Post-processing & domain mapping
-         (class, subtype, dimensions, confidence)
-                       │
-                       ▼
-              Severity / simulation layer
-              (planned, not yet implemented)
-                       │
-                       ▼
-                 Damage report
+        ▼
+  Detection (YOLO26s)
+  "Where are cracks/potholes?"
+        │
+        ▼
+  Crop detected regions
+        │
+        ▼
+  Segmentation (YOLO26s-seg)
+  "What is the exact crack shape?"
+        │
+        ▼
+  Post-processing & domain mapping
+  (class, subtype, dimensions, confidence)
+        │
+        ▼
+  Severity / simulation layer
+  (planned, not yet implemented)
+        │
+        ▼
+  Damage report
 ```
 
 ### 1. Preprocessing
