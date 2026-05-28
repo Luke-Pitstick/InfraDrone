@@ -1,0 +1,7 @@
+# Keep exploratory notebooks from dominating GitHub language statistics.
+*.ipynb linguist-documentation
+
+# Treat trained model artifacts and generated training outputs as non-source.
+*.pt binary -diff linguist-vendored
+runs/** linguist-generated=true
+screenshots/** linguist-generated=true
