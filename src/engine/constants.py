@@ -48,3 +48,5 @@ class UnitTypes(str, Enum):
     cm = "cm"
     inch = "inch"
     px = "px"
+    deg = "deg"
+    rad = "rad"

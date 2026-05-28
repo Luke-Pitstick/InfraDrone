@@ -95,7 +95,7 @@ class DetectionEngine(BaseEngine):
             ]
         return detections
 
-    def run(self, image: np.ndarray) -> list[DetectionResult]:
+    def process_frame(self, image: np.ndarray) -> list[DetectionResult]:
         """Preprocess, detect, crop, and filter detections for one image.
 
         Args:
@@ -111,7 +111,7 @@ class DetectionEngine(BaseEngine):
 
         return detections
 
-    def run_test(self, image: np.ndarray) -> list[DetectionResult]:
+    def _process_frame_test(self, image: np.ndarray) -> list[DetectionResult]:
         """Detect and filter without cropping (for quick tests).
 
         Args:
@@ -130,5 +130,5 @@ if __name__ == "__main__":
 
     engine = DetectionEngine(MODEL_PATH)
     image = cv2.imread(IMAGE_PATH)
-    detections = engine.run_test(image)
+    detections = engine._process_frame_test(image)
     print(detections)

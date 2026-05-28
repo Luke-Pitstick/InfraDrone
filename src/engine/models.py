@@ -1,6 +1,8 @@
 """Data containers returned by the detection and segmentation engines."""
 
 import uuid
+from pathlib import Path
+from datetime import datetime
 
 import numpy as np
 from dataclasses import dataclass
@@ -101,7 +103,7 @@ class SegmentationResult:
         }
 
 @dataclass
-class Measurement:
+class ScalarMeasurement:
     """Scalar measurement with an associated unit.
 
     Attributes:
@@ -166,7 +168,7 @@ class Measurement:
 
 
 @dataclass
-class Dimensions:
+class DamageDimensions:
     """Geometric measurements for one damage instance.
 
     Attributes:
@@ -174,9 +176,9 @@ class Dimensions:
         length: Estimated crack or damage length.
         area: Estimated foreground area.
     """
-    thickness: Measurement
-    length: Measurement
-    area: Measurement
+    thickness: ScalarMeasurement
+    length: ScalarMeasurement
+    area: ScalarMeasurement
     
     def __str__(self) -> str:
         """Return a human-readable summary."""
@@ -216,7 +218,7 @@ class Damage:
     type: DamageType
     severity: int
     confidence: float
-    dimensions: Dimensions
+    dimensions: DamageDimensions
     subtype: CrackSubtype | PotholeSubtype
     stress_range: StressRange
     num_connections: int
@@ -241,3 +243,77 @@ class Damage:
             "stress_range": self.stress_range,
             "num_connections": self.num_connections
         }
+
+# Frame Models
+
+@dataclass
+class AngleMeasurement:
+    """
+    Angle measurement with an associated unit.
+    """
+    value: float
+    unit: UnitTypes
+    
+    def to_degrees(self, value: float) -> float:
+        """Convert a value from this measurement's unit to degrees.
+
+        Args:
+            value: Numeric value expressed in ``self.unit``.
+
+        Returns:
+            Converted value in degrees.
+        """
+        if self.unit == UnitTypes.deg:
+            return value
+        elif self.unit == UnitTypes.rad:
+            return value * (180 / np.pi)
+        else:
+            raise ValueError(f"Invalid measurement unit: {self}")
+    
+    def to_radians(self, value: float) -> float:
+        """Convert a value from this measurement's unit to radians.
+
+        Args:
+            value: Numeric value expressed in ``self.unit``.
+
+        Returns:
+            Converted value in radians.
+        """
+        if self.unit == UnitTypes.deg:
+            return value * (np.pi / 180)
+        elif self.unit == UnitTypes.rad:
+            return value
+        else:
+            raise ValueError(f"Invalid measurement unit: {self}")
+    
+    def __str__(self) -> str:
+        """Return a human-readable summary."""
+        return f"AngleMeasurement(value: {self.value}, unit: {self.unit})"
+
+    def __repr__(self) -> str:
+        """Return the same string as :meth:`__str__`."""
+        return self.__str__()
+
+    def to_dict(self) -> dict:
+        """Return a dictionary representation of the angle measurement."""
+        return {
+            "value": self.value,
+            "unit": self.unit
+        }
+
+@dataclass
+class Frame:
+    """
+    Frame object that contains the frame data and metadata.
+    """
+    id: str
+    filepath: Path
+    timestamp: datetime
+    coordinates: tuple[int, int]
+    processed: bool
+    elevation: ScalarMeasurement
+    azimuth: AngleMeasurement
+    pitch: AngleMeasurement
+    roll: AngleMeasurement
+    yaw: AngleMeasurement
+    heading: AngleMeasurement

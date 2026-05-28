@@ -16,7 +16,7 @@ from skimage.measure import label, regionprops
 from scipy.ndimage import convolve, distance_transform_edt
 
 from .preprocessing import enhance_for_road_damage
-from .models import SegmentationResult, Damage, Dimensions, Measurement
+from .models import SegmentationResult, Damage, DamageDimensions, ScalarMeasurement
 from .base import BaseEngine
 from .constants import (
     UnitTypes,
@@ -640,42 +640,41 @@ class SegmentationEngine(BaseEngine):
         """
         return enhance_for_road_damage(image, size=self.img_size)
 
-    def calculate_thickness(self, mask: np.ndarray) -> Measurement:
+    def calculate_thickness(self, mask: np.ndarray) -> ScalarMeasurement:
         """Estimate mean crack thickness from the distance transform.
 
         Args:
             mask: Binary crack mask.
 
         Returns:
-            Mean crack thickness as a ``Measurement`` in the engine unit type.
+            Mean crack thickness as a ``DamageMeasurement`` in the engine unit type.
         """
         skel = skeletonize(mask)
 
         dist = distance_transform_edt(mask) if skel is not None else None
-        
 
         if dist is None:
-            return Measurement(value=0, unit=self.unit_type)
+            return ScalarMeasurement(value=0, unit=self.unit_type)
         
         # Mean width of the crack in pixels
         mean_width_px = np.mean(2 * dist[skel])
         true_mean_width = mean_width_px * self.unit_ratio
 
-        return Measurement(value=true_mean_width, unit=self.unit_type)
+        return ScalarMeasurement(value=true_mean_width, unit=self.unit_type)
 
-    def calculate_length(self, skeleton: np.ndarray) -> Measurement:
+    def calculate_length(self, skeleton: np.ndarray) -> ScalarMeasurement:
         """Estimate crack length from the farthest pair of skeleton endpoints.
 
         Args:
             skeleton: Binary crack skeleton.
 
         Returns:
-            Endpoint-to-endpoint crack length as a ``Measurement``.
+            Endpoint-to-endpoint crack length as a ``ScalarMeasurement``.
         """
         endpoints = self.get_endpoints(skeleton)
 
         if len(endpoints) < 2:
-            return Measurement(value=0, unit=self.unit_type)
+            return ScalarMeasurement(value=0, unit=self.unit_type)
 
         endpoint1, endpoint2 = self.farthest_endpoint_pair(endpoints)
         distance = float(np.linalg.norm(endpoint2 - endpoint1))
@@ -683,11 +682,11 @@ class SegmentationEngine(BaseEngine):
         true_distance = distance * self.unit_ratio
 
         if true_distance is None:
-            return Measurement(value=0, unit=self.unit_type)
+            return ScalarMeasurement(value=0, unit=self.unit_type)
 
-        return Measurement(value=true_distance, unit=self.unit_type)
+        return ScalarMeasurement(value=true_distance, unit=self.unit_type)
     
-    def calculate_area(self, mask: np.ndarray) -> Measurement:
+    def calculate_area(self, mask: np.ndarray) -> ScalarMeasurement:
         """Calculate crack area from foreground mask pixels.
 
         Args:
@@ -698,24 +697,56 @@ class SegmentationEngine(BaseEngine):
         """
         area = np.sum(mask)
         true_area = area * self.unit_ratio * self.unit_ratio
-        return Measurement(value=true_area, unit=self.unit_type)
+        return ScalarMeasurement(value=true_area, unit=self.unit_type)
 
-    def calculate_dimensions(self, detection: SegmentationResult) -> Dimensions:
+    def calculate_dimensions(self, detection: SegmentationResult) -> DamageDimensions:
         """Compute all geometric dimensions for a segmentation result.
 
         Args:
             detection: Segmentation result with mask and skeleton arrays.
 
         Returns:
-            ``Dimensions`` containing thickness, length, and area measurements.
+            ``DamageDimensions`` containing thickness, length, and area measurements.
         """
         mask = detection.mask
         thickness = self.calculate_thickness(mask)
         length = self.calculate_length(detection.skeleton)
         area = self.calculate_area(detection.mask)
-        return Dimensions(thickness=thickness, length=length, area=area)
+        return DamageDimensions(thickness=thickness, length=length, area=area)
+    
+    def merge_alligator_cracks(self, branches: list[SegmentationResult]) -> Damage:
+        """Merge all crack branches into one alligator-crack damage record.
 
-    def run(self, image: np.ndarray) -> list[Damage]:
+        Args:
+            branches: Branches that should be represented as one alligator crack.
+
+        Returns:
+            A single ``Damage`` object with unioned mask and skeleton arrays.
+        """
+        final_mask = np.zeros_like(branches[0].mask)
+        final_skeleton = np.zeros_like(branches[0].skeleton)
+        final_conf = 0
+        final_type = branches[0].type
+        
+        for branch in branches:
+            final_mask = np.logical_or(final_mask, branch.mask)
+            final_skeleton = np.logical_or(final_skeleton, branch.skeleton)
+            final_conf = max(final_conf, branch.conf)
+            
+        return Damage(
+            id=uuid.uuid4(),
+            mask=final_mask,
+            skeleton=final_skeleton,
+            type=final_type,
+            severity=0,
+            confidence=final_conf,
+            dimensions=self.calculate_dimensions(SegmentationResult(final_mask, final_skeleton, final_conf, final_type)),
+            subtype=CrackSubtype.ALLIGATOR,
+            stress_range=self.stress_range,
+            num_connections=0,
+        )
+
+    def process_frame(self, image: np.ndarray) -> list[Damage]:
         """Run the full segmentation pipeline on an image.
 
         Args:
@@ -754,42 +785,8 @@ class SegmentationEngine(BaseEngine):
             )
 
         return damages    
-    
-    
-    def merge_alligator_cracks(self, branches: list[SegmentationResult]) -> Damage:
-        """Merge all crack branches into one alligator-crack damage record.
-
-        Args:
-            branches: Branches that should be represented as one alligator crack.
-
-        Returns:
-            A single ``Damage`` object with unioned mask and skeleton arrays.
-        """
-        final_mask = np.zeros_like(branches[0].mask)
-        final_skeleton = np.zeros_like(branches[0].skeleton)
-        final_conf = 0
-        final_type = branches[0].type
-        
-        for branch in branches:
-            final_mask = np.logical_or(final_mask, branch.mask)
-            final_skeleton = np.logical_or(final_skeleton, branch.skeleton)
-            final_conf = max(final_conf, branch.conf)
             
-        return Damage(
-            id=uuid.uuid4(),
-            mask=final_mask,
-            skeleton=final_skeleton,
-            type=final_type,
-            severity=0,
-            confidence=final_conf,
-            dimensions=self.calculate_dimensions(SegmentationResult(final_mask, final_skeleton, final_conf, final_type)),
-            subtype=CrackSubtype.ALLIGATOR,
-            stress_range=self.stress_range,
-            num_connections=0,
-        )
-            
-    
-    def run_test(self, segmentation_results: list[SegmentationResult]) -> list[Damage]:
+    def _process_frame_test(self, segmentation_results: list[SegmentationResult]) -> list[Damage]:
         """Run post-processing on precomputed segmentation masks.
 
         This is useful for tests and offline mask inspection because it skips
@@ -848,7 +845,7 @@ if __name__ == "__main__":
     model_path = Path("/Users/lukepitstick/Projects/Data-Science/InfraDrone/src/ml/models/weights/yolo26s-seg.pt")
     
     segmentation_results = [SegmentationResult(mask, skeletonize(mask > 0), 1, DamageType.CRACK) for mask in masks]
-    damages = SegmentationEngine(model_path=str(model_path)).run_test(segmentation_results)
+    damages = SegmentationEngine(model_path=str(model_path))._process_frame_test(segmentation_results)
 
     print(f"Number of damages: {len(damages)}")
     

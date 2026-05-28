@@ -1,0 +1,9 @@
+config:
+  detection_model_path: src/ml/models/weights/yolo26s.pt
+  segmentation_model_path: src/ml/models/weights/yolo26s-seg.pt
+  detection_img_size: 640
+  segmentation_img_size: 448
+  detection_confidence_threshold: 0.25
+  segmentation_confidence_threshold: 0.25
+  detection_nms_threshold: 0.5
+  segmentation_nms_threshold: 0.5
