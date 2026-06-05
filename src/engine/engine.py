@@ -5,7 +5,7 @@ Top-level engine facade for detection and segmentation pipelines.
 import yaml
 import numpy as np
 from pathlib import Path
-import sqlite3
+import redis
 from datetime import datetime
 import cv2
 
@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS job_queue (
 );
 """
 
+# TODO: Switch this to a Redis message queue
 class FrameListener:
     """
     Listener for frames from a directory and sqlite database that keeps track of already processed frames and metadata.
@@ -62,8 +63,7 @@ class FrameListener:
         # Initialize database
         self.frame_directory = frame_directory
         self.db_path = db_path
-        self.conn = sqlite3.connect(self.db_path)
-        self.cursor = self.conn.cursor()
+        self.conn = redis.Redis(host='localhost', port=6379, db=0)
 
     def get_next_frame(self) -> Frame | None:
         """Get the next frame from the directory.
@@ -71,30 +71,29 @@ class FrameListener:
         Returns:
             Frame object containing the frame data and metadata.
         """
-        self.cursor.execute("SELECT * FROM job_queue WHERE processed = FALSE ORDER BY timestamp ASC LIMIT 1")
-        result = self.cursor.fetchone()
+        result = self.conn.lpop("job_queue")
         
         # Build Frame object
         if result is None:
             return None
         
-        id = result[0]
-        filepath = Path(result[1])
-        timestamp = datetime.fromisoformat(result[2])
-        latitude = result[3]
-        longitude = result[4]
-        processed = bool(result[5])
-        elevation = ScalarMeasurement(value=result[6], unit=self.scalar_unit)
-        azimuth = AngleMeasurement(value=result[7], unit=self.angle_unit)
-        pitch = AngleMeasurement(value=result[8], unit=self.angle_unit)
-        roll = AngleMeasurement(value=result[9], unit=self.angle_unit)
-        yaw = AngleMeasurement(value=result[10], unit=self.angle_unit)
-        heading = AngleMeasurement(value=result[11], unit=self.angle_unit)
+        id = str(result[0])
+        filepath = Path(str(result[1]))
+        timestamp = datetime.fromisoformat(str(result[2]))
+        latitude = float(result[3])
+        longitude = float(result[4])
+        processed = bool(result[5]) == "True"
+        elevation = ScalarMeasurement(value=float(result[6]), unit=self.scalar_unit)
+        azimuth = AngleMeasurement(value=float(result[7]), unit=self.angle_unit)
+        pitch = AngleMeasurement(value=float(result[8]), unit=self.angle_unit)
+        roll = AngleMeasurement(value=float(result[9]), unit=self.angle_unit)
+        yaw = AngleMeasurement(value=float(result[10]), unit=self.angle_unit)
+        heading = AngleMeasurement(value=float(result[11]), unit=self.angle_unit)
         
-        coordinates = (latitude, longitude)
+        coordinates = (int(latitude), int(longitude))
         
         frame = Frame(
-            id=id,
+            id=str(id),
             filepath=filepath,
             timestamp=timestamp,
             coordinates=coordinates,
@@ -115,8 +114,7 @@ class FrameListener:
         Args:
             frame: Frame object to update.
         """
-        self.cursor.execute("UPDATE job_queue SET processed = ? WHERE id = ?", (frame.processed, frame.id))
-        self.conn.commit()
+        self.conn.lpush("job_queue", json.dumps(frame.to_dict()).encode("utf-8"))
 
 class Engine:
     """Coordinate detection and segmentation for end-to-end road-damage inference.
