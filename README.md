@@ -103,31 +103,31 @@ The screenshots below show intermediate outputs from the segmentation post-proce
 
 ![Skeletonized crack mask](screenshots/skeletonized.png)
 
-The segmentation mask is reduced to a one-pixel-wide skeleton. This preserves the crack's centerline so the engine can estimate length, find endpoints, and identify branch points without measuring the full mask thickness at every step.
+The segmentation mask is reduced to a one-pixel-wide skeleton with `skimage.morphology.skeletonize`. This preserves the crack's centerline while stripping away mask thickness, which gives the rest of the pipeline a stable graph-like shape to analyze. The engine then uses convolution-based neighbor counts to find endpoints and junction pixels directly on the skeleton.
 
 ### Split branches
 
 ![Skeletonized branches split into separate masks](screenshots/skeletonized_branches.png)
 
-After skeletonization, the engine separates the crack network into individual branches. This makes each branch easier to measure and classify independently before nearby fragments are merged back together.
+After skeletonization, the engine separates the crack network into individual branches. Junction pixels are detected as skeleton pixels with three or more 8-connected neighbors, then a small dilated junction zone is removed so connected-component labeling can isolate each branch segment. This makes each branch easier to measure and classify independently before nearby fragments are merged back together.
 
 ### Colored branch labels
 
 ![Colored crack branches](screenshots/output.png)
 
-Each detected branch is assigned a separate color. This view is useful for checking whether the branch-finding logic is over-splitting a continuous crack or grouping unrelated crack fragments together.
+Each detected branch is assigned a separate color after the branch-culling pass. The culling algorithm removes tiny skeleton components below the configured minimum branch length, which filters out specks, jagged junction leftovers, and short mask artifacts that should not become reportable crack branches. This view is useful for checking whether the culling threshold is too aggressive, too permissive, or correctly preserving meaningful crack geometry.
 
 ### Branch angle estimates
 
 ![Branch angle estimates](screenshots/anglecalcs.png)
 
-The red guide lines show each branch's estimated axis angle. These angles help classify cracks as longitudinal or transverse based on their orientation in the image.
+The red guide lines show each branch's estimated axis angle. For whole-branch orientation, the engine uses the farthest pair of skeleton endpoints as the branch axis; for endpoint-level merge checks, it estimates local tangent direction with PCA over nearby skeleton pixels. Angles are treated as undirected axes in the `[0, 180)` range so a line pointing left-to-right and right-to-left is considered the same crack direction. These angles help classify cracks as longitudinal or transverse based on their orientation in the image.
 
 ### Combined branch results
 
 ![Combined branch results](screenshots/branchescomplete.png)
 
-Nearby and similarly aligned branches can be merged into larger crack paths. The numbered labels show the final branch groups that are passed into measurement and subtype classification.
+Nearby and similarly aligned branches can be merged into larger crack paths. The engine compares the closest endpoint pair between candidate branches, rejects pairs that are too far apart, then rejects pairs whose local endpoint angles differ too much. Among the remaining candidates, it greedily merges the lowest-score pair, draws a bridge between endpoints, recomputes the skeleton/endpoints, and repeats until no eligible merge remains. The numbered labels show the final branch groups that are passed into measurement and subtype classification.
 
 ## Project layout
 
