@@ -95,6 +95,40 @@ Where crack length grows per load cycle as a function of stress intensity. Infra
 
 > **Note:** The top-level `Engine` class wires detection and segmentation together. Paris' Law integration, severity scoring, backend persistence, and full prediction output are still being built out.
 
+## Pipeline Results
+
+The screenshots below show intermediate outputs from the segmentation post-processing pipeline. They focus on the crack-analysis stage after a detected damage region has been segmented.
+
+### Skeletonized mask
+
+![Skeletonized crack mask](screenshots/skeletonized.png)
+
+The segmentation mask is reduced to a one-pixel-wide skeleton. This preserves the crack's centerline so the engine can estimate length, find endpoints, and identify branch points without measuring the full mask thickness at every step.
+
+### Split branches
+
+![Skeletonized branches split into separate masks](screenshots/skeletonized_branches.png)
+
+After skeletonization, the engine separates the crack network into individual branches. This makes each branch easier to measure and classify independently before nearby fragments are merged back together.
+
+### Colored branch labels
+
+![Colored crack branches](screenshots/output.png)
+
+Each detected branch is assigned a separate color. This view is useful for checking whether the branch-finding logic is over-splitting a continuous crack or grouping unrelated crack fragments together.
+
+### Combined branch results
+
+![Combined branch results](screenshots/branchescomplete.png)
+
+Nearby and similarly aligned branches can be merged into larger crack paths. The numbered labels show the final branch groups that are passed into measurement and subtype classification.
+
+### Branch angle estimates
+
+![Branch angle estimates](screenshots/anglecalcs.png)
+
+The red guide lines show each branch's estimated axis angle. These angles help classify cracks as longitudinal or transverse based on their orientation in the image.
+
 ## Project layout
 
 ```
