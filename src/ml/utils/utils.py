@@ -98,3 +98,42 @@ def load_train_config() -> dict:
         dict: The training configuration as a dictionary.
     """
     return load_config(TRAIN_CONFIG_PATH)
+
+
+def prepare_yolo_dataset_yaml(dataset_yaml: Path) -> Path:
+    """
+    Ensure a YOLO dataset YAML resolves paths from its own directory.
+    Fixes stale absolute paths copied from another machine.
+    """
+    dataset_yaml = require_path_exists(dataset_yaml.resolve())
+    dataset_root = dataset_yaml.parent.resolve()
+
+    with open(dataset_yaml, "r", encoding="utf-8") as file:
+        data = yaml.safe_load(file) or {}
+
+    if not isinstance(data, dict):
+        raise ValueError(f"Dataset YAML {dataset_yaml} must contain a mapping")
+
+    path_value = data.get("path")
+    if path_value is not None:
+        configured = Path(str(path_value)).expanduser()
+        if not configured.is_absolute():
+            configured = (dataset_yaml.parent / configured).resolve()
+        else:
+            configured = configured.resolve()
+
+        if configured != dataset_root:
+            data.pop("path", None)
+            with open(dataset_yaml, "w", encoding="utf-8") as file:
+                yaml.dump(
+                    data,
+                    file,
+                    sort_keys=False,
+                    default_flow_style=False,
+                    allow_unicode=True,
+                )
+
+            for cache_file in dataset_root.rglob("*.cache"):
+                cache_file.unlink(missing_ok=True)
+
+    return dataset_yaml

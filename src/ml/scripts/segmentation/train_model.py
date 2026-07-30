@@ -6,7 +6,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 from ultralytics.models import YOLO
 import wandb
 
-from ml.utils.utils import get_device, get_project_root, load_train_config, require_path_exists
+from ml.utils.utils import (
+    get_device,
+    get_project_root,
+    load_train_config,
+    prepare_yolo_dataset_yaml,
+    require_path_exists,
+)
 
 
 # Project Settings
@@ -21,7 +27,9 @@ PROJECT_NAME = PROJECT_CONFIG["name"]
 WEIGHTS_DIR = PROJECT_ROOT / PROJECT_CONFIG["weights_dir"]
 
 # Train Settings
-DATASET_PATH = require_path_exists(PROJECT_ROOT / TRAIN_CONFIG["dataset"])
+DATASET_PATH = prepare_yolo_dataset_yaml(
+    require_path_exists(PROJECT_ROOT / TRAIN_CONFIG["dataset"])
+)
 RUNS_PATH = PROJECT_ROOT / TRAIN_CONFIG["runs_dir"]
 EXPERIMENT_NAME = TRAIN_CONFIG["experiment_name"]
 
