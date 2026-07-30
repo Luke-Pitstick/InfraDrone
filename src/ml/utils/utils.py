@@ -3,7 +3,16 @@ from pathlib import Path
 import yaml
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[3]
+def _find_project_root() -> Path:
+    for parent in Path(__file__).resolve().parents:
+        if (parent / "pyproject.toml").exists():
+            return parent
+    raise FileNotFoundError(
+        f"Could not find project root (pyproject.toml) from {Path(__file__).resolve()}"
+    )
+
+
+PROJECT_ROOT = _find_project_root()
 TRAIN_CONFIG_PATH = PROJECT_ROOT / "src/ml/configs/train.yaml"
 
 
