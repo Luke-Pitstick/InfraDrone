@@ -1,0 +1,19 @@
+{
+  "device": "cpu",
+  "opencv_threads": 1,
+  "torch_threads": 2,
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "packages": {
+    "torch": "2.11.0",
+    "torchvision": "0.26.0",
+    "numpy": "2.4.4",
+    "opencv-python": "4.13.0.92",
+    "kornia": "0.8.3",
+    "lightglue": "0.0"
+  },
+  "lightglue_commit": "eb42fee2d71449efb0aa5c10549752b5d75384d8",
+  "weight_sha256": {
+    "superpoint_v1.pth": "52b6708629640ca883673b5d5c097c4ddad37d8048b33f09c8ca0d69db12c40e",
+    "superpoint_lightglue_v0-1_arxiv.pth": "6ff7040d0a497fc6639337946d7538dae07428c18f77a067a0b5a960e7cc551a"
+  }
+}

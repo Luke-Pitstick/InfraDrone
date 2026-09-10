@@ -1,0 +1,22 @@
+{
+  "identity": {
+    "unresolved": 99,
+    "correct_id": 1
+  },
+  "view": {
+    "unresolved": 100
+  },
+  "view_lighting": {
+    "unresolved": 100
+  },
+  "wrong_place": {
+    "unresolved": 100
+  },
+  "baseline_available": 99,
+  "duration_seconds": 37.29332616699685,
+  "alignment": {
+    "identity": 99,
+    "view": 94,
+    "view_lighting": 89
+  }
+}

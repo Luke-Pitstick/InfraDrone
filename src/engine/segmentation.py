@@ -6,6 +6,7 @@ measurement-rich damage records.
 """
 
 from ultralytics.models import YOLO
+import cv2
 import numpy as np
 import skimage as ski
 import uuid
@@ -25,9 +26,6 @@ from .constants import (
     PotholeSubtype,
     StressRange,
 )
-from .utils import display_matrix, mask_image_to_segment_arrays
-
-CLASS_MAP = {0: DamageType.CRACK, 1: DamageType.POTHOLE}
 
 
 class SegmentationEngine(BaseEngine):
@@ -37,7 +35,8 @@ class SegmentationEngine(BaseEngine):
     merging, crack subtype classification, and final ``Damage`` construction.
     """
 
-    def __init__(self, model_path: str, img_size: tuple = (640, 640)) -> None:
+    def __init__(self, model_path: str, img_size: tuple = (640, 640),
+                 confidence_threshold: float = 0.25, device: str | None = None) -> None:
         """Load a YOLO segmentation model and branch-analysis settings.
 
         Args:
@@ -51,8 +50,17 @@ class SegmentationEngine(BaseEngine):
         self.unit_ratio = 1.0
         
 
+        if not Path(model_path).is_file():
+            raise FileNotFoundError(model_path)
+        if not 0 <= confidence_threshold <= 1:
+            raise ValueError("confidence_threshold must be between 0 and 1")
         self.model = YOLO(model_path)
+        if self.model.task != "segment":
+            raise ValueError("A segmentation checkpoint is required")
+        self.class_map = {index: DamageType(name.lower()) for index, name in self.model.names.items()}
         self.img_size = img_size
+        self.confidence_threshold = confidence_threshold
+        self.device = device
 
         # Combination Settings
         self.combine_threshold = 25
@@ -77,7 +85,10 @@ class SegmentationEngine(BaseEngine):
         Returns:
             One ``SegmentationResult`` per instance mask.
         """
-        result = self.model([image], imgsz=self.img_size)[0].cpu().numpy()
+        result = self.model.predict(
+            image, imgsz=self.img_size, conf=self.confidence_threshold,
+            device=self.device, retina_masks=True, verbose=False,
+        )[0].cpu().numpy()
 
         segmentation_results = []
 
@@ -88,6 +99,8 @@ class SegmentationEngine(BaseEngine):
             # 2D mask array, usually shape: (mask_height, mask_width)
             # Convert the mask to a binary mask
             mask = (mask_array > 0.5).astype(np.uint8)
+            if not mask.any():
+                continue
             skeleton = skeletonize(mask > 0).astype(np.uint8)
 
             # Detection confidence for this mask
@@ -95,7 +108,7 @@ class SegmentationEngine(BaseEngine):
 
             # Class id for this mask
             cls = int(result.boxes.cls[i])
-            class_type = CLASS_MAP[cls]
+            class_type = self.class_map[cls]
 
             segmentation_results.append(SegmentationResult(mask, skeleton, conf, class_type))
 
@@ -262,6 +275,8 @@ class SegmentationEngine(BaseEngine):
                     continue
 
                 next_detection = detections[j]
+                if next_detection.type != current_type:
+                    continue
                 next_endpoints = endpoints_by_index[j]
 
                 endpoint1, endpoint2, distance = self.closest_endpoint_pair(
@@ -550,7 +565,7 @@ class SegmentationEngine(BaseEngine):
         branches = []
         for detection in detections:
             mask = detection.mask
-            skeleton = skeletonize(detection.mask)
+            skeleton = skeletonize(detection.mask > 0)
             branch_points = self.calculate_branch_points(skeleton)
             
             # Junction zone is the area around the branch points to remove them from the skeleton
@@ -573,7 +588,7 @@ class SegmentationEngine(BaseEngine):
                     & (mask > 0)
                 )
                 
-                num_connections = len(self.calculate_branch_points(component_skeleton))
+                num_connections = int(np.count_nonzero(self.calculate_branch_points(component_skeleton)))
 
                 branches.append(
                     SegmentationResult(
@@ -609,7 +624,7 @@ class SegmentationEngine(BaseEngine):
     def determine_type(self, segment: np.ndarray, num_connections: int) -> CrackSubtype:
         """Classify a crack branch as longitudinal, transverse, or alligator.
 
-        Uses acute angle to horizontal, assuming the road axis is roughly horizontal
+        Uses acute angle to horizontal, assuming the road axis is roughly vertical
         in the image. High junction counts are treated as alligator cracking.
 
         Args:
@@ -649,11 +664,10 @@ class SegmentationEngine(BaseEngine):
         Returns:
             Mean crack thickness as a ``DamageMeasurement`` in the engine unit type.
         """
-        skel = skeletonize(mask)
+        skel = skeletonize(mask > 0)
+        dist = distance_transform_edt(mask > 0)
 
-        dist = distance_transform_edt(mask) if skel is not None else None
-
-        if dist is None:
+        if not skel.any():
             return ScalarMeasurement(value=0, unit=self.unit_type)
         
         # Mean width of the crack in pixels
@@ -738,7 +752,7 @@ class SegmentationEngine(BaseEngine):
             mask=final_mask,
             skeleton=final_skeleton,
             type=final_type,
-            severity=0,
+            severity=None,
             confidence=final_conf,
             dimensions=self.calculate_dimensions(SegmentationResult(final_mask, final_skeleton, final_conf, final_type)),
             subtype=CrackSubtype.ALLIGATOR,
@@ -746,97 +760,70 @@ class SegmentationEngine(BaseEngine):
             num_connections=0,
         )
 
-    def process_frame(self, image: np.ndarray) -> list[Damage]:
-        """Run the full segmentation pipeline on an image.
+    def postprocess(self, detections: list[SegmentationResult]) -> list[Damage]:
+        """Apply crack merging, branch analysis, classification, and measurements.
 
-        Args:
-            image: Raw image array to preprocess and segment.
-
-        Returns:
-            Damage records for the detected crack branches.
+        Potholes retain their instance masks and bypass crack-specific pruning.
+        Analyze each merged crack separately so unrelated cracks are not combined
+        into an alligator region just because a frame contains many detections.
         """
         damages = []
-        preprocessed = self.preprocess(image)
-        detections = self.detect(preprocessed)
-
-        # Combine like detections to fix errors in the mask making
-        combined_detections = self.combine_like_detections(detections)
-        
-        # Find branches (individual cracks) for final measurement
-        branches, branch_count = self.find_branches(combined_detections)
-
-
-        for branch in branches:
-            dimensions = self.calculate_dimensions(branch)
-            subtype = self.determine_type(branch.skeleton, branch_count)
-            damages.append(
-                Damage(
-                    id=uuid.uuid4(),
-                    mask=branch.mask,
-                    skeleton=branch.skeleton,
-                    type=branch.type,
-                    severity=0,
-                    confidence=branch.conf,
-                    dimensions=dimensions,
-                    subtype=subtype,
-                    stress_range=self.stress_range,
-                    num_connections=branch_count,
-                )
-            )
-
-        return damages    
-            
-    def _process_frame_test(self, segmentation_results: list[SegmentationResult]) -> list[Damage]:
-        """Run post-processing on precomputed segmentation masks.
-
-        This is useful for tests and offline mask inspection because it skips
-        preprocessing and YOLO inference.
-
-        Args:
-            segmentation_results: Precomputed masks and skeletons.
-
-        Returns:
-            Damage records produced from the supplied segmentation results.
-        """
-        damages = []
-        
-        # Combine like detections to fix errors in the mask making
-        combined_detections = self.combine_like_detections(segmentation_results)
-        
-        # Find branches (individual cracks) for final measurement
-        branches, branch_count = self.find_branches(combined_detections)
-        
-        
-        # Calculate the dimensions and subtype of each branch
-        for branch in branches:
-            dimensions = self.calculate_dimensions(branch)
-            subtype = self.determine_type(branch.skeleton, branch_count)
-            
-            # Should change eventually, but if any of the cracks are alligator, merge them into one damage and break the loop.
-            if subtype == CrackSubtype.ALLIGATOR:
+        cracks = [d for d in detections if d.type == DamageType.CRACK]
+        for detection in self.combine_like_detections(cracks):
+            branches, branch_count = self.find_branches([detection])
+            if branch_count > 10:
                 damages.append(self.merge_alligator_cracks(branches))
-                break
-            
-            
-            damages.append(
-                Damage(
-                    id=uuid.uuid4(),
-                    mask=branch.mask,
-                    skeleton=branch.skeleton,
-                    type=branch.type,
-                    severity=0,
-                    confidence=branch.conf,
-                    dimensions=dimensions,
-                    subtype=subtype,
+                continue
+            for branch in branches:
+                damages.append(Damage(
+                    type=branch.type, confidence=branch.conf,
+                    mask=branch.mask, skeleton=branch.skeleton,
+                    dimensions=self.calculate_dimensions(branch),
+                    subtype=self.determine_type(branch.skeleton, branch_count),
                     stress_range=self.stress_range,
-                    num_connections=branch_count,
-                )
-            )
-        
+                    num_connections=branch.num_connections,
+                ))
+        for detection in detections:
+            if detection.type == DamageType.POTHOLE:
+                damages.append(Damage(
+                    type=detection.type, confidence=detection.conf,
+                    mask=detection.mask, skeleton=detection.skeleton,
+                    dimensions=self.calculate_dimensions(detection),
+                ))
         return damages
+
+    def process_frame(self, image: np.ndarray) -> list[Damage]:
+        """Segment and apply custom analysis, returning original-frame pixel geometry.
+
+        Keep the existing preprocessing resolution for pixel-based merge/pruning
+        thresholds, then restore geometry and recalculate size in source pixels.
+        """
+        detections = self.detect(self.preprocess(image))
+        damages = self.postprocess(detections)
+        height, width = image.shape[:2]
+        restored = []
+        for damage in damages:
+            damage.mask = cv2.resize(
+                damage.mask.astype(np.uint8), (width, height), interpolation=cv2.INTER_NEAREST,
+            )
+            if not damage.mask.any():
+                continue
+            damage.skeleton = skeletonize(damage.mask > 0).astype(np.uint8)
+            damage.dimensions = self.calculate_dimensions(SegmentationResult(
+                damage.mask, damage.skeleton, damage.confidence, damage.type,
+            ))
+            rows, columns = np.nonzero(damage.mask)
+            damage.bounding_box = (
+                float(columns.min()), float(rows.min()),
+                float(columns.max() + 1), float(rows.max() + 1),
+            )
+            restored.append(damage)
+        return restored
 
 
 if __name__ == "__main__":
+    from .utils import mask_image_to_segment_arrays
+
     mask_path = Path(
         "/Users/lukepitstick/Projects/Data-Science/InfraDrone/datasets/segmentation/crack_segmentation_dataset/train/masks/CFD_031.jpg"
     )
@@ -845,7 +832,7 @@ if __name__ == "__main__":
     model_path = Path("/Users/lukepitstick/Projects/Data-Science/InfraDrone/src/ml/models/weights/yolo26s-seg.pt")
     
     segmentation_results = [SegmentationResult(mask, skeletonize(mask > 0), 1, DamageType.CRACK) for mask in masks]
-    damages = SegmentationEngine(model_path=str(model_path))._process_frame_test(segmentation_results)
+    damages = SegmentationEngine(model_path=str(model_path)).postprocess(segmentation_results)
 
     print(f"Number of damages: {len(damages)}")
     

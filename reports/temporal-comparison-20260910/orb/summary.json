@@ -1,0 +1,26 @@
+{
+  "identity": {
+    "correct_id": 84,
+    "unresolved": 16
+  },
+  "view": {
+    "correct_id": 75,
+    "unresolved": 25
+  },
+  "view_lighting": {
+    "correct_id": 70,
+    "unresolved": 30
+  },
+  "wrong_place": {
+    "unresolved": 100
+  },
+  "baseline_available": 99,
+  "query_seconds": 29.41056917885726,
+  "reference_feature_bytes": 3749250,
+  "duration_seconds": 42.53818862499611,
+  "alignment": {
+    "identity": 99,
+    "view": 94,
+    "view_lighting": 89
+  }
+}

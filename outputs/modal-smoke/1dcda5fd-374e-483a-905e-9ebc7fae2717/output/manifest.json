@@ -1,0 +1,35 @@
+{
+  "triangulation": false,
+  "motion_scale_source": "camera_height",
+  "status": "complete",
+  "video": {
+    "id": "39bc3ff9-07cd-4966-9cc8-d43d5f794fc9",
+    "footage_path": "/__modal/volumes/vo-d8a7BWv3VVziUcPkgmYOUD/1dcda5fd-374e-483a-905e-9ebc7fae2717/video.mp4",
+    "route_id": null,
+    "calibration": null,
+    "metadata": {
+      "recorded_at": null,
+      "duration_seconds": 2.0,
+      "width": 320,
+      "height": 240,
+      "fps": 4.0,
+      "gps_offset_seconds": 0.0,
+      "camera_id": null,
+      "calibration_status": "unavailable",
+      "calibration_reason": "No calibration.json supplied",
+      "clock_mapping": null
+    },
+    "gps": []
+  },
+  "damage_count": 0,
+  "model_sha256": "ccbc26ac3d6ea3b9930296b65491e564c3d24461441b9bbf342287374179125f",
+  "model_path": "/models/ccbc26ac3d6ea3b9930296b65491e564c3d24461441b9bbf342287374179125f.pt",
+  "sample_fps": 2.0,
+  "max_gps_gap_seconds": 5.0,
+  "confidence_threshold": 0.25,
+  "img_size": [
+    640,
+    640
+  ],
+  "observations_path": "damages.jsonl"
+}

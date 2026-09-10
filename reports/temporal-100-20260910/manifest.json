@@ -1,0 +1,4218 @@
+{
+  "seed": 20260910,
+  "sample_count": 100,
+  "method": "seeded random sample without replacement; full binary ground-truth mask per image",
+  "note": "References enrolled independently then pooled; GPS spacing 20m gives nearby unrelated candidates.",
+  "items": [
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Sylvie_Chambon_Im_noGT_ESAR_21a.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Sylvie_Chambon_Im_noGT_ESAR_21a.jpg",
+      "sha256": "4ec95ddc79e39d0351b8a7db99815fb44685da4f056cacd25a9528c0af53be47",
+      "location": {
+        "latitude": 40.0,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "b3580b28-f7d1-4de3-a072-02822af76a03",
+        "defect_id": "e2ca3e1d-3a4d-41aa-b812-f8fa83b13539",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "ad50c57e8b50cc7869e179864aec677a802c9152c40d1eaff0e32808a80cb2c6"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2878_29_861_3713_4568.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2878_29_861_3713_4568.jpg",
+      "sha256": "b64143b3ad54301f9bfe682e8d002ab8172a7b3e2d6604200f7bd54fd69e3a81",
+      "location": {
+        "latitude": 40.000179662235,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "60b83a3a-f6e4-470a-ace0-649b990a0205",
+        "defect_id": "1a53f3ef-1c02-4ec1-ba75-e02860b72796",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "984f6c20a353cff90a4096dc92030067254107561b2cb3d1d0e2c827c21a56de"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A3134_76_855_3718_4555.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A3134_76_855_3718_4555.jpg",
+      "sha256": "b8010d7a311f8c563adc6c7bd6b9875f3a0403ffe4a27dfc098b41c8db618717",
+      "location": {
+        "latitude": 40.00035932447,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "428fd029-8dc4-4b6b-91f1-2dbabb95446c",
+        "defect_id": "ca54d545-835f-49e7-b673-9aeec954cd40",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "c2fce81e13b572926e93ce82e97ed351683d1117e9e86bad50211160fe5d92e9"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160316_144431_641_1081.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160316_144431_641_1081.jpg",
+      "sha256": "de97dc2818190debb5bd59eb716764c72972ccd9706ad8f7baec04f80ee86a31",
+      "location": {
+        "latitude": 40.000538986704996,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "2b086ff3-756f-4bcf-b5c5-2ceec3079c29",
+        "defect_id": "055c562a-f3ca-4092-897f-983b844af415",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "94e5a031f2c4009a75086371c6133da67c47f0ed2a86d0dc0136df391ec756b1"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A3114_871_3543_2822_2137.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A3114_871_3543_2822_2137.jpg",
+      "sha256": "7a2ee3c7382aee17775715565938e32d2740590724d570ffd9c95c5d16480f4f",
+      "location": {
+        "latitude": 40.000718648939994,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "764d301a-4c93-4bf8-af83-b36e60742618",
+        "defect_id": "63b69c55-6659-421a-8470-96fd0b224484",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "97cb7494654a63c36606a21230c0493df8c3831cbb7e09a121032a3377b66180"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Volker_DSC01705_493_958_1260_1668.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Volker_DSC01705_493_958_1260_1668.jpg",
+      "sha256": "5a90a57f1fac8d12bd50508d2f65f402a6441da668a85f808d05a1fdef766a59",
+      "location": {
+        "latitude": 40.00089831117499,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "6cf51bb1-bfc9-4231-8bac-bf9af686af70",
+        "defect_id": "fe6b51f5-9241-448a-ab6b-7cdb4457dd37",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "f511464bf753b32ea1a10184936a837edf4d299c91d8c6a43c23881d48b9a83b"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160328_154535_641_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160328_154535_641_721.jpg",
+      "sha256": "36321384e0129c5668aecb5e86fb44da99864f4e576b85b1e996921c517302b8",
+      "location": {
+        "latitude": 40.00107797340999,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "77653299-e3f6-4428-b729-45ced48bc9f0",
+        "defect_id": "fe16cce5-a9fd-4a1c-8e1f-bbb84eeed85d",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "9dcd625e523e5b08dce248019401d52dadc945ed84dddfbff04661612b0d1d3d"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160329_103609_641_361.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160329_103609_641_361.jpg",
+      "sha256": "bdc12801526592f687a0818d58efd54f27c5e9af9b55a8008d3e239a83245b78",
+      "location": {
+        "latitude": 40.00125763564499,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "b3b3e25b-b9d1-4dc2-a902-2773579e1c6a",
+        "defect_id": "d0b20cc6-f3b6-418a-80ee-1555d3c51d00",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "6342e59e6f29e676fc0c1068aef730140ee5c1dade0c18beebdbc3d8adcc7318"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Volker_DSC01669_0_0_1824_2736.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Volker_DSC01669_0_0_1824_2736.jpg",
+      "sha256": "247a998f77733f907483be10cb93df0088fda6379b153175cc1d92dcedab21e8",
+      "location": {
+        "latitude": 40.00143729787999,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "85e6a862-abb2-443d-89ad-2280c5078d10",
+        "defect_id": "b8138b7f-6b4d-4da4-89c3-00208fa08c5f",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "792ab2531b2f4e59d4888d57d0f0bc7f8ef45573cb1e6873398dfd0aedc7892a"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A3123_240_2905_2709_2486.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A3123_240_2905_2709_2486.jpg",
+      "sha256": "33314f86f0ae89787dd1aba6b1851735739c73d9a1e7d12592e5eb06a44e882b",
+      "location": {
+        "latitude": 40.00161696011499,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "5a70f266-5c60-47c2-98aa-1e85dd7cb218",
+        "defect_id": "42307700-0ffe-4d99-8aaf-fd56d1f75843",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "03221c1f9cf05045de6a83a939102c326136becd80a357a55ecae5d662b94a17"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Volker_DSC01667_0_0_1824_2736.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Volker_DSC01667_0_0_1824_2736.jpg",
+      "sha256": "24ef063feb2159b3974c77cac6673990498ce149efd9a8388576e5fdafb82722",
+      "location": {
+        "latitude": 40.001796622349985,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "4845e558-ed17-49df-ade1-7ff88debf1f1",
+        "defect_id": "eadf8b9c-0da3-49d0-b29f-877572cbda74",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "af3c7af8ae46fbf825413cb5ed75ad342dfe42b2cab324e0f3b5c59bb075e080"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160328_154429_641_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160328_154429_641_721.jpg",
+      "sha256": "78065906368a2dce43af82829390169a35d3a6475f1bdec91b3730814420b66d",
+      "location": {
+        "latitude": 40.00197628458498,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "63e1f0ea-5809-46f1-bb0c-8dc478fe7eec",
+        "defect_id": "2f8a29c2-81c7-4f82-8438-66ca695fc19c",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "0619cf1afa2b1b4999741205e529464855881275ba33b4a68d4826b784385a77"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2886_695_71_2627_3457.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2886_695_71_2627_3457.jpg",
+      "sha256": "598d4146cc8d8cd7124cee848f208b801adf4b1a7958e2c7eb0cd22663e113b7",
+      "location": {
+        "latitude": 40.002155946819975,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "3c4880bc-779a-4a1f-bb69-1b9d70fbcd0c",
+        "defect_id": "d0ada672-efaa-4248-9a4e-dbf4f0eb63df",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "ffb02a3c130fd369e924a7160682d79b759d5b5507ef50a099e3535af5a27aef"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2818_208_545_3096_3152.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2818_208_545_3096_3152.jpg",
+      "sha256": "0af7b055f01680a980e02e359dd0115a52721feb4eeaaefe4136106394985b25",
+      "location": {
+        "latitude": 40.002335609054974,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "c4d853e3-d1ca-426b-b18d-d1851f3c3f37",
+        "defect_id": "3a7ae45d-918c-4551-8e73-14b84cf9ae9b",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "16cc70a18a1db935cd7d6b967b5729b1a71d8e77ecf9580babac2cb7d6fe6d4f"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2851_512_50_2972_2678.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2851_512_50_2972_2678.jpg",
+      "sha256": "a4661263716c8f36825df91475932144f310f19b7d754371179349e446f66e43",
+      "location": {
+        "latitude": 40.00251527128997,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "65ac3b55-5112-4533-958d-4a1b11be7e2a",
+        "defect_id": "15cab772-82b3-4c21-91e6-f7b464bf19f9",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "14e4df34d4875e24f20d44b4bb55513d9932382b5630957b489b6a57b4673e2e"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Volker_DSC01651_61_82_1347_1168.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Volker_DSC01651_61_82_1347_1168.jpg",
+      "sha256": "7556bb29b6ee30a89744c800f01a6c74f3e1920a6f85bb1601f8e4046262ef17",
+      "location": {
+        "latitude": 40.00269493352497,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "83d50fa4-f153-4079-bffe-19ee4893e751",
+        "defect_id": "c6b86539-2376-4752-8ea1-223dc3ab2610",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "60274214aaadd7b094909ef4bdc5eaa7596ff9f093eb1ec2ca45fa29ea80b1c2"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2785_51_1717_2854_3381.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2785_51_1717_2854_3381.jpg",
+      "sha256": "c51859ab9336ce31a75813bbc70dd908809ce9e6f905be9553d91f1a0e31dc2f",
+      "location": {
+        "latitude": 40.00287459575997,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "06fd4dc4-bcd2-48df-8fb6-b2e5dbfb6832",
+        "defect_id": "83df7292-2665-4b8b-aa8b-16a050763e13",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "29155d07969d8b04008219334afe7e925f752abed78815cf855e46e50937a828"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2831_14_1354_3612_3768.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2831_14_1354_3612_3768.jpg",
+      "sha256": "472a01e6a71443a9d15035b1d1678d46e189033627dd95cec1e34deb3b63a2f6",
+      "location": {
+        "latitude": 40.00305425799497,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "07fdea4e-fd97-4665-b04a-e06d775907c5",
+        "defect_id": "20bd7023-ee5d-4c97-8811-c000d2ea84ac",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "36b6e0fd85cd10f8fb52bd3a135bb299cef83d52274b7d255e47d49fa1920951"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160329_104035_641_1.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160329_104035_641_1.jpg",
+      "sha256": "103f5debcef591a9d68b99b4920b03506e17dc119beb899dae442a516db22cb2",
+      "location": {
+        "latitude": 40.00323392022997,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "8c8d5b53-5774-4fda-8f7c-9e20f95c1b42",
+        "defect_id": "b8ec468c-72ac-4064-9d6d-d39ff3d12bf8",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "1da3648588d3a45075ed7148dfc001158c4f9ace76c762f6eba25cbd4a7d0b8b"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Sylvie_Chambon_314.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Sylvie_Chambon_314.jpg",
+      "sha256": "e6e342bc90db32f1dd6f24710435ed029903e749a45bac414aa79c40b78f5b08",
+      "location": {
+        "latitude": 40.003413582464965,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "55fa3e80-c914-46ab-9bae-7feb11035477",
+        "defect_id": "2025c8cf-1166-4e7c-a8f8-2a88af867825",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "e6d5c5b67151a2a3fcba9913b7e0265f6e807aa2c7f6f918d275d0c4454e5ae8"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Volker_DSC01673_0_0_1824_2736.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Volker_DSC01673_0_0_1824_2736.jpg",
+      "sha256": "6ef73f2abb3b768c5a632f0f269f2907408a8ef05365ca5da30ae88d9d624c50",
+      "location": {
+        "latitude": 40.003593244699964,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "92f9a1a9-97ac-48ec-a5ad-5ed4b6965abd",
+        "defect_id": "4228bc35-602d-4044-9134-261350b18e98",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "b06b2e159b49f771370427511b0dc3c8473bb0875daf83500bfd94222e887526"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/GAPS384_train_0681_541_641.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/GAPS384_train_0681_541_641.jpg",
+      "sha256": "1c091cfecafb5f30961d16e154794de100949dbdaa1964248264526a0431e080",
+      "location": {
+        "latitude": 40.00377290693496,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "e728129a-2fec-40ef-854e-193a47d808aa",
+        "defect_id": "31931027-25c8-4f36-9d0b-5d16287115ed",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "a789e5833ee092fbdbb42ab64406281cc35bdc5028c596a3512f00a7e7aaa1e4"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160308_155737_641_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160308_155737_641_721.jpg",
+      "sha256": "9ea106a7bb02f6145d589c18812de9b4300df77793ae197348a92dbde5f29a44",
+      "location": {
+        "latitude": 40.00395256916996,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "99d843da-f5c8-4b01-9b21-ccbbe3d04eeb",
+        "defect_id": "66e74aab-a7fa-42fd-a80e-bed93ff27a64",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "6deaa0465f6bd06ddeef88ca9245abe266b7e598db5bb56fe26f4a0ad072893a"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/cracktree200_6329.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/cracktree200_6329.jpg",
+      "sha256": "7150f0d0b730046731fb31de34c087d286f000162d4e6928781dd8a4979b3318",
+      "location": {
+        "latitude": 40.00413223140496,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "5b330e6a-0bdf-4b09-82a1-8a8ab9ddef96",
+        "defect_id": "1a52927f-c600-4251-8e42-9db77ef88d63",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "44496d7e4d25eeb72fe21c4911d5a46a7203961000d9ff1edc5ec9266885b6b4"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Volker_DSC01631_2_30_1821_2154.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Volker_DSC01631_2_30_1821_2154.jpg",
+      "sha256": "52e41ce45a87ab46f76c7a3d4ef8902782974da451e8658a563497cf859245da",
+      "location": {
+        "latitude": 40.00431189363996,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "6813a481-b2a9-46c4-b7b3-12fc52368c3d",
+        "defect_id": "432beef4-d3f7-4f6f-ab3d-f5b13a67e60c",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "033f6a45e26bd59836012e5c2e74bb40c362ad8baab8c540d2d2918c2365c16d"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2785_197_1269_2404_2359.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2785_197_1269_2404_2359.jpg",
+      "sha256": "8f40a46f5a363cb1da6d228c5a233532d06f1a6abf6969ea36acf01423db675f",
+      "location": {
+        "latitude": 40.00449155587496,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "3e78ca16-1fc6-4f29-b191-c894fc302285",
+        "defect_id": "07de3bee-00fa-4c8a-9f83-dfe2ac57f1f5",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "baa6312b27f0ab37e7abcad2937d3808e39f51976a86ee266cfb683129c0f58f"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A3130_190_1907_3510_2920.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A3130_190_1907_3510_2920.jpg",
+      "sha256": "52ae209ec32c3a6800479308e724675d7ea44737463515dfc46556720a3c4063",
+      "location": {
+        "latitude": 40.004671218109955,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "ddd15dff-8496-4a58-815f-6a135776d164",
+        "defect_id": "89fc863a-d97b-4d5a-b215-353a7e662501",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "dd82f88a741569e4df904fcd8b4e01502db18374403991bf68192ccf1401657e"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160330_165325_1921_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160330_165325_1921_721.jpg",
+      "sha256": "f42ce0a3d75dfd26b4a7f9ed3007f2d1bf375359d7a6b04c2a13e1df5444dc23",
+      "location": {
+        "latitude": 40.004850880344954,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "2629bd20-7a73-4259-8180-90f56e419279",
+        "defect_id": "6cbc7a0e-c2ef-43b3-858a-91e82c51cb34",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "d57d88e0d2131e23a67873dc1c855d19c62b0ffe29203590665ecf0e00d46ec8"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160328_150927_1281_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160328_150927_1281_721.jpg",
+      "sha256": "ba8d3a8901e820d58f5172f34b8b1458c11ba610e2f82f2d822d3d95efd0063f",
+      "location": {
+        "latitude": 40.00503054257995,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "ca2ddbcb-84fc-4a6e-8462-200f5031d9fa",
+        "defect_id": "18367133-9530-47ad-881b-0df9caa8712b",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "92a16aa0f700353f95af3813c4afb653a94dc449eb69245fcfedaad9929b92a6"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160330_165325_1921_361.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160330_165325_1921_361.jpg",
+      "sha256": "31e7dc97733e7b59c56f2296935716236bea92b132eacb70ec3c7180704a8b67",
+      "location": {
+        "latitude": 40.00521020481495,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "679a4fca-52b1-473f-b337-b5c47447660f",
+        "defect_id": "a2d388dd-6bc6-4954-87a9-894f0700d699",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "316f438f4414ddfaa7e19504fa352edd432b6dc8608d7854dba6fe2a01170e93"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2791_454_1477_3234_3143.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2791_454_1477_3234_3143.jpg",
+      "sha256": "d4fae707e61b2c8bce0f2f9b46cac5ee4419f1b7d65bbcd4f6b12fdcbae12102",
+      "location": {
+        "latitude": 40.00538986704995,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "3017c8d3-bf80-4e8c-b2be-7e026b43eb68",
+        "defect_id": "2a61f03e-c90f-42ba-b9d5-6538ec2c8b71",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "d4d71923a93fdad4e3465df3171df8e9905ce1e0eaede732521080012dcce4d3"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160328_153559_1_361.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160328_153559_1_361.jpg",
+      "sha256": "18c5150fb415d55a95adeb53d2e774c58b7b431d67b62f71a5b209449e710d44",
+      "location": {
+        "latitude": 40.00556952928495,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "b0972537-38e7-4741-a2af-33dd4a00e951",
+        "defect_id": "363d5347-ec5a-409b-a057-1f2f88cb4ab0",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "e96b9ed3319bb739ce4e717235c9a17143b2368309e0818f798f53c96f24cffc"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/GAPS384_train_0503_541_1.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/GAPS384_train_0503_541_1.jpg",
+      "sha256": "b64bfca9dda7afb9d93808dd748cbcd725180557f5753cbb5cdd1d4a89f65cee",
+      "location": {
+        "latitude": 40.00574919151994,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "f13773ab-c8c8-4624-a52c-d78ee8807d8a",
+        "defect_id": "46a97dd8-a694-4573-8ebb-4f4ef43eadef",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "c805f35152f7badb1de323380d8fc8b20fc9dc44ad85635717861b8058f399e5"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2825_340_882_2590_2354.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2825_340_882_2590_2354.jpg",
+      "sha256": "0496ee58923ae53cd6301a5c323a11bf47168d03abfc78a3b78a1b9bea47a1cc",
+      "location": {
+        "latitude": 40.00592885375494,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "4c4d1f8d-5302-49fa-8696-dcf9491fb131",
+        "defect_id": "e5be0a6a-f6a9-40a1-9e5a-3778e6ac6c67",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "10d38248243a478b4c6eceac5ac3045edf23f271a73c504633172cf64eaf8d2b"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Volker_DSC01653_635_9_1390_1253.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Volker_DSC01653_635_9_1390_1253.jpg",
+      "sha256": "6c0c7d51e839f2f02139a9c77cefd41eb3cc073a1c27134a1c91bc28128344cd",
+      "location": {
+        "latitude": 40.006108515989936,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "94145e66-90a4-4bd3-80eb-37020ee6737e",
+        "defect_id": "e908102f-7cbe-48a5-90c3-a8a10cc744fa",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "e3cb6aa2c0c1e4487df550fbc62e7158625a610538c5cbd7855c4998fff12571"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160308_073406_641_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160308_073406_641_721.jpg",
+      "sha256": "ea2f97b1838900054ec0c31e1290f8870d05722f4b07e50cd9d56040a3f669e0",
+      "location": {
+        "latitude": 40.006288178224935,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "9582a75f-f6af-4679-a13a-c5fa4a8b06c5",
+        "defect_id": "da12ac28-8713-4ab1-9c3a-42996360edb2",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "3b733e1712e892f0ff5a2249f7bb66a1a487524c2df9ce7db888fe28a1a27d34"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160307_164226_1_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160307_164226_1_721.jpg",
+      "sha256": "03a54ce322fad982d5649da725041a552ca924e902dd100ab3d2c93e01e37e4d",
+      "location": {
+        "latitude": 40.00646784045993,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "f55d2228-8b5c-4de8-b1b6-4c9e02df060a",
+        "defect_id": "1c75f192-eafa-402c-b1a5-6546ff96fee7",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "e82b7a71bee9d45f74a2f570f4be5e7bbf7b4e95bdac603a2fa1c3dca200f0e7"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Volker_DSC01657_130_62_1583_1831.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Volker_DSC01657_130_62_1583_1831.jpg",
+      "sha256": "8596596edd307e9a74d9c9db04512c9acae4275140581583417165fcfbd9ef67",
+      "location": {
+        "latitude": 40.00664750269493,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "659610ff-1032-4595-8741-a76ae4424ee5",
+        "defect_id": "983cdd28-0c3d-4490-a319-da07594d4bee",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "d67c3b987f6ea4b26320783b2e73a18a9ded84cda4e7b4e0d92f073c66aaa568"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/DeepCrack_11197-2.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/DeepCrack_11197-2.jpg",
+      "sha256": "7170769da28cfdf8e59e189f9411afd193ebfd741a60badd4a1386058d8ac1a0",
+      "location": {
+        "latitude": 40.00682716492993,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "eb038014-b581-4773-b23b-eb3b5617e530",
+        "defect_id": "a92b15b4-f0bb-4925-8018-711a358f21e9",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "904dc31380849085db971c5134df5a3d77f9ffb5d2f9e0c9f0ebb9e6b1dc93c6"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2811_1873_211_2406_2890.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2811_1873_211_2406_2890.jpg",
+      "sha256": "d47fdfbb1b4649c9bbdeda67ba9768f460db1e7bdd0b373370798172b9da2166",
+      "location": {
+        "latitude": 40.00700682716493,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "8c8fbad6-f77c-4912-b502-47443894c13e",
+        "defect_id": "c68774fd-d87b-4c3f-9af3-6ade6e5b974b",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "e622f4e0fe03a7a941e5e21502866e53924741ab727daba676faf87c09a0706c"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2807_224_1187_3581_3340.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2807_224_1187_3581_3340.jpg",
+      "sha256": "2eac8d249cbae2fc69be0f963fc76a67174a951b0de3342f14d7244052ce5340",
+      "location": {
+        "latitude": 40.00718648939993,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "b10986de-2149-4786-a4b5-77182f7e22f1",
+        "defect_id": "29fd90e5-9e50-40d0-9c06-57333d394c24",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "84e35910341e13b1a1517642f0ece2536d0a73d25302da519b6d6524da2d6c66"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2859_1796_34_3392_3713.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2859_1796_34_3392_3713.jpg",
+      "sha256": "9a9f8257815807ff857483468ae6ec85324503262fc4f43082cc5990b3e141d0",
+      "location": {
+        "latitude": 40.007366151634926,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "55c8aa61-f4bc-46ad-944b-de21b2259255",
+        "defect_id": "ca4e3afd-f877-4b29-ab4b-142de36d0f43",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "ed6c51b7d2ffa2a669efbb3b481af2cf6bd0113c2de015346991b65b870a0725"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160307_144924_641_361.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160307_144924_641_361.jpg",
+      "sha256": "f128ea065515e22a271975f9a4c5f8d0cd05c1f806cc8a623d8e1dc4460ddd95",
+      "location": {
+        "latitude": 40.007545813869925,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "9f9db4aa-f7a1-4ae3-992d-959dde4ca21c",
+        "defect_id": "33bb487e-e98f-4bbd-902d-2c1cf53d4e0a",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "c75e3578b20ad478bc84debba59509d1d95c7ae1c69102df212a1344d3ba3e2e"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/noncrack_noncrack_concrete_wall_102_5.jpg.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/noncrack_noncrack_concrete_wall_102_5.jpg.jpg",
+      "sha256": "dc8d126998d54a38eb18f2d48df61d5a77d40d45461655166d6a20c8be206c62",
+      "location": {
+        "latitude": 40.00772547610492,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "3fa14f03-2361-43b5-b3d3-a96c480a9696",
+        "defect_id": "ebef3e34-c95f-47f7-b41b-413a81c6dcdd",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "9135a7f650d21d450c02b996e6d5993db97b6422d63b08f7fbb414a739d69cb8"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160307_164301_641_361.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160307_164301_641_361.jpg",
+      "sha256": "f39c5910e7da9e9b6a22c572f0f53aa8cbdd8802e9f4186868d75e7040c8df21",
+      "location": {
+        "latitude": 40.00790513833992,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "ce67ed03-d11e-443d-bb0e-426f88f6a992",
+        "defect_id": "bf2de81d-27a4-41bc-9bd6-b8f07fa8844d",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "72bf19aafc94004dcc3b4c1ec515b06cf163d93ea5a480450831e732ee0a5459"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2853_826_286_2004_2464.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2853_826_286_2004_2464.jpg",
+      "sha256": "23473d50687fae811a5894acca9fd911db4ea9aaf44d19774504f9c978f6fbe9",
+      "location": {
+        "latitude": 40.00808480057492,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "d458d28f-9302-4a95-9f82-9fca1200c527",
+        "defect_id": "35825e57-0d5e-4175-826c-0a1b2dd6497f",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "8f708ca1b060f0526d064276b01fd69433353248155b88491e6b149ee28b21ad"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_IMG_2933_649_969.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_IMG_2933_649_969.jpg",
+      "sha256": "df57d1c2592bc8e0e4e997899fac9a17c411309b5af0b4cfb3b8e2d823960f9c",
+      "location": {
+        "latitude": 40.00826446280992,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "df871713-4847-4f70-a0c4-0a1d8e108a45",
+        "defect_id": "8a0907bf-9cce-4db1-8ad5-fda7bdd7ad19",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "e274c492b89fb50c8223da3763a9a2208556425794cbb92612b8a28e604b58c8"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160222_164141_1_1081.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160222_164141_1_1081.jpg",
+      "sha256": "3d0109053a1a555e2e998788eb6c3497b97d4b7795a877b8639b3dc29696a663",
+      "location": {
+        "latitude": 40.00844412504492,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "eb513325-f1b6-4938-a845-3f89f213cee1",
+        "defect_id": "221b5aad-ac2d-42a0-917e-6ca6d568b904",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "f1cdadcd31a0ac6431cb55a7fb24d5ea7cd8de7a2f6841dda7974ef8bcdebe91"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160222_165256_641_1.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160222_165256_641_1.jpg",
+      "sha256": "38ce3193d036131858b43837c981bf5e44bd2237ba4aeaac781c45ba6806b006",
+      "location": {
+        "latitude": 40.008623787279916,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "2b1b8624-b763-48a4-99a8-6cb26d8d5d14",
+        "defect_id": "eff1c8b8-8d3a-4d80-8020-7865eae2f222",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "59a48cf79c57f9009c57a4fa8e1f6c2d6eeb5c916408db516620c5fb34255bee"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2859_1580_320_3896_3471.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2859_1580_320_3896_3471.jpg",
+      "sha256": "8b8c8a06316a5d68dcc567d5c63a024bccd38fe518d9c2cc9b6be78bda4906fc",
+      "location": {
+        "latitude": 40.008803449514915,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "ce6298f2-ddf6-4099-a14c-89d2a8e09fd4",
+        "defect_id": "b3019e0f-1b4e-474f-89aa-b5bd498c0853",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "87923b608132b989762ff1184a275d15670ff3b7bb31f7117d696840feb98b42"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A3120_14_1099_3666_4059.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A3120_14_1099_3666_4059.jpg",
+      "sha256": "2524d77d9e57570c28eae06011c26f47dab80827453d8e6923f3c9d49bc6ebc6",
+      "location": {
+        "latitude": 40.00898311174991,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "24e499ec-8b97-4336-8633-12d444bf9616",
+        "defect_id": "e8a47b5d-2f38-4aa9-9031-236e91ce3709",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "d0318fd57a067080d2de5f6df2df2e80a603cb963c54c3d575e615a8b95fcc15"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160328_154011_1921_1.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160328_154011_1921_1.jpg",
+      "sha256": "1375e73c502f5ed2d99f7175dea6f008f449276f60e0e5cbe94e9bd8a47355f1",
+      "location": {
+        "latitude": 40.00916277398491,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "75d71715-1f5f-4c83-b8ae-f365955c6923",
+        "defect_id": "6ffd3719-a8d0-42b3-95e9-e1c9495c7b9c",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "5c3aa34a5a7c8b05866926d16c205c368859957a72796574f709982d9e2b2963"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160329_104120_1_361.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160329_104120_1_361.jpg",
+      "sha256": "78f0e1a4aeccb2f387f26f87fa9274fe7493de846e1ffb6e6872837b1d3be197",
+      "location": {
+        "latitude": 40.0093424362199,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "95c4a69c-ab58-4481-a077-5605f8e124ba",
+        "defect_id": "ef175576-262f-4d6d-9f1d-60aabd0b2926",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "c89f861bdd5dedaaa1cf18d9d9c527c1599f97899922a85d10c31a60f04258e5"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/cracktree200_6298.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/cracktree200_6298.jpg",
+      "sha256": "6e7f220e3139e731fe3216b70ec2f5803be21e48db8f711f3c8963df4523ca48",
+      "location": {
+        "latitude": 40.0095220984549,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "4ddc0d71-40b3-442d-bc8e-df4d737f5535",
+        "defect_id": "de258ac7-9410-4a97-ab7b-41121e20c3ae",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "bc1e8d661c7cf46f6d7413ac1366d8f286260bb547ef2f1f9cd9e35786f90892"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2847_57_1886_3694_3848.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2847_57_1886_3694_3848.jpg",
+      "sha256": "adffb9631aeea5198802d8098ad267c15e28404e380ef587cc0f505282ef2160",
+      "location": {
+        "latitude": 40.0097017606899,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "bd4ab9d1-2e72-4d92-b6cc-a8c25b477001",
+        "defect_id": "9a80e966-e872-4d0a-bb7b-e1d0c2311325",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "ccbbf396b526b5a8b59ca66858196a17cbf79e225eb39cc3d1d7a24ea06d1a4b"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2857_585_241_3220_4175.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2857_585_241_3220_4175.jpg",
+      "sha256": "5b8363d66ef30f672ef2c8d505b1f4cc6d664289dcbd3ffd37f7d77047ef3e04",
+      "location": {
+        "latitude": 40.0098814229249,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "70148e30-adc0-4f92-98e6-5f2d71715239",
+        "defect_id": "77ff328f-6a83-42a5-bc27-1f29fbd5ee3b",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "73db389402c25480bc81b52d44e1719012875fdf32c4b8b6387784c78eac57fb"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CFD_111.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CFD_111.jpg",
+      "sha256": "01d84958a425d349b5cfdf2689584a55908ae1ca887264dddbece97ada1bc845",
+      "location": {
+        "latitude": 40.0100610851599,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "7453c628-d1da-49a7-8feb-2dc058e5b71c",
+        "defect_id": "eb814613-3f70-4322-af01-9ad6f3d884f8",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "628bd4d113942a216ecf73833bfd6622c9171e615bc2241bdda9e18ebcf0cafc"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/noncrack_noncrack_concrete_wall_43_2.jpg.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/noncrack_noncrack_concrete_wall_43_2.jpg.jpg",
+      "sha256": "691dde8188cb31d6c3f92efc5dfeb6c131cae242b4a726c2bacac582cd0d6a73",
+      "location": {
+        "latitude": 40.010240747394896,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "b48596f8-ba8a-45c4-8d55-879a940c5366",
+        "defect_id": "4db55940-1a4c-4b5c-89c3-21d5ee8b2db5",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "9135a7f650d21d450c02b996e6d5993db97b6422d63b08f7fbb414a739d69cb8"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A3110_52_945_3558_4432.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A3110_52_945_3558_4432.jpg",
+      "sha256": "9a997d39e2fdcfeef8b0a0f878ec7adb2905a52574c83d0a52293a058031030f",
+      "location": {
+        "latitude": 40.010420409629894,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "e856bf6f-1970-4045-bea0-7539a0d3cfb8",
+        "defect_id": "9ee6b761-d783-486c-91eb-64a8ac7c9d79",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "686d3254bf8154d67b6144261d1a30fe09ea5f5595c68e92223036a481fc7379"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160324_170323_1_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160324_170323_1_721.jpg",
+      "sha256": "ec1ec1fcf5f3d744b6450bf2c978d6e3468aed91dcc0981765e1a86e8686859a",
+      "location": {
+        "latitude": 40.01060007186489,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "56199799-c243-4b6d-a68b-4ca2d4c9c618",
+        "defect_id": "91ebbbba-8722-4226-93a8-ce9fa4dc2d43",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "96247573654d374eb547b3a055703f102a1d4f5122a6b2e256d870b0af4824eb"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/DeepCrack_11271-5.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/DeepCrack_11271-5.jpg",
+      "sha256": "33286f231e453b6b1a1ef65e779ce35ba37f7ee86b3fa2fa32ace5f6535f2363",
+      "location": {
+        "latitude": 40.01077973409989,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "04846ad4-e781-42c1-9fad-bf13141c9485",
+        "defect_id": "e7193d67-a54c-454a-8b93-bbcfde80e1f9",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "eb7df9004d01802cdc1bff8de274dee48cf37eb93b230515dd9a1262f6664581"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2833_11_1057_3805_3303.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2833_11_1057_3805_3303.jpg",
+      "sha256": "bf181da3d0e9965db4b7637413bd4c2b2e5d53c8c00c3061ab2f957fde90c6bf",
+      "location": {
+        "latitude": 40.01095939633489,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "bde41f10-d2b9-41b8-a0f5-812eb7c9f4e8",
+        "defect_id": "681711df-d185-4161-bb77-e75149232887",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "f3b1a5e4f969df5b9d7ef96abbc0a12475643aeedebc40138b62da89b7f6c45e"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160407_163515_1281_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160407_163515_1281_721.jpg",
+      "sha256": "6ffaf9b7d51b54cdf8a000a2fb1fbbc901295db427666ad02063590ea26f469c",
+      "location": {
+        "latitude": 40.01113905856989,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "8c69dba7-5207-4db8-be32-477237b2fda8",
+        "defect_id": "a995cc14-672a-47cf-bbc0-19e8048e9156",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "2429300bfed6d289e08cf458992dec20a489ee3b494d7a359e96f206d464d2b7"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160329_094512_1281_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160329_094512_1281_721.jpg",
+      "sha256": "8d605a2f05b67210b44dab439499260b54e09ff83433066b1e315ff35b8c2b30",
+      "location": {
+        "latitude": 40.01131872080489,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "bbf1e459-67a1-4a43-bb18-ce85617fceb6",
+        "defect_id": "f013d9fe-d25b-490f-90c8-72af8b666f02",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "cf68f5b3da8588f7d033baf10a82d9b30c74b2ad369f17b4d1f1fd80246bcdc2"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/DeepCrack_11184-1.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/DeepCrack_11184-1.jpg",
+      "sha256": "90e5fe4fb99a3461c179ccec33bb7da4896df76788a018a289c5c0681d0f5b61",
+      "location": {
+        "latitude": 40.011498383039886,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "9ecd12c5-6201-424c-b759-db186e554ea2",
+        "defect_id": "ecc5dd18-6fc4-4702-86c5-2782928524be",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "b2578066fdfe4f69fdd34d924cead9e008c032d1d5f4785d750c82f4a1ec686d"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A3127_9_1051_3792_3003.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A3127_9_1051_3792_3003.jpg",
+      "sha256": "50bf9c07c9e0af35e2ee96612350a046a2bc0e26e115583452617e4bb28668a3",
+      "location": {
+        "latitude": 40.011678045274884,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "14c319e6-b544-460f-8662-a03f6f22efe7",
+        "defect_id": "9979f815-c3b4-43b7-a742-fda90197170b",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "c16b729c28f5f2e94abea8d371a7b18e01109c94433f5c32a2a5dcb9b3fdac70"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CFD_080.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CFD_080.jpg",
+      "sha256": "8c65a5ec377008cd550fb0f5f9299c92f480fb2b3063c98506c54ea09333e552",
+      "location": {
+        "latitude": 40.01185770750988,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "56b8051c-24aa-4566-95ca-20bf2aaef022",
+        "defect_id": "aa786e9c-a654-4c22-b88d-d7fa0407d392",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "02da9092c6f523df205f2681ec810fc6f87e2f23f7ca2db62204ca3decba495b"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2914_601_1274_2657_3363.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2914_601_1274_2657_3363.jpg",
+      "sha256": "fc20a7cbd08c82c993e2310315c0b19a4c82787ae729e56ca1525a2535d0c85b",
+      "location": {
+        "latitude": 40.01203736974488,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "c231e1c7-0f19-420b-a624-91ef1c683be4",
+        "defect_id": "7995d885-d451-4e50-a96d-aaaca3db60d2",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "34f5e5faec855e420902f2f8b405ab303c85ab79e113842bf7634b2c1a095c56"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/noncrack_noncrack_concrete_wall_58_13.jpg.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/noncrack_noncrack_concrete_wall_58_13.jpg.jpg",
+      "sha256": "6be4c3a585883b2d957d7778e1f778b9df9b0a88752d67b85b178138d989cbad",
+      "location": {
+        "latitude": 40.01221703197988,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "e6cf28d5-4a8d-4516-abda-67903dfcdb4b",
+        "defect_id": "871bc07c-1ba1-4ad4-87cf-7d3267b9a752",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "9135a7f650d21d450c02b996e6d5993db97b6422d63b08f7fbb414a739d69cb8"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Volker_DSC01678_0_0_1824_2736.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Volker_DSC01678_0_0_1824_2736.jpg",
+      "sha256": "c32b9aae152d39fc5d9d6f9f938295ee143c566c4c0b475448af648d2a12346b",
+      "location": {
+        "latitude": 40.01239669421488,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "be84e0ae-32e9-4dd3-8454-4801b0fc7d66",
+        "defect_id": "dab68277-ced1-42d4-91c2-8ab13ebf48a5",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "d2e414c51e0326d74334f5de3d93941954cc374b5db5ee85c042bd8bd5d9f92e"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/GAPS384_train_1172_541_641.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/GAPS384_train_1172_541_641.jpg",
+      "sha256": "025169ccc9cbc9bfc3ffdb5b64324a0b7f942026e0bc66c6b7e67d29c51d73d5",
+      "location": {
+        "latitude": 40.01257635644988,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "789678db-1387-408f-bea6-c7a8e9afcde6",
+        "defect_id": "d6389694-c288-43f7-87c2-99a65cc5fb83",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "ff9cac2a51ef9a9013432cc0bc3d7f2bbebfffd2b06fc5ae14b7c0e02a0fb8b9"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160302_155848_641_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160302_155848_641_721.jpg",
+      "sha256": "0ea794eff572be252d561408bfc9bbb6831b369a9e9e52afae8a77e16c299d0b",
+      "location": {
+        "latitude": 40.012756018684875,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "cd969258-78d6-4163-a1a4-7a89a164f1dc",
+        "defect_id": "553feb8d-31fd-47aa-b5e6-95297b54b149",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "2c09a8eb2a049eb77ed394af03e14785d81432ad0e47e941c7bff8b8799daba8"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160222_164822_1281_1.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160222_164822_1281_1.jpg",
+      "sha256": "0e6ff7e258c9a8d02cabda4a958102c34ebed527937b5c796c00c082eabed2bc",
+      "location": {
+        "latitude": 40.012935680919874,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "9a1ca580-f0e6-4758-b161-37c3fa3e5b85",
+        "defect_id": "cc032e85-bb5e-444e-9236-9cf0d0aa1f69",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "73ddf7dd99e81fd3b40958ee172fcfb37d5bcf4bcdb8b5e9cd60f874e0e3d423"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160302_155857_1_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160302_155857_1_721.jpg",
+      "sha256": "0d18f8b55f48a84a229bdeca1c77551405bb467587b94e88f587fa192f9a1e47",
+      "location": {
+        "latitude": 40.013115343154865,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "8db7ca74-3ce6-4474-85c8-c90bc6d31c94",
+        "defect_id": "9f61c8b9-0030-4d93-bd41-f0b1823b7bac",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "11acce32ecc84518a8a8f80bea71dc666dc819aa35de35ce8a187ec72529cb76"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160328_151808_1281_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160328_151808_1281_721.jpg",
+      "sha256": "abe7995f24aca86ef436967af804881f3458d66cb9064b7050d0230d8574039c",
+      "location": {
+        "latitude": 40.013295005389864,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "bf8f4dc3-5307-4540-94c6-d9f9d9394a3d",
+        "defect_id": "897eb1e0-dc24-4b83-980c-215cecd5e575",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "a5074b1246cd85feeb4b8e77dce3795241ef0a8e55f7975fd593e55949ce6982"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160308_155836_1921_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160308_155836_1921_721.jpg",
+      "sha256": "fecf6ed225f55c2653136410c57aa91aafbe97be91581694d32c8ed13f35b15e",
+      "location": {
+        "latitude": 40.01347466762486,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "71249183-a904-42c3-b2f2-e436dbe96c22",
+        "defect_id": "15bf200d-93c1-431f-9508-b31aedb8bb60",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "7ddc469e51b7424377c7556f1bd853928824a32771a0b5908306debd0fe7ce97"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Volker_DSC01652_699_100_1925_1592.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Volker_DSC01652_699_100_1925_1592.jpg",
+      "sha256": "b81c2e2ba0223778e4c183af60691047faeb1496a15f58482da8aa842ae2f6a4",
+      "location": {
+        "latitude": 40.01365432985986,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "1b2f8bc8-6326-4a8b-a9a6-4638ce6a5b0e",
+        "defect_id": "17ba2813-6875-4a6f-9aeb-055be21fda97",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "02505f72f79d300791b359aaf315c4cb680daf9dd8a173888569cafbfc19cef9"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2869_37_1430_3692_3865.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2869_37_1430_3692_3865.jpg",
+      "sha256": "d0f387a75cc27ca98d1b7831edced784e0170a02d1b2f7ff79d3b70a20acf8db",
+      "location": {
+        "latitude": 40.01383399209486,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "37ca7165-5038-4974-9432-4b8c312d6c22",
+        "defect_id": "77b5c64e-0cfa-47f8-ac7c-59385931301d",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "128bd0e739561c1005aef0a0ad3081f1c80fe1d6bed26a50b9839f4b64e5530a"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160222_163940_1_361.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160222_163940_1_361.jpg",
+      "sha256": "e18c675a01bfb9949c7edf55768c498dc9da69e11de41ea8f1fc2cd2bf952271",
+      "location": {
+        "latitude": 40.01401365432986,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "c8dc847d-e979-4b5f-b187-80091411b29c",
+        "defect_id": "f9113c7c-c1e3-4c66-83fa-9aee707baf45",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "bfea90f2678efa6944fb04c85e0866624b43daa68560df52606bb90d31a9a304"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2869_171_1902_3454_3763.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2869_171_1902_3454_3763.jpg",
+      "sha256": "2562af175ef490f85de49944bae497abe13499e36b5837398570ab3e1af81951",
+      "location": {
+        "latitude": 40.01419331656486,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "7609ea61-d4fd-490a-91ee-fed73d5ff85e",
+        "defect_id": "c73c90bf-ade7-40e6-92e0-e6d5b6461ad0",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "5a86cb33bdb5a70f109902316d2fb894570df07c049b34de1fdf0f6947cca1c9"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Volker_DSC01648_211_212_1177_955.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Volker_DSC01648_211_212_1177_955.jpg",
+      "sha256": "8cab1331ed945b6ea1aabb1162dcb662c8f7118eb98b61d39eb27760e6e951be",
+      "location": {
+        "latitude": 40.014372978799855,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "7be669c0-906b-4fb4-a2b8-9778a8c1c7ea",
+        "defect_id": null,
+        "status": "unresolved",
+        "score": null
+      },
+      "mask_sha256": "bd7580b2387e0085d58b22ec1015d3f5ea27e66e65b4b28b8c65d3917cdbbd25"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/DeepCrack_7Q3A9060-9.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/DeepCrack_7Q3A9060-9.jpg",
+      "sha256": "0901cfe01a2c6b04be8e18017d0152079e2496f003640bf6d0aa111e75c49065",
+      "location": {
+        "latitude": 40.014552641034854,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "9109ebe3-a5a7-4b89-9775-2c2703373cd2",
+        "defect_id": "f9ca5b66-7715-46c0-92be-ed60f999b6a9",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "fca3bb4bb7f6a0fb0e37d3ff455c4db62d7cae24748af0954d617cfc1c668757"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/noncrack_noncrack_concrete_wall_82_14.jpg.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/noncrack_noncrack_concrete_wall_82_14.jpg.jpg",
+      "sha256": "feba5dec7280180f95217074ba28ecbf03019ac2df21b806eec773ca5b83ccca",
+      "location": {
+        "latitude": 40.01473230326985,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "14d4a022-52cb-4087-82da-bdd98827b435",
+        "defect_id": "9c1cf45d-dcdc-4889-8275-2aad0b0ab5b0",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "9135a7f650d21d450c02b996e6d5993db97b6422d63b08f7fbb414a739d69cb8"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A3111_601_683_2556_3338.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A3111_601_683_2556_3338.jpg",
+      "sha256": "0c378409b60f457ac7e9b824ab45a9855062a0397306003bc012fda54d4838dc",
+      "location": {
+        "latitude": 40.01491196550485,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "bf660506-8b1a-44cf-9f81-636354de87da",
+        "defect_id": "02b4fc42-ea24-44da-b537-7020d150e1d6",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "c7a8e400fb2a6387d95835f969f37cc391e79f2fd80974c745907eb5ffc27894"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160303_092627_641_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160303_092627_641_721.jpg",
+      "sha256": "50c8665e38d0af23774f9b6b5a8302a8be19c74304ad0d3dc3c3546de396fef7",
+      "location": {
+        "latitude": 40.01509162773985,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "c821df32-4d68-4a00-a45f-3fd127ccc94d",
+        "defect_id": "7caa6e54-3c8d-4df0-a4c2-9c65457c581c",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "f4fbc49c0f454407266a14155b2820d2316fd7ccba1235452c64b2a26782bba2"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2803_612_408_2717_3030.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2803_612_408_2717_3030.jpg",
+      "sha256": "a12b75ada200c2e4da55554d4e5bd51be93150aecf9badb6b97c0bb662e9d6b7",
+      "location": {
+        "latitude": 40.01527128997485,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "1163c1d7-cc9b-47ee-9e92-4e26638e491f",
+        "defect_id": "39e3a579-26a2-47cd-ae3e-79ebff52bac4",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "8b5f1eed8d2c258b100e986926879b974c49efdc5e637dfde13cf6f4fbe871e1"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A3124_1300_898_2343_2899.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A3124_1300_898_2343_2899.jpg",
+      "sha256": "437e4d2d441c3b4bd816f62a5fc61697bea0d9611a3f14bd747995468cb2728d",
+      "location": {
+        "latitude": 40.01545095220985,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "b46122d7-7d2c-4454-947e-b2b1b15242de",
+        "defect_id": "bba569df-7d90-4d22-8645-93890812a841",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "52f24599ee11695f2ded4bc9149c2e5f543ec9e43a1bfba801e041ae13de442a"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2805_3150_203_1998_2621.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2805_3150_203_1998_2621.jpg",
+      "sha256": "a37cef0847d7a14d27e00e4700a34508b34be71a4fc328ab7a77783e3154b3a9",
+      "location": {
+        "latitude": 40.015630614444845,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "337f38a8-dbeb-4f9b-be6e-7333719d4edf",
+        "defect_id": "956c0111-efca-4c82-a153-74bffd247b6c",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "6561800552edb24c4d2a05460cf9234e6b02939dc3a2776ab4437781363e54d9"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160329_104035_1921_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160329_104035_1921_721.jpg",
+      "sha256": "01fe08811affc5e5059b1eb6e83bebe22942903eb8638044bd2b7a56eaf667f8",
+      "location": {
+        "latitude": 40.015810276679844,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "1d667c13-97a6-46b9-87bf-cac1a86d2c6e",
+        "defect_id": "07e30ac0-da8b-410a-89d0-d4fcae86d10a",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "f735d468088093aff403b046050a358d89f4f9d8fce8e15c7e6ad0bafea791c3"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Volker_DSC01610_142_1014_1353_1352.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Volker_DSC01610_142_1014_1353_1352.jpg",
+      "sha256": "991f7c3b1c1624bffe1d9d65187e127f51fc0a4228a62d00a95413df4cc56745",
+      "location": {
+        "latitude": 40.01598993891484,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "afc51c2d-6d36-4efb-9f6a-d0e016da4437",
+        "defect_id": "9205948b-9ccd-48b4-bedd-3773a64abc8d",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "1d0fa0773262ad88b8988339fd7246d72499bbc57a8ea2870dc898521325b0ee"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Volker_DSC01638_708_382_1525_1354.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Volker_DSC01638_708_382_1525_1354.jpg",
+      "sha256": "f973bb1ea09ed1d80edad884a834990b490ede937ccef0c52df3fadd0ed85b73",
+      "location": {
+        "latitude": 40.01616960114984,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "d439c5d2-7fea-46fd-a902-6fa7ce8c7ec8",
+        "defect_id": "6f70e9a8-0856-4dbd-82ba-2f17fca50031",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "afc2b89b23fb4770b0472b53c5f15fd0b0a2e02815df8b70b1d306af18df115e"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160328_153629_1921_361.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160328_153629_1921_361.jpg",
+      "sha256": "ed7ec5f9e7aacafb6a4f0bc4cce7106c9da2e3886f4a3cd29912d6792d30b401",
+      "location": {
+        "latitude": 40.01634926338484,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "4eec6403-0201-4dc0-aee7-818bf0fd3672",
+        "defect_id": "796393b5-34c6-4e0c-b4be-b618548a62f3",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "3cc61d143973279e76123a419a39d3cf20b73ec7c4437191ba5bd4124048cda3"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2817_362_2779_2835_2376.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2817_362_2779_2835_2376.jpg",
+      "sha256": "6a4a0cc0e9f224e7f33e47531f996b7c385c9addcc991645af4e4906228d87e9",
+      "location": {
+        "latitude": 40.01652892561984,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "92be4f95-a364-4168-b1ec-169394d88c4b",
+        "defect_id": "42338f30-fd54-4a48-ac47-616153061c99",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "2130ea59c63bcad33120ae3354693ba7436d78b83ebb31af6b15a50813cf78e1"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/CRACK500_20160306_104522_641_721.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/CRACK500_20160306_104522_641_721.jpg",
+      "sha256": "140c7c9ab8d5f88977cb6dde1420abd59d7e611730846558839d72e86e4e8d54",
+      "location": {
+        "latitude": 40.016708587854836,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "ddce7251-3edb-4c04-b28e-382628bc2957",
+        "defect_id": "e593eaaa-d5dd-4e9b-b268-8d540cfa62b6",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "2762c0bde442035b2dd769a44182041187302324e00e543eb06f9dcf5e677130"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A3109_793_2237_2466_2142.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A3109_793_2237_2466_2142.jpg",
+      "sha256": "3b51ffd83ceb8baca21a1eae46cc2c1733aba6af6f3808258d358d89acbad6c5",
+      "location": {
+        "latitude": 40.01688825008983,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "90d9cea7-658c-4359-a189-4c584f08e7fc",
+        "defect_id": "1f9f8d0d-d9c5-4079-897d-2d08edafa765",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "9b929deb71790c021e802ef95e961da3096bcb6e506b80d737a446f1992373fd"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A3094_504_2131_3084_3443.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A3094_504_2131_3084_3443.jpg",
+      "sha256": "d71fb264a35821963945d97f026eb321158ae2a47035b93188e04db5b9b50fc9",
+      "location": {
+        "latitude": 40.017067912324826,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "13338fce-81ec-4a30-ab3f-4959713cc905",
+        "defect_id": "31b209cd-b5c7-4039-a13f-54186a422289",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "dd3cfea2430a6f237882ecd56cf1f9d0d2b5bb4f8be1315a700d5f723d14f9e4"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Rissbilder_for_Florian_9S6A2787_469_792_2677_2506.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Rissbilder_for_Florian_9S6A2787_469_792_2677_2506.jpg",
+      "sha256": "ef61bed907ae84119ed27a4d71d9d152efecdee04497093dbb594ca97d632fd3",
+      "location": {
+        "latitude": 40.017247574559825,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "af3aabf1-7f98-45f3-a84c-26ea3bcaf375",
+        "defect_id": "1886e061-45c1-4580-b6d8-216f19ceb232",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "6ba1878585b924f7d9882186ff60a7f4719648ca7b6ce5f9ce3efb6f2c45f12d"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/Volker_DSC01658_0_0_1824_2736.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/Volker_DSC01658_0_0_1824_2736.jpg",
+      "sha256": "db9a112c74931364e8c847e7470ce8e4633798c48f81b455fb080a098c9dc402",
+      "location": {
+        "latitude": 40.01742723679482,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "6677c9b7-7467-4e44-888b-fbd25cdfd5c2",
+        "defect_id": "133859a5-7984-4896-ae00-51ef4be6ed71",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "fdbec1203bf7c99882435cd0ee2d914c588fc529a207c43b53b2ac92603670c5"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/GAPS384_test_0274_541_1.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/GAPS384_test_0274_541_1.jpg",
+      "sha256": "684e8a8092fe5c6e992b1bc34451c21bdcca9a2d9f4eda8122acaed4603d8f35",
+      "location": {
+        "latitude": 40.01760689902982,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "4c29f05a-8f75-4940-99de-29b11d2215b1",
+        "defect_id": "18c80bba-a1e6-42af-a39d-7a861cc382ae",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "7434cdc13ae8cd364fb1fd72fe9019070195a46a5faeff2108a90a678ea557f4"
+    },
+    {
+      "path": "datasets/segmentation/crack_segmentation_dataset/test/images/noncrack_noncrack_concrete_wall_57_6.jpg.jpg",
+      "mask_path": "datasets/segmentation/crack_segmentation_dataset/test/masks/noncrack_noncrack_concrete_wall_57_6.jpg.jpg",
+      "sha256": "ca597108afeb8bfc98d41a784850d36fb580470f490f6dd557b85a88a1fcfacf",
+      "location": {
+        "latitude": 40.01778656126482,
+        "longitude": -105,
+        "accuracy_m": 5
+      },
+      "calibration": {
+        "image_width": 448,
+        "image_height": 448,
+        "fx": 448,
+        "fy": 448,
+        "cx": 224.0,
+        "cy": 224.0,
+        "camera_height_m": 2,
+        "pitch_degrees": 90,
+        "roll_degrees": 0.0,
+        "distortion": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "road_roi": [
+          0,
+          0,
+          448,
+          448
+        ],
+        "max_range_m": 30.0
+      },
+      "baseline": {
+        "observation_id": "185b507c-b396-4c6b-a8ba-6f2b3d3048d2",
+        "defect_id": "c7bb80c2-011a-4657-bfed-b72f70545707",
+        "status": "baseline",
+        "score": null
+      },
+      "mask_sha256": "9135a7f650d21d450c02b996e6d5993db97b6422d63b08f7fbb414a739d69cb8"
+    }
+  ],
+  "runtime": {
+    "python": "3.14.0",
+    "opencv": "4.10.0",
+    "numpy": "2.4.4"
+  },
+  "engine_hashes": {
+    "src/engine/temporal.py": "cfa37be333006170e925be898433c619bc82d829910570aaa153e5bdcfa1f945",
+    "src/engine/temporal_store.py": "cebd20aa6950140f28891b595433d333a088cbc34842572d08ed48df9aa778e1",
+    "src/engine/motion.py": "45cae51ab36789d1c38a82abf8f27e59c906d881a2245ad8207706a9dc8b4bdf"
+  }
+}

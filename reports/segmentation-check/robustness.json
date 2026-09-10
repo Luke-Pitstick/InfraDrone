@@ -1,0 +1,71 @@
+{
+  "excluded_images": [
+    "CFD_088.jpg",
+    "Sylvie_Chambon_062.jpg",
+    "forest_006.jpg",
+    "forest_048.jpg",
+    "noncrack_noncrack_concrete_wall_75_0.jpg.jpg",
+    "noncrack_noncrack_concrete_wall_75_24.jpg.jpg"
+  ],
+  "clean_summary": [
+    {
+      "model": "packaged",
+      "threshold": 0.1,
+      "images": 122,
+      "positive_images": 108,
+      "pixel_iou": 0.6149239407766945,
+      "pixel_precision": 0.731774811151168,
+      "pixel_recall": 0.7938544451274427
+    },
+    {
+      "model": "packaged",
+      "threshold": 0.25,
+      "images": 122,
+      "positive_images": 108,
+      "pixel_iou": 0.5962416033964574,
+      "pixel_precision": 0.7410236786186867,
+      "pixel_recall": 0.7531890459784903
+    },
+    {
+      "model": "packaged",
+      "threshold": 0.5,
+      "images": 122,
+      "positive_images": 108,
+      "pixel_iou": 0.5515506187924417,
+      "pixel_precision": 0.7426808238428092,
+      "pixel_recall": 0.681850671164925
+    },
+    {
+      "model": "local_epoch1",
+      "threshold": 0.1,
+      "images": 122,
+      "positive_images": 108,
+      "pixel_iou": 0.4621998189500706,
+      "pixel_precision": 0.6464305810763032,
+      "pixel_recall": 0.6185784264672947
+    },
+    {
+      "model": "local_epoch1",
+      "threshold": 0.25,
+      "images": 122,
+      "positive_images": 108,
+      "pixel_iou": 0.38335078307348963,
+      "pixel_precision": 0.6878232052782766,
+      "pixel_recall": 0.46409851376400346
+    },
+    {
+      "model": "local_epoch1",
+      "threshold": 0.5,
+      "images": 122,
+      "positive_images": 108,
+      "pixel_iou": 0.20574137265699186,
+      "pixel_precision": 0.695506396139231,
+      "pixel_recall": 0.2261077675963385
+    }
+  ],
+  "paired_iou_gap_95_percentile_interval": [
+    0.14044379298810475,
+    0.2991941148231627
+  ],
+  "bootstrap_replicates": 2000
+}

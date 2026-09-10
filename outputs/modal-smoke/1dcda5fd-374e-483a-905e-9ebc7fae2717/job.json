@@ -1,0 +1,10 @@
+{
+  "job_id": "1dcda5fd-374e-483a-905e-9ebc7fae2717",
+  "status": "complete",
+  "model_sha256": "ccbc26ac3d6ea3b9930296b65491e564c3d24461441b9bbf342287374179125f",
+  "gpu": "NVIDIA L4",
+  "started_at": "2026-09-10T14:54:26.892311+00:00",
+  "damage_count": 0,
+  "manifest_path": "1dcda5fd-374e-483a-905e-9ebc7fae2717/output/manifest.json",
+  "finished_at": "2026-09-10T14:54:31.109161+00:00"
+}

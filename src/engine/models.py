@@ -2,10 +2,14 @@
 
 import uuid
 from pathlib import Path
+from typing import Literal
 from datetime import datetime
 
 import numpy as np
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass, field
+from .video import Location
+from .calibration import MetricDimensions
+from .motion import MotionEstimate
 from .constants import StressRange, DamageType, CrackSubtype, PotholeSubtype, UnitTypes
 
 @dataclass
@@ -60,9 +64,9 @@ class SegmentationResult:
     skeleton: np.ndarray
     conf: float
     type: DamageType
-    num_connections: int
-    endpoints: np.ndarray
-    angle: float
+    num_connections: int = 0
+    endpoints: np.ndarray = field(default_factory=lambda: np.empty((0, 2), dtype=int))
+    angle: float = 0.0
     
     def __str__(self) -> str:
         """Return a human-readable summary."""
@@ -140,7 +144,7 @@ class ScalarMeasurement:
     def to_dict(self) -> dict:
         """Return a dictionary representation of the measurement."""
         return {
-            "value": self.value,
+            "value": float(self.value),
             "unit": self.unit
         }
 
@@ -176,50 +180,61 @@ class DamageDimensions:
 
 @dataclass
 class Damage:
-    """Fully analyzed road-damage instance.
+    """One damage observation, not yet a defect matched across frames or surveys.
 
-    Attributes:
-        id: Unique identifier for the damage record.
-        mask: Binary mask for the damage region.
-        skeleton: Skeletonized mask used for branch measurements.
-        type: High-level damage type.
-        severity: Computed or assigned severity score.
-        confidence: Detection or segmentation confidence score.
-        dimensions: Thickness, length, and area measurements.
-        subtype: Crack or pothole subtype classification.
-        stress_range: Road-class stress factor used in severity analysis.
-        num_connections: Number of detected skeleton branch connections.
+    timestamp_seconds is relative to the video's start, not wall-clock time.
+    location is the phone's GPS position unless location_source is "damage".
+    bounding_box is (x1, y1, x2, y2) in original-frame pixels. Dimensions use
+    their declared units; area uses the square of its declared length unit.
+    Unknown location, size, and severity remain None.
     """
-    id: uuid.UUID
-    mask: np.ndarray
-    skeleton: np.ndarray
-    type: DamageType
-    severity: int
-    confidence: float
-    dimensions: DamageDimensions
-    subtype: CrackSubtype | PotholeSubtype
-    stress_range: StressRange
-    num_connections: int
-    
-    def __str__(self) -> str:
-        """Return a human-readable summary."""
-        return f"Damage(id: {self.id}, type: {self.type}, severity: {self.severity}, confidence: {self.confidence}, dimensions: {self.dimensions}, subtype: {self.subtype}, stress_range: {self.stress_range}, num_connections: {self.num_connections})"
 
-    def __repr__(self) -> str:
-        """Return the same string as :meth:`__str__`."""
-        return self.__str__()
+    type: DamageType
+    confidence: float
+    id: uuid.UUID = field(default_factory=uuid.uuid4)
+    video_id: str | None = None
+    frame_index: int | None = None
+    timestamp_seconds: float | None = None
+    location: Location | None = None
+    location_source: Literal["phone", "damage"] = "phone"
+    dimensions: DamageDimensions | None = None
+    metric_dimensions: MetricDimensions | None = None
+    metric_status: str = "uncalibrated"
+    triangulated_dimensions: MetricDimensions | None = None
+    triangulation_status: str = "disabled"
+    motion: MotionEstimate | None = None
+    severity: int | None = None
+    bounding_box: tuple[float, float, float, float] | None = None
+    mask_path: Path | None = None
+    mask: np.ndarray | None = field(default=None, repr=False)
+    skeleton: np.ndarray | None = field(default=None, repr=False)
+    subtype: CrackSubtype | PotholeSubtype | None = None
+    stress_range: StressRange | None = None
+    num_connections: int = 0
 
     def to_dict(self) -> dict:
-        """Return a dictionary representation of the damage record."""
+        """Return JSON-ready metadata; save mask arrays separately at mask_path."""
         return {
-            "id": self.id,
-            "type": self.type,
-            "severity": self.severity,
+            "id": str(self.id),
+            "video_id": self.video_id,
+            "frame_index": self.frame_index,
+            "timestamp_seconds": self.timestamp_seconds,
+            "type": self.type.value,
             "confidence": self.confidence,
-            "dimensions": self.dimensions.to_dict(),
-            "subtype": self.subtype,
-            "stress_range": self.stress_range,
-            "num_connections": self.num_connections
+            "location": asdict(self.location) if self.location is not None else None,
+            "location_source": self.location_source if self.location is not None else None,
+            "dimensions": self.dimensions.to_dict() if self.dimensions is not None else None,
+            "metric_dimensions": asdict(self.metric_dimensions) if self.metric_dimensions is not None else None,
+            "metric_status": self.metric_status,
+            "triangulated_dimensions": asdict(self.triangulated_dimensions) if self.triangulated_dimensions is not None else None,
+            "triangulation_status": self.triangulation_status,
+            "motion": asdict(self.motion) if self.motion is not None else None,
+            "severity": self.severity,
+            "bounding_box": list(self.bounding_box) if self.bounding_box is not None else None,
+            "mask_path": str(self.mask_path) if self.mask_path is not None else None,
+            "subtype": self.subtype.value if self.subtype is not None else None,
+            "stress_range": self.stress_range.value if self.stress_range is not None else None,
+            "num_connections": self.num_connections,
         }
 
 # Frame Models
@@ -275,7 +290,7 @@ class AngleMeasurement:
     def to_dict(self) -> dict:
         """Return a dictionary representation of the angle measurement."""
         return {
-            "value": self.value,
+            "value": float(self.value),
             "unit": self.unit
         }
 
