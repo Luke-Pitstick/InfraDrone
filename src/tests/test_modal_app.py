@@ -1,5 +1,6 @@
 """Local command and artifact-transfer tests; no Modal network or GPU calls."""
 
+from contextlib import closing
 import hashlib
 import json
 from pathlib import Path
@@ -75,11 +76,12 @@ class ModalCommandTests(unittest.TestCase):
         model_context.__enter__.return_value = model_upload
         recording_context = MagicMock()
         recording_context.__enter__.return_value = recording_upload
-        with patch("src.engine.recording_io.load_video", return_value=SimpleNamespace(footage_path=video, calibration=None)), \
+        with patch("src.engine.recording_io.load_video", return_value=SimpleNamespace(footage_path=video, route_id="road", calibration=SimpleNamespace(road_roi=(0, 0, 10, 10)))), \
              patch.object(modal_app, "models") as models, patch.object(modal_app, "recordings") as recordings, \
-             patch.object(modal_app, "SurveyWorker") as worker, patch.object(modal_app, "download_job") as download:
+             patch.object(modal_app.modal.Cls, "from_name") as lookup, patch.object(modal_app, "download_job") as download:
             models.batch_upload.return_value = model_context
             recordings.batch_upload.return_value = recording_context
+            worker = lookup.return_value
             worker.return_value.analyze.remote.return_value = {"status": "complete"}
             modal_app.main(recording=str(self.root), weights=str(weights), output_dir=str(self.root / "out"))
             uploaded = [call.args[0].name for call in recording_upload.put_file.call_args_list]
@@ -87,6 +89,53 @@ class ModalCommandTests(unittest.TestCase):
             self.assertEqual(model_upload.put_file.call_args.args[1], f"/{hashlib.sha256(b'checkpoint').hexdigest()}.pt")
             worker.return_value.analyze.remote.assert_called_once()
             download.assert_called_once()
+
+    def test_database_published_only_after_success(self):
+        import sqlite3
+        from src.engine.temporal_store import TemporalStore
+        for fail in (True, False):
+            with self.subTest(fail=fail):
+                root = self.root / str(fail)
+                (root / "models").mkdir(parents=True)
+                (root / "temporal").mkdir()
+                checkpoint = b"checkpoint"
+                model_hash = hashlib.sha256(checkpoint).hexdigest()
+                (root / "models" / f"{model_hash}.pt").write_bytes(checkpoint)
+                database = root / "temporal/surveys.sqlite"
+                TemporalStore(database).close()
+                original = database.read_bytes()
+                video = SimpleNamespace(id="survey", route_id="road", calibration=SimpleNamespace(road_roi=(0, 0, 10, 10)))
+                def write(video, output, *, sample_fps, temporal):
+                    temporal.store.db.execute('CREATE TABLE publication_test (id INTEGER)')
+                    temporal.store.db.commit()
+                    if fail:
+                        raise RuntimeError("inference failed")
+                    output.mkdir()
+                    manifest = output / "manifest.json"
+                    manifest.write_text('{"damage_count": 0}')
+                    return manifest
+                def rooted(path):
+                    path = Path(path)
+                    return root / str(path).lstrip('/') if path.is_absolute() and str(path).split('/')[1] in ('models', 'results', 'recordings', 'temporal') else path
+                worker = SimpleNamespace(gpu_name="test", features=SimpleNamespace(extract=Mock(), match=Mock()))
+                with patch.object(modal_app, "Path", side_effect=rooted), \
+                     patch.object(modal_app, "models"), patch.object(modal_app, "results"), \
+                     patch.object(modal_app, "recordings"), patch.object(modal_app, "temporal_data") as volume, \
+                     patch("src.engine.recording_io.load_video", return_value=video), \
+                     patch("src.engine.video_pipeline.VideoPipeline") as pipeline:
+                    (root / "results").mkdir()
+                    pipeline.return_value.write.side_effect = write
+                    run = modal_app.SurveyWorker._get_user_cls().analyze._get_raw_f()
+                    if fail:
+                        with self.assertRaisesRegex(RuntimeError, "inference failed"):
+                            run(worker, self.job_id, model_hash)
+                        self.assertEqual(database.read_bytes(), original)
+                        volume.commit.assert_not_called()
+                    else:
+                        self.assertEqual(run(worker, self.job_id, model_hash)["status"], "complete")
+                        volume.commit.assert_called_once()
+                        with closing(sqlite3.connect(database)) as db:
+                            self.assertIsNotNone(db.execute("SELECT name FROM sqlite_master WHERE name='publication_test'").fetchone())
 
     def test_invalid_options_do_not_contact_modal(self):
         with patch.object(modal_app, "models") as models:

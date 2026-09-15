@@ -1,7 +1,7 @@
 """Video decoding → segmentation → custom crack analysis → Damage observations."""
 
 from collections.abc import Iterator
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from contextlib import closing
 from datetime import timedelta
 import hashlib
@@ -107,7 +107,7 @@ class VideoPipeline:
                 yield from result.damages
 
     def write(self, video: Video, output_dir: Path, *, sample_fps: float | None = None,
-              max_gps_gap_seconds: float = 5.0) -> Path:
+              max_gps_gap_seconds: float = 5.0, temporal=None) -> Path:
         """Write JSONL observations and compressed masks into a new directory.
 
         Each mask_path is relative to output_dir and points to an NPZ containing
@@ -122,6 +122,7 @@ class VideoPipeline:
         (output_dir / "masks").mkdir()
         manifest_path = output_dir / "manifest.json"
         manifest = {
+            "temporal": temporal is not None,
             "triangulation": self.triangulation, "motion_scale_source": self.motion_scale_source,
             "status": "running", "video": video.to_dict(), "damage_count": 0,
             "model_sha256": model_hash, "model_path": str(self.model_path),
@@ -132,14 +133,20 @@ class VideoPipeline:
         manifest_path.write_text(json.dumps(manifest, allow_nan=False, indent=2))
         try:
             with (output_dir / "damages.jsonl").open("w") as output, closing(
-                self.process(video, sample_fps=sample_fps, max_gps_gap_seconds=max_gps_gap_seconds)
-            ) as damages:
-                for damage in damages:
-                    damage.mask_path = Path("masks") / f"{damage.id}.npz"
-                    np.savez_compressed(output_dir / damage.mask_path,
-                                        mask=damage.mask, skeleton=damage.skeleton)
-                    output.write(json.dumps(damage.to_dict(), allow_nan=False) + "\n")
-                    manifest["damage_count"] += 1
+                self.process_frames(video, sample_fps=sample_fps, max_gps_gap_seconds=max_gps_gap_seconds)
+            ) as frames:
+                for result in frames:
+                    associations = ({a.observation_id: asdict(a) for a in temporal.process(video, result)}
+                                    if temporal is not None else {})
+                    for damage in result.damages:
+                        damage.mask_path = Path("masks") / f"{damage.id}.npz"
+                        np.savez_compressed(output_dir / damage.mask_path,
+                                            mask=damage.mask, skeleton=damage.skeleton)
+                        payload = damage.to_dict()
+                        if temporal is not None:
+                            payload["temporal"] = associations[str(damage.id)]
+                        output.write(json.dumps(payload, allow_nan=False) + "\n")
+                        manifest["damage_count"] += 1
             manifest["status"] = "complete"
         except Exception as error:
             manifest["status"] = "failed"

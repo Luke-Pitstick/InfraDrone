@@ -118,6 +118,23 @@ class VideoPipelineTests(unittest.TestCase):
         self.assertEqual(frames[0].location, video.gps[0].location)
         self.assertEqual(frames[0].frame.image.shape, (96, 192, 3))
 
+    def test_temporal_exports_associations_and_visits_empty_frames(self):
+        from src.engine.temporal import Association
+        video = self.make_video()
+        temporal = Mock()
+        temporal.process.side_effect = lambda video, result: [
+            Association(str(d.id), "existing-defect", "matched", .9) for d in result.damages]
+        output = self.root / "temporal"
+        manifest = json.loads(self.pipeline.write(video, output, temporal=temporal).read_text())
+        rows = [json.loads(line) for line in (output / "damages.jsonl").read_text().splitlines()]
+        self.assertTrue(manifest["temporal"])
+        self.assertTrue(all(row["temporal"]["defect_id"] == "existing-defect" for row in rows))
+        self.assertEqual(temporal.process.call_count, 3)
+        temporal.reset_mock()
+        self.prediction.masks = None
+        self.pipeline.write(video, self.root / "empty-temporal", temporal=temporal)
+        self.assertEqual(temporal.process.call_count, 3)
+
     def test_no_detections_and_failure_status(self):
         video = self.make_video()
         self.prediction.masks = None

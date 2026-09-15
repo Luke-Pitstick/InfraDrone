@@ -115,7 +115,9 @@ class TemporalEngine:
                     continue
                 mask = cv2.warpPerspective(source, warp, (width, height), flags=cv2.INTER_NEAREST) * support
                 # Partial coverage can establish identity, but cannot establish novelty.
-                covered[index] |= not np.any((source > 0) & (source_support == 0))
+                # Current-survey frames preserve identity, but cannot prove temporal novelty.
+                if reference['video_id'] != video.id:
+                    covered[index] |= not np.any((source > 0) & (source_support == 0))
                 skeleton = cv2.warpPerspective(undistort_mask(damage.skeleton, video.calibration),
                                                warp, (width, height), flags=cv2.INTER_NEAREST) * support
                 for row, arrays, payload in previous:

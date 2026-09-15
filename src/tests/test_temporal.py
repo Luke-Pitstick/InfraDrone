@@ -67,6 +67,22 @@ class TemporalTests(unittest.TestCase):
         self.assertEqual(self.store.db.execute('SELECT count(*) FROM observations').fetchone()[0], 3)
         self.assertEqual(self.store.db.execute('SELECT count(*) FROM defects').fetchone()[0], 1)
 
+    def test_gps_filters_candidates(self):
+        self.engine.process(self.video, self.result())
+        later = Video(Path('later.mp4'), route_id='road', calibration=self.calibration)
+        self.assertEqual(len(self.store.candidates(later, Location(40, -105, 5))), 1)
+        self.assertEqual(self.store.candidates(later, Location(41, -105, 5)), [])
+
+    def test_current_survey_cannot_establish_novelty(self):
+        self.engine.process(self.video, self.result(positions=()))
+        self.assertEqual(self.engine.process(self.video, self.result(1))[0].status, 'unresolved')
+        later = Video(Path('later.mp4'), route_id='road', calibration=self.calibration)
+        # Only the earlier empty frame remains as historical coverage.
+        self.store.db.execute('DELETE FROM observations WHERE frame_index=1')
+        self.store.db.execute('DELETE FROM frames WHERE frame_index=1')
+        self.store.db.commit()
+        self.assertEqual(self.engine.process(later, self.result())[0].status, 'new')
+
     def test_different_resolution_and_intrinsics(self):
         first = self.engine.process(self.video, self.result())[0]
         calibration = CameraCalibration(800, 600, 700, 700, 400, 300, 2, 90,
@@ -115,7 +131,8 @@ class TemporalTests(unittest.TestCase):
 
     def test_distinct_crack_with_aligned_pavement_gets_new_id(self):
         original = self.engine.process(self.video, self.result())[0]
-        other = self.engine.process(self.video, self.result(1, positions=(220,)))[0]
+        later = Video(Path('later.mp4'), route_id='road', calibration=self.calibration)
+        other = self.engine.process(later, self.result(1, positions=(220,)))[0]
         self.assertEqual(other.status, 'new')
         self.assertNotEqual(other.defect_id, original.defect_id)
 
@@ -155,7 +172,8 @@ class TemporalTests(unittest.TestCase):
     def test_empty_reference_and_new_damage(self):
         self.assertEqual(self.engine.process(self.video, self.result(positions=())), [])
         self.assertTrue(self.store.has_frame(self.video.id, 0))
-        result = self.engine.process(self.video, self.result(1))[0]
+        later = Video(Path('later.mp4'), route_id='road', calibration=self.calibration)
+        result = self.engine.process(later, self.result(1))[0]
         self.assertEqual(result.status, 'new')
 
     def test_competing_detections_and_outside_support_are_unresolved(self):

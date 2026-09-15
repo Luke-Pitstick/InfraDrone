@@ -206,13 +206,31 @@ ground-truth masks and does not test detector errors or genuine seasonal revisit
 ## Modal GPU execution
 
 `modal_app.py` wraps the existing recording loader and video pipeline in an L4
-worker. Model initialization runs once per container. The worker has a 20-minute
-execution timeout, no automatic retries, and a maximum of one container per
-parameterized worker pool. Each submission uses a new UUID job directory.
+worker. SuperPoint and LightGlue load once per container; segmentation weights load
+for each job. The worker has a 20-minute execution timeout, no automatic retries,
+and one shared container processing one survey at a time. All submissions call the
+deployed worker, including the local CLI, so different settings share one writer.
+Each submission uses a new UUID job directory.
+
+Temporal surveys require a stable `route_id`, camera calibration with `road_roi`,
+and a unique video `id` in metadata (generated if omitted). Supply synchronized GPS
+for candidate filtering; missing GPS retains all candidates on the route.
+The worker extracts SuperPoint features once per sampled frame, runs LightGlue only
+against GPS candidates, and exports a `temporal`
+object on each damage row: `observation_id`, `defect_id`, `status`, and `score`.
+No prior coverage establishes baseline IDs; failed registration stays unresolved.
+Earlier frames in the current survey can preserve an existing damage ID, but only
+previous surveys can establish that damage is new. Growth is not measured.
+
+SQLite runs on a private local copy. Only successful surveys publish the closed
+database back to the temporal volume. Failed or interrupted processing leaves the
+previous database intact. Drain active jobs before redeploying; do not run another
+writer against this volume. In-progress frames are visible only inside their own job.
 
 From the engine directory, after authenticating Modal:
 
 ```sh
+uv run python -m modal deploy modal_app.py
 uv run python -m modal run --detach modal_app.py::main \
   --recording recordings/survey-1 \
   --weights src/ml/models/weights/segmentation/best.pt \
@@ -231,6 +249,7 @@ Persistent Modal volumes in the selected workspace:
 
 - `road-survey-models`: checkpoints keyed by SHA-256, verified before loading.
 - `road-survey-recordings`: input directories keyed by job ID.
+- `road-survey-temporal`: `surveys.sqlite`, containing completed reference surveys.
 - `road-survey-results`: `job.json` with status/GPU details and `output/` containing
   the pipeline manifest, damage JSONL, and compressed masks.
 
@@ -253,6 +272,13 @@ uv run python -m modal run modal_app.py::fetch --job-id YOUR_JOB_ID --output-dir
 
 Downloads are staged and then moved into place; existing destination directories
 are never overwritten. Fetch refuses a job that is still marked running.
+
+The integration passes 49 local tests, including failed-survey database isolation.
+A deployed L4 temporal smoke test on 2026-09-10 processed two two-frame synthetic
+surveys. All four observations shared one defect ID: baseline, matched, matched,
+matched. Jobs: `b51123e8-d7e5-4424-8a1a-1105991bb84b` and
+`8f224114-72c9-4ba0-8958-7847defa0831`. This verifies integration and persistence,
+not seasonal robustness.
 
 The command and transfer paths are covered by local tests with mocked Modal
 services. A cloud smoke test completed on 2026-09-10 in the `lukepitstick06`
