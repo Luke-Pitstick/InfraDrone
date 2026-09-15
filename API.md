@@ -1,31 +1,25 @@
 # CPU HTTP API and result videos
 
-## Provisioning status
+## Live deployment
 
-The R2 bucket and playback CORS policy were created and verified on 2026-09-10.
-Public bucket access is disabled. Credential provisioning is pending: the
-Cloudflare connector returned error 9109 when creating the bucket-scoped token.
-The video routes are implemented and tested locally, but are not deployed.
-The existing live health API is still running.
+Deployed and verified on 2026-09-10:
 
-Created bucket: `infradrone-video-results` in account
-`6fca4fb9d7e6285e06efeac87ebb0320`. Keep public bucket access disabled.
-Create a bucket-scoped Object Read token for the API and a separate Object Read
-& Write token for trusted video producers. Store the API credentials in the Modal
-secret `infradrone-r2-read` with these fields:
+- API: https://lukepitstick06--infradrone-api-api.modal.run
+- Bucket: `infradrone-video-results` (Western North America, Standard storage).
+- Cloudflare account: `6fca4fb9d7e6285e06efeac87ebb0320`.
+- Modal secrets: `infradrone-r2-read` for the API and `infradrone-r2-write` for producers.
 
-```text
-R2_ENDPOINT_URL=https://6fca4fb9d7e6285e06efeac87ebb0320.r2.cloudflarestorage.com
-R2_BUCKET_NAME=infradrone-video-results
-R2_ACCESS_KEY_ID=<read token ID>
-R2_SECRET_ACCESS_KEY=<read token secret access key>
-```
+Both credentials are scoped to this bucket. Public bucket access is disabled.
+The API provides public read-only browsing and one-hour signed playback URLs;
+anyone able to call the API can view its videos. There is no sign-in requirement.
+R2 CORS allows GET/HEAD, the Range header, and exposes range/length/ETag headers.
 
-Configure bucket CORS to allow GET/HEAD from frontend origins, allow the `Range`
-header, and expose `Content-Length`, `Content-Range`, `Accept-Ranges`, and `ETag`.
-The current API design has public listing/playback without cookies; confirm this
-access model before deploying with real videos. Signed URLs keep bucket access
-private but do not make a public API's videos private.
+The secrets contain `R2_ENDPOINT_URL`, `R2_BUCKET_NAME`, `R2_ACCESS_KEY_ID`, and
+`R2_SECRET_ACCESS_KEY`. Credential values are not stored in project files.
+
+Verified a synthetic MP4 upload through the CPU uploader, live API listing,
+signed playback, complete-file checksum, cross-origin headers, 206 byte-range
+seeking, and missing-video 404. The synthetic test object was removed afterward.
 
 ## Deployment
 
@@ -70,6 +64,17 @@ playback URL after expiry. MP4 should use browser-compatible codecs such as H.26
 with AAC audio and `faststart`; the storage helper does not transcode videos.
 
 ## Uploading results
+
+Recommended: use the authenticated Modal CLI to upload without retrieving credentials:
+
+```sh
+MODAL_PROFILE=lukepitstick06 INFRADRONE_VIDEO_PATH=/absolute/path/result.mp4 \
+  .venv/bin/python -m modal run modal_upload.py --job-id <job-uuid>
+```
+
+This runs a short-lived CPU-only uploader with the write secret. It prints the
+stored object key, which becomes available immediately through `/videos`.
+
 
 `video_storage.upload_video(path, job_id)` uploads a local MP4/WebM with the correct
 content type under `videos/<job-uuid>/<unique-id>.<extension>` and returns its key.
